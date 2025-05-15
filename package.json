@@ -10,8 +10,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build:local": "prettier --write . && next build",
-    "prepare": "husky",
-    "lint-staged": ""
+    "prepare": "husky"
   },
   "dependencies": {
     "cosh_scraper_frontend": "file:",
@@ -29,6 +28,7 @@
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-tailwindcss": "^3.18.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.2",
     "prettier": "^3.5.3",

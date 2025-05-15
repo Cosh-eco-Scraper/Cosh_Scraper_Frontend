@@ -1,17 +1,8 @@
 {
   "root": true,
-  "extends": [
-    "next/core-web-vitals",
-    "plugin:tailwindcss/recommended",
-    "prettier"
-  ],
-  "plugins": [
-    "@typescript-eslint",
-    "tailwindcss"
-  ],
-  "rules": {
-    "tailwindcss/classnames-order": "off"
-  },
+  "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["@typescript-eslint"],
+  "rules": {},
   "parser": "@typescript-eslint/parser",
   "overrides": [
     {
@@ -21,12 +12,7 @@
         "projectService": true,
         "tsconfigRootDir": "__dirname"
       },
-      "extends": [
-        "next/core-web-vitals",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:tailwindcss/recommended",
-        "prettier"
-      ]
+      "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"]
     }
   ]
 }
