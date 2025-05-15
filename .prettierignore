@@ -13,3 +13,4 @@
  test-results
  junit.xml
  docs
+ .eslintrc.json
