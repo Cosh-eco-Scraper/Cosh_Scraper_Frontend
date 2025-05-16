@@ -8,11 +8,10 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
 
 WORKDIR /app
 
-# Copy built app from build artifacts
+# Copy built Next.js app and dependencies from workflow artifacts
 COPY .next ./.next
 COPY public ./public
 COPY package.json ./package.json
-COPY pnpm-lock.yaml ./pnpm-lock.yaml
 COPY node_modules ./node_modules
 
 USER nextjs
