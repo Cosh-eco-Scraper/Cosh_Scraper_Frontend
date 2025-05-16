@@ -1,8 +1,23 @@
-# Ignore everything except the needed files/folders
-*
-!.next
-!node_modules
-!package.json
-!pnpm-lock.yaml
-!public
-!Dockerfile
+# Ignore node_modules locally; they'll be installed inside the image
+node_modules
+
+# Ignore build output; it's created inside the container
+.next
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Ignore git files and folders
+.git
+.gitignore
+
+# Ignore local environment files (don't leak secrets)
+.env
+.env.local
+.env.*.local
+
+# Ignore Dockerfiles and GitHub workflow files (not needed in image)
+Dockerfile*
+.github
