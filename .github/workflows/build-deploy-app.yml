@@ -16,8 +16,8 @@ jobs:
 
       - name: Install dependencies and build Next.js
         run: |
-          npm ci
-          npm run build
+          npm install pnpm -g && pnpm install
+          pnpm run build
 
       - name: Build Docker image
         run: |
