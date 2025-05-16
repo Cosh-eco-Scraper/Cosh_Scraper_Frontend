@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build:local": "prettier --write . && next build",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "jest"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4",
