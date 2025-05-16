@@ -1,7 +1,8 @@
 name: build-docker-artifact.yml
 run-name: ${{ github.actor }} pushed to main — building Docker image and uploading as artifact
 
-on: push
+on:
+  push:
 
 jobs:
   build_and_save_image:
