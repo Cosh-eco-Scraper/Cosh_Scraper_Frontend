@@ -1,0 +1,36 @@
+name: build-docker-image.yml
+run-name: ${{ github.actor }} pushed to main — build Next.js and Docker image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install pnpm and dependencies, build Next.js
+        run: |
+          npm install -g pnpm
+          pnpm install
+          pnpm run build
+
+      - name: Build Docker image
+        run: docker build -t cosh_scraper_frontend:latest .
+
+      - name: Save Docker image to tarball
+        run: docker save cosh_scraper_frontend:latest -o cosh_scraper_frontend.tar
+
+      - name: Upload Docker image as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: cosh_scraper_frontend.tar
