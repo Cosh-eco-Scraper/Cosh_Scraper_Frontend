@@ -16,7 +16,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
             <label className="block text-sm font-medium text-gray-700">Name of store</label>
             <input
               type="text"
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+              className="mt-1 placeholder-gray-400 text-black block w-full rounded-md border border-black-300 p-2 shadow-sm"
               placeholder="Enter your store name"
             />
           </div>
@@ -24,7 +24,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
             <label className="block text-sm font-medium text-gray-700">URL to your website</label>
             <input
               type="text"
-              className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+              className="mt-1 placeholder-gray-400 text-black block w-full rounded-md border border-gray-300 p-2 shadow-sm"
               placeholder="Enter the url to your website"
             />
           </div>
