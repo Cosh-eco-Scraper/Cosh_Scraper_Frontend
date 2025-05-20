@@ -1,4 +1,5 @@
-import React from 'react';
+import router from 'next/router';
+import React, { useState } from 'react';
 
 interface MyPopupProps {
   open: boolean;
@@ -6,6 +7,18 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
+ const [isLoading, setIsLoading] = useState(false);
+
+  const ConfirmScraper = (e: React.FormEvent) => {
+    e.preventDefault(); // prevent page reload on form submit
+    setIsLoading(true);
+
+    // Simulate async operation (like API call)
+    setTimeout(() => {
+      router.push('/info'); // navigate after loading
+    }, 1500);
+  };
+
   return (
     <div className="bg-grey bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center">
       <div className="w-96 rounded bg-white p-6 shadow-lg">
@@ -36,9 +49,13 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
             Close
           </button>
 
-          <button type="submit" className="mt-4 rounded bg-green-500 px-4 py-2 text-white">
+          <button onClick={ConfirmScraper} type="submit" className="mt-4 rounded bg-green-500 px-4 py-2 text-white">
             Submit
           </button>
+
+           {isLoading && (
+          <p className="mt-4 text-center text-gray-600 font-medium">Loading, please wait...</p>
+        )}
         </form>
       </div>
     </div>

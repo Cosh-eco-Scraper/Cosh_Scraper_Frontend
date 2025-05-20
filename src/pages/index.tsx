@@ -1,22 +1,29 @@
 import Navbar from '../../components/NavBar';
 import { useState } from 'react';
 import ScraperPopup from '../../components/ScraperPopUp';
+import router from 'next/router';
+import StoreService from '../../service/StoreService';
+import { useQuery } from '@tanstack/react-query';
+import CoshButton from '../../components/CoshButton';
 
 export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
+  
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['storeData'],
+    queryFn: () => StoreService.getAllStores(),
+  });
+  
   return (
     <>
       <Navbar></Navbar>
       <main>
         {' '}
         <div className="flex min-h-screen items-center justify-center bg-white">
-          <button
-            onClick={() => setIsPopupOpen(true)}
-            className="rounded bg-green-500 px-4 py-2 text-white"
-          >
-            Open Popup
-          </button>
+        <CoshButton onClick={() => setIsPopupOpen(true)}>
+                        Register your store!
+                    </CoshButton>
 
           {isPopupOpen && <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
         </div>
