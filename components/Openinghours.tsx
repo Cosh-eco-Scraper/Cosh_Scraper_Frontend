@@ -13,18 +13,19 @@ const Openhours: React.FC = () => {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4 text-black">Opening Hours</h2>
+      <h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2>
       <ul className="space-y-2 text-black">
-        {Array.isArray(data) && data.map((item: any) => {
-          const isClosed = item.openingAt === 'closed' || item.closingAt === 'closed';
+        {Array.isArray(data) &&
+          data.map(item => {
+            const isClosed = item.openingAt === 'closed' || item.closingAt === 'closed';
 
-          return (
-            <li key={item.id}>
-              <span className="font-medium">{item.day}:</span>{' '}
-              {isClosed ? 'Closed' : `${item.openingAt} - ${item.closingAt}`}
-            </li>
-          );
-        })}
+            return (
+              <li key={item.id}>
+                <span className="font-medium">{item.day}:</span>{' '}
+                {isClosed ? 'Closed' : `${item.openingAt} - ${item.closingAt}`}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );

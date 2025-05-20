@@ -1,14 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import StoreService from '../service/StoreService';
 
-
-
 const Description: React.FC = () => {
-
-
   // const fetchDescription = async () => {
-const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['storeData'],
     queryFn: () => StoreService.getStore('1'), // Replace '1' with the actual store ID you want to fetch
   });
@@ -18,15 +14,11 @@ const { data, isLoading, error } = useQuery({
 
   return (
     <div>
+      <h1 className="mb-6 text-3xl font-bold text-black md:text-4xl">{data.name}</h1>
 
-      <h1 className='text-3xl md:text-4xl font-bold text-black mb-6'>{data.name}</h1>
-
-
-      <h2 className="text-xl font-semibold mb-4 text-black">Description</h2>
+      <h2 className="mb-4 text-xl font-semibold text-black">Description</h2>
       <ul className="space-y-2 text-black">
-        
-
-       <p>{data.description}</p>
+        <p>{data.description}</p>
       </ul>
     </div>
   );

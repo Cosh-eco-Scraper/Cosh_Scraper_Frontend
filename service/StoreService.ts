@@ -1,8 +1,6 @@
-import { get } from "http";
-
 const axios = require('axios');
 
-const backend =  process.env.NEXT_PUBLIC_API_URL;//api.example.com'; // Replace with your actual API URL
+const backend = process.env.NEXT_PUBLIC_API_URL; //api.example.com'; // Replace with your actual API URL
 
 const StoreService = {
   getAllStores: async () => {
@@ -43,8 +41,7 @@ const StoreService = {
       console.error('Error fetching store by opening hours:', error);
       throw error;
     }
-  }
-
+  },
 };
 
 export default StoreService;
