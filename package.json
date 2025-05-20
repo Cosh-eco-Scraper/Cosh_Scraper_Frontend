@@ -15,9 +15,11 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tanstack/react-query": "^5.76.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "axios": "^1.9.0",
     "cosh_scraper_frontend": "file:",
     "eslint-config-next": "^15.3.2",
     "next": "^15.3.2",
