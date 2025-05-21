@@ -26,8 +26,8 @@ const Info: React.FC = () => {
               <div>
                 <Description />
               </div>
-              
-            <div>
+
+              <div>
                 <Brand />
               </div>
             </section>

@@ -40,7 +40,7 @@ const Description: React.FC = () => {
         type="text"
         value={storeData.name}
         onChange={e => handleChange('name', e.target.value)}
-        className="mb-4 w-full text-3xl rounded border px-3 py-2 font-bold text-black placeholder-gray-400 focus:outline-none"
+        className="mb-4 w-full rounded border px-3 py-2 text-3xl font-bold text-black placeholder-gray-400 focus:outline-none"
         placeholder="Store Name"
       />
 
@@ -50,7 +50,7 @@ const Description: React.FC = () => {
           value={storeData.description}
           onChange={e => handleChange('description', e.target.value)}
           placeholder="Enter store description"
-          className="w-full rounded border px-3 py-2  text-black placeholder-gray-400 text-sm shadow"
+          className="w-full rounded border px-3 py-2 text-sm text-black placeholder-gray-400 shadow"
           rows={4}
         />
       </div>

@@ -21,11 +21,7 @@ const Openhours: React.FC = () => {
     setHours(data);
   }
 
-  const handleChange = (
-    id: number,
-    field: 'openingAt' | 'closingAt',
-    value: string
-  ) => {
+  const handleChange = (id: number, field: 'openingAt' | 'closingAt', value: string) => {
     setHours(prev => {
       if (!prev) return null;
       return prev.map(item =>
@@ -61,17 +57,13 @@ const Openhours: React.FC = () => {
                 <input
                   type="text"
                   value="closed"
-                  onChange={e =>
-                    handleChange(item.id, 'openingAt', e.target.value)
-                  }
+                  onChange={e => handleChange(item.id, 'openingAt', e.target.value)}
                   className="w-32 rounded border px-2 py-1 text-sm"
                 />
                 <input
                   type="text"
                   value="closed"
-                  onChange={e =>
-                    handleChange(item.id, 'closingAt', e.target.value)
-                  }
+                  onChange={e => handleChange(item.id, 'closingAt', e.target.value)}
                   className="w-32 rounded border px-2 py-1 text-sm"
                 />
               </div>
@@ -80,17 +72,13 @@ const Openhours: React.FC = () => {
                 <input
                   type="text"
                   value={item.openingAt}
-                  onChange={e =>
-                    handleChange(item.id, 'openingAt', e.target.value)
-                  }
+                  onChange={e => handleChange(item.id, 'openingAt', e.target.value)}
                   className="w-32 rounded border px-2 py-1 text-sm"
                 />
                 <input
                   type="text"
                   value={item.closingAt}
-                  onChange={e =>
-                    handleChange(item.id, 'closingAt', e.target.value)
-                  }
+                  onChange={e => handleChange(item.id, 'closingAt', e.target.value)}
                   className="w-32 rounded border px-2 py-1 text-sm"
                 />
               </div>

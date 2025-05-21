@@ -3,13 +3,12 @@ import { useQuery } from '@tanstack/react-query';
 import StoreService from '../service/StoreService';
 import { X } from 'lucide-react';
 
-
-interface Brand {
-  id: number;
-  name: string;
-  label: string;
-  storeId: number;
-}
+// interface Brand {
+//   id: number;
+//   name: string;
+//   label: string;
+//   storeId: number;
+// }
 
 const Brands: React.FC = () => {
   const { data, isLoading, error } = useQuery({
@@ -26,10 +25,7 @@ const Brands: React.FC = () => {
 
   const handleAddBrand = () => {
     const trimmed = inputValue.trim();
-    if (
-      trimmed &&
-      !brands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())
-    ) {
+    if (trimmed && !brands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())) {
       const newBrand = {
         id: `temp-${Date.now()}`,
         name: trimmed,
@@ -57,7 +53,7 @@ const Brands: React.FC = () => {
           onChange={e => setInputValue(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleAddBrand()}
           placeholder="Add a brand"
-          className="rounded border px-3 py-1 text-sm shadow text-black placeholder:text-gray-500"
+          className="rounded border px-3 py-1 text-sm text-black shadow placeholder:text-gray-500"
         />
         <button
           onClick={handleAddBrand}
