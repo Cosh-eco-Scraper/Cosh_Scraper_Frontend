@@ -1,4 +1,5 @@
 import React from 'react';
+import router from 'next/router';
 
 const Navbar: React.FC = () => {
   return (
@@ -36,7 +37,9 @@ const Navbar: React.FC = () => {
 
       <div className="flex items-center justify-between px-6 py-4">
         <div className="flex items-center gap-8">
-          <div className="text-3xl font-extrabold tracking-widest">COSH!</div>
+          <div className="text-3xl font-extrabold tracking-widest" onClick={() => router.push('/')}>
+            COSH!
+          </div>
           <a href="#" className="hover:underline">
             Cities
           </a>
