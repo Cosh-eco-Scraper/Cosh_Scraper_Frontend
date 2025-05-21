@@ -28,6 +28,8 @@ const Brands: React.FC = () => {
         ) : (
           <p className="text-gray-600">No brands found.</p>
         )}
+
+        
       </div>
     </div>
   );
