@@ -1,8 +1,8 @@
 import React from 'react';
-import Description from '../../../components/Description';
-import Brand from '../../../components/Brand';
-import Openhours from '../../../components/Openinghours';
-import Location from '../../../components/Location';
+import Description from '@/components/Description';
+import Brand from '@/components/Brand';
+import Openhours from '@/components/Openinghours';
+import Location from '@/components/Location';
 
 const ExamplePage: React.FC = () => {
   return (

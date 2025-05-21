@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 const backend = process.env.NEXT_PUBLIC_API_URL; //api.example.com'; // Replace with your actual API URL
 

@@ -1,7 +1,7 @@
-import Navbar from '../../components/NavBar';
+import Navbar from '@/components/NavBar';
 import { useState } from 'react';
-import ScraperPopup from '../../components/ScraperPopUp';
-import CoshButton from '../../components/CoshButton';
+import ScraperPopup from '@/components/ScraperPopUp';
+import CoshButton from '@/components/CoshButton';
 
 export default function Home() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);

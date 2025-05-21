@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
-import StoreService from '../service/StoreService';
+import StoreService from '@/service/StoreService';
 
 const Openhours: React.FC = () => {
   const { data, isLoading, error } = useQuery({
