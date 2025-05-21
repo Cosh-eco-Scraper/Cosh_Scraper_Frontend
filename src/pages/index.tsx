@@ -1,4 +1,3 @@
-import Navbar from '@/components/NavBar';
 import { useState } from 'react';
 import ScraperPopup from '@/components/ScraperPopUp';
 import CoshButton from '@/components/CoshButton';
@@ -16,9 +15,9 @@ export default function Home() {
           easier than ever before.
         </p>
         <p className="mb-3 max-w-2xl text-lg text-[#FBF6F0]">
-          Our platform provides detailed insights into stores&apos; sustainability practices, ethical
-          certifications, and brand transparency. We help you make informed decisions about your
-          fashion choices while supporting businesses that care about our planet.
+          Our platform provides detailed insights into stores&apos; sustainability practices,
+          ethical certifications, and brand transparency. We help you make informed decisions about
+          your fashion choices while supporting businesses that care about our planet.
         </p>
         <p className="mb-6 max-w-2xl text-lg text-[#FBF6F0]">
           Join our growing community of responsible retailers and conscious consumers who are making
