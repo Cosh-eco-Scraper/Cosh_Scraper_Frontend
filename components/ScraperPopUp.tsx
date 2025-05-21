@@ -14,8 +14,8 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     setIsLoading(true);
 
     // Simulate async operation (like API call)
-    setTimeout(() => {
-      router.push('/info'); // navigate after loading
+    setTimeout(async () => {
+      await router.push('/info/1'); // navigate after loading
     }, 1500);
   };
 
