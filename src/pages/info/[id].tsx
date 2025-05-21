@@ -1,10 +1,10 @@
 import React, { JSX } from 'react';
-import Description from '../../../components/Description';
-import BrandList from '../../../components/BrandList';
-import LocationInformation from '../../../components/LocationInformation';
+import Description from '../../components/Description';
+import BrandList from '../../components/BrandList';
+import LocationInformation from '../../components/LocationInformation';
 import useStore from '@/hooks/store/useStore';
 import { useRouter } from 'next/router';
-import OpeningHourInformation from '../../../components/OpeningHourInformation';
+import OpeningHourInformation from '../../components/OpeningHourInformation';
 
 export default function Info(): JSX.Element | null {
   const router = useRouter();
