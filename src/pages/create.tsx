@@ -1,5 +1,3 @@
 export default function Create() {
-    return <div>
-
-    </div>
+  return <div></div>;
 }
