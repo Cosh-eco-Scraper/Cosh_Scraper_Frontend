@@ -20,21 +20,25 @@ const ExamplePage: React.FC = () => {
       {/* Main Content in a Grid */}
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <section className="rounded-2xl bg-white p-6 shadow-md">
-            <Description />
-          </section>
+          {/* Left Column */}
+          <div className="flex flex-col gap-6">
+            <section className="rounded-2xl bg-white p-6 shadow-md">
+              <Description />
+            </section>
+            <section className="rounded-2xl bg-white p-6 shadow-md">
+              <Brand />
+            </section>
+          </div>
 
-          <section className="rounded-2xl bg-white p-6 shadow-md">
-            <Brand />
-          </section>
-
-          <section className="rounded-2xl bg-white p-6 shadow-md">
-            <Openhours />
-          </section>
-
-          <section className="rounded-2xl bg-white p-6 shadow-md">
-            <Location />
-          </section>
+          {/* Right Column */}
+          <div className="flex flex-col gap-6">
+            <section className="rounded-2xl bg-white p-6 shadow-md">
+              <Location />
+            </section>
+            <section className="rounded-2xl bg-white p-6 shadow-md">
+              <Openhours />
+            </section>
+          </div>
         </div>
       </main>
     </div>

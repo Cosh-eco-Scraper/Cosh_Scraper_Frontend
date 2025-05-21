@@ -13,14 +13,16 @@ const Description: React.FC = () => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <div>
-      <h1 className="mb-6 text-3xl font-bold text-black md:text-4xl">{data.name}</h1>
+    <>
+      <div>
+        <h1 className="mb-6 text-3xl font-bold text-black md:text-4xl">{data.name}</h1>
 
-      <h2 className="mb-4 text-xl font-semibold text-black">Description</h2>
-      <ul className="space-y-2 text-black">
-        <p>{data.description}</p>
-      </ul>
-    </div>
+        <h2 className="mb-4 text-xl font-semibold text-black">Description</h2>
+        <ul className="space-y-2 text-black">
+          <p>{data.description}</p>
+        </ul>
+      </div>
+    </>
   );
 };
 
