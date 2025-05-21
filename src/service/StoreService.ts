@@ -1,4 +1,7 @@
-const axios = require('axios');
+import { Store } from '@/domain/Store';
+import { Brand } from '@/domain/Brand';
+import { OpeningHour } from '@/domain/OpeningHour';
+import axios from 'axios';
 
 const backend = process.env.NEXT_PUBLIC_API_URL; //api.example.com'; // Replace with your actual API URL
 
@@ -13,30 +16,30 @@ const StoreService = {
     }
   },
 
-  getStore: async (id: string) => {
+  getStore: async (id: number) => {
     try {
       const response = await axios.get(`${backend}/api/stores/${id}`);
-      return response.data;
+      return response.data as Store;
     } catch (error) {
       console.error('Error fetching store:', error);
       throw error;
     }
   },
 
-  getStoreBrands: async (id: string) => {
+  getStoreBrands: async (id: number) => {
     try {
       const response = await axios.get(`${backend}/api/stores/${id}/brands`);
-      return response.data;
+      return response.data as Brand[];
     } catch (error) {
       console.error('Error fetching store by brand:', error);
       throw error;
     }
   },
 
-  getStoreOpeningsHours: async (id: string) => {
+  getStoreOpeningsHours: async (id: number) => {
     try {
       const response = await axios.get(`${backend}/api/stores/${id}/openingshours`);
-      return response.data;
+      return response.data as OpeningHour[];
     } catch (error) {
       console.error('Error fetching store by opening hours:', error);
       throw error;
