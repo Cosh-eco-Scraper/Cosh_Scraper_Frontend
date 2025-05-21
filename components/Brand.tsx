@@ -1,33 +1,87 @@
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import StoreService from '../service/StoreService';
+import { X } from 'lucide-react';
+
+
+interface Brand {
+  id: number;
+  name: string;
+  label: string;
+  storeId: number;
+}
 
 const Brands: React.FC = () => {
-  // const fetchDescription = async () => {
   const { data, isLoading, error } = useQuery({
     queryKey: ['storeBrands'],
-    queryFn: () => StoreService.getStoreBrands('1'), // Replace '1' with the actual store ID you want to fetch
+    queryFn: () => StoreService.getStoreBrands('1'),
   });
 
+  const [brands, setBrands] = useState<{ id: string; name: string }[]>([]);
+  const [inputValue, setInputValue] = useState('');
+
+  if (data && brands.length === 0) {
+    setBrands(data);
+  }
+
+  const handleAddBrand = () => {
+    const trimmed = inputValue.trim();
+    if (
+      trimmed &&
+      !brands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())
+    ) {
+      const newBrand = {
+        id: `temp-${Date.now()}`,
+        name: trimmed,
+      };
+      setBrands([...brands, newBrand]);
+      setInputValue('');
+    }
+  };
+
+  const handleRemoveBrand = (id: string) => {
+    setBrands(brands.filter(b => b.id !== id));
+  };
+
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error.message}</p>;
+  if (error) return <p>{(error as Error).message}</p>;
 
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Brands</h2>
-      <div className="flex flex-wrap gap-3">
-        {Array.isArray(data) && data.length > 0 ? (
-          data.map(item => (
-            <span
-              key={item.id}
-              className="inline-flex items-center rounded-full bg-gray-200 px-4 py-1.5 text-sm font-medium text-gray-800 shadow transition hover:bg-gray-300"
+
+      <div className="mb-4 flex items-center gap-2">
+        <input
+          type="text"
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && handleAddBrand()}
+          placeholder="Add a brand"
+          className="rounded border px-3 py-1 text-sm shadow text-black placeholder:text-gray-500"
+        />
+        <button
+          onClick={handleAddBrand}
+          className="rounded bg-blue-500 px-3 py-1 text-sm text-white hover:bg-blue-600"
+        >
+          Add
+        </button>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {brands.map(brand => (
+          <span
+            key={brand.id}
+            className="flex items-center gap-1 rounded-full bg-[#583AFF] px-3 py-1.5 text-sm text-white shadow"
+          >
+            {brand.name}
+            <button
+              onClick={() => handleRemoveBrand(brand.id)}
+              className="ml-1 text-white hover:text-red-500"
             >
-              {item.name}
-            </span>
-          ))
-        ) : (
-          <p className="text-gray-600">No brands found.</p>
-        )}
+              <X size={14} />
+            </button>
+          </span>
+        ))}
       </div>
     </div>
   );

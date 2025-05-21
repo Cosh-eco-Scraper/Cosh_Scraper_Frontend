@@ -4,7 +4,7 @@ import Brand from '../../../components/Brand';
 import Openhours from '../../../components/Openinghours';
 import Location from '../../../components/Location';
 
-const ExamplePage: React.FC = () => {
+const Info: React.FC = () => {
   return (
     <div className="flex min-h-screen flex-col bg-gray-50">
       {/* Header */}
@@ -17,26 +17,33 @@ const ExamplePage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content in a Grid */}
+      {/* Main Content */}
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Left Column */}
           <div className="flex flex-col gap-6">
             <section className="rounded-2xl bg-white p-6 shadow-md">
-              <Description />
-            </section>
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <Brand />
+              <div>
+                <Description />
+              </div>
+              
+            <div>
+                <Brand />
+              </div>
             </section>
           </div>
 
-          {/* Right Column */}
           <div className="flex flex-col gap-6">
             <section className="rounded-2xl bg-white p-6 shadow-md">
-              <Location />
-            </section>
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <Openhours />
+              <h2 className="mb-4 text-xl font-bold text-gray-900">Details</h2>
+
+              <div className="mb-4">
+                <Location />
+              </div>
+
+              <div>
+                <Openhours />
+              </div>
             </section>
           </div>
         </div>
@@ -45,4 +52,4 @@ const ExamplePage: React.FC = () => {
   );
 };
 
-export default ExamplePage;
+export default Info;
