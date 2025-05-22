@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
 import { Store } from '@/domain/Store';
 
@@ -19,12 +19,60 @@ export default function LocationInformation({
   if (isError) return <ErrorMessage error={error} />;
   if (!store) return <p>No store found</p>;
 
+  // Initialize local state with store location data
+  const [location, setLocation] = useState({
+    street: store.street,
+    number: store.number,
+    postalCode: store.postalCode,
+    city: store.city,
+  });
+
+  // Handler to update any field
+  const handleChange = (field: keyof typeof location, value: string) => {
+    setLocation(prev => ({ ...prev, [field]: value }));
+  };
+
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Location</h2>
-      <ul className="space-y-2 text-black">
-        {store.street} {store.number}, {store.postalCode} {store.city}
-      </ul>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-black">
+        <div>
+          <label className="block text-sm font-medium mb-1">Street</label>
+          <input
+            type="text"
+            value={location.street}
+            onChange={e => handleChange('street', e.target.value)}
+            className="w-full rounded border px-3 py-1.5 text-sm"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Number</label>
+          <input
+            type="text"
+            value={location.number}
+            onChange={e => handleChange('number', e.target.value)}
+            className="w-full rounded border px-3 py-1.5 text-sm"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">Postal Code</label>
+          <input
+            type="text"
+            value={location.postalCode}
+            onChange={e => handleChange('postalCode', e.target.value)}
+            className="w-full rounded border px-3 py-1.5 text-sm"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium mb-1">City</label>
+          <input
+            type="text"
+            value={location.city}
+            onChange={e => handleChange('city', e.target.value)}
+            className="w-full rounded border px-3 py-1.5 text-sm"
+          />
+        </div>
+      </div>
     </div>
   );
 }

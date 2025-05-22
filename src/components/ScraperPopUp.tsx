@@ -10,12 +10,11 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const ConfirmScraper = (e: React.FormEvent) => {
-    e.preventDefault(); // prevent page reload on form submit
+    e.preventDefault(); 
     setIsLoading(true);
 
-    // Simulate async operation (like API call)
     setTimeout(async () => {
-      await router.push('/info/1'); // navigate after loading
+      await router.push('/info/1'); 
     }, 1500);
   };
 

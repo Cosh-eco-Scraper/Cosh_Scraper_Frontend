@@ -44,20 +44,21 @@ export default function Info(): JSX.Element | null {
           {/* Left Column */}
           <div className="flex flex-col gap-6">
             <section className="rounded-2xl bg-white p-6 shadow-md">
-              <Description
+               <div><Description
                 isLoading={false}
                 error={storeError}
                 store={store}
                 isError={isErrorStore}
-              />
-            </section>
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <BrandList
+              /></div>
+
+              <div> <BrandList
                 isLoading={isLoadingBrands}
                 error={brandsError}
                 isError={isErrorBrands}
                 brands={brands}
-              />
+              /></div>
+
+             
             </section>
           </div>
 

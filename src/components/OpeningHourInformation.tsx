@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DayDetail from './DayDetail';
 import { OpeningHour } from '@/domain/OpeningHour';
 import ErrorMessage from './ErrorMessage';
@@ -16,6 +16,16 @@ export default function OpeningHourInformation({
   isError,
   openingHours,
 }: OpeningHourInformationProps) {
+  const [hours, setHours] = useState<OpeningHour[]>(openingHours ?? []);
+
+  const updateHour = (day: string, field: 'openingAt' | 'closingAt', value: string) => {
+    setHours(prev =>
+      prev.map(hour =>
+        hour.day === day ? { ...hour, [field]: value } : hour
+      )
+    );
+  };
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
   if (!openingHours) return <p>No opening hours found</p>;
@@ -24,15 +34,15 @@ export default function OpeningHourInformation({
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2>
       <ul className="space-y-2 text-black">
-        {Array.isArray(openingHours) &&
-          openingHours.map(openingHour => (
-            <DayDetail
-              key={openingHour.id}
-              closingAt={openingHour.closingAt}
-              day={openingHour.day}
-              openingAt={openingHour.openingAt}
-            />
-          ))}
+        {hours.map(hour => (
+          <DayDetail
+            key={hour.id}
+            day={hour.day}
+            openingAt={hour.openingAt}
+            closingAt={hour.closingAt}
+            onChange={(field, value) => updateHour(hour.day, field, value)}
+          />
+        ))}
       </ul>
     </div>
   );
