@@ -31,7 +31,7 @@ export default function Description({ isLoading, error, store, isError }: Descri
       <textarea
         value={description}
         onChange={e => setDescription(e.target.value)}
-        className="w-full rounded border px-3 py-2 text-sm text-black placeholder-gray-400 shadow"
+        className="h-36 w-full resize-none rounded border px-3 py-2 text-sm text-black placeholder-gray-400 shadow mb-1.5"
         placeholder="Enter store description"
       />
     </div>

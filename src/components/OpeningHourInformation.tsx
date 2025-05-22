@@ -27,19 +27,28 @@ export default function OpeningHourInformation({
   if (!openingHours) return <p>No opening hours found</p>;
 
   return (
-    <div>
-      <h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2>
-      <ul className="space-y-2 text-black">
+
+
+    <><h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2><table className="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr className="bg-gray-100">
+          <th className="py-2 px-4 text-left text-black">Day</th>
+          <th className="py-2 px-4 w-32 text-left text-black">Opening</th>
+          <th className="py-2 px-4 w-32 text-left text-black">Closing</th>
+          <th className="py-2 px-4 w-20 text-center text-black">Closed?</th>
+        </tr>
+      </thead>
+
+      <tbody>
         {hours.map(hour => (
           <DayDetail
             key={hour.id}
             day={hour.day}
             openingAt={hour.openingAt}
             closingAt={hour.closingAt}
-            onChange={(field, value) => updateHour(hour.day, field, value)}
-          />
+            onChange={(field, value) => updateHour(hour.day, field, value)} />
         ))}
-      </ul>
-    </div>
+      </tbody>
+    </table></>
   );
 }

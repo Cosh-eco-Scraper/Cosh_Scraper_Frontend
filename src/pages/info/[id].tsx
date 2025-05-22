@@ -5,6 +5,7 @@ import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import OpeningHourInformation from '@/components/OpeningHourInformation';
+import CoshButton from '@/components/CoshButton';
 
 export default function Info(): JSX.Element | null {
   const router = useRouter();
@@ -29,7 +30,7 @@ export default function Info(): JSX.Element | null {
   console.log(openingHours, store, brands);
 
   return (
-    <div className="flex min-h-screen flex-col bg-gray-50">
+    <div className="flex flex-col bg-gray-50">
       <header className="bg-[#060023] py-8 text-white shadow-md">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <h1 className="mb-2 text-4xl font-extrabold">Your Company Info</h1>
@@ -54,7 +55,6 @@ export default function Info(): JSX.Element | null {
               </div>
 
               <div>
-                {' '}
                 <BrandList
                   isLoading={isLoadingBrands}
                   error={brandsError}
@@ -85,6 +85,12 @@ export default function Info(): JSX.Element | null {
             </section>
           </div>
         </div>
+
+
+        <section  className='mt-8 flex justify-center'>
+                    <CoshButton onClick={undefined}>Confirm</CoshButton>
+            
+          </section>
       </main>
     </div>
   );

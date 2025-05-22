@@ -1,4 +1,3 @@
-// BrandChip.tsx
 import { X } from 'lucide-react';
 
 interface BrandChipProps {

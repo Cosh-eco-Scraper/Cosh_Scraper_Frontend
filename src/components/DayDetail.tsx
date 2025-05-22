@@ -8,28 +8,59 @@ interface DayDetailProps {
 export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDetailProps) {
   const isClosed = openingAt === 'closed' || closingAt === 'closed';
 
+  const handleToggleClosed = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    if (checked) {
+      onChange('openingAt', 'closed');
+      onChange('closingAt', 'closed');
+    } else {
+      onChange('openingAt', '09:00'); // or use previous value / placeholder
+      onChange('closingAt', '17:00');
+    }
+  };
+
   return (
-    <li className="flex items-center gap-4">
-      <span className="w-20 font-medium">{day}:</span>
-      {isClosed ? (
-        <span>Closed</span>
-      ) : (
-        <>
+     <tr className="border-t border-gray-300">
+      <td className="py-2 px-4 font-medium text-black">{day}</td>
+
+      <td className="py-2 px-4">
+        {!isClosed ? (
           <input
-            type="text"
+            type="time"
             value={openingAt}
             onChange={e => onChange('openingAt', e.target.value)}
-            className="w-20 rounded border px-2 py-1 text-sm"
+            className="w-full rounded border px-2 py-1 text-sm text-black"
+            min="00:00"
+            max="23:59"
           />
-          <span>-</span>
+        ) : (
+          <span className="text-gray-400 italic">Closed</span>
+        )}
+      </td>
+
+      <td className="py-2 px-4">
+        {!isClosed ? (
           <input
-            type="text"
+            type="time"
             value={closingAt}
             onChange={e => onChange('closingAt', e.target.value)}
-            className="w-20 rounded border px-2 py-1 text-sm"
+            className="w-full rounded border px-2 py-1 text-sm text-black"
+            min="00:00"
+            max="23:59"
           />
-        </>
-      )}
-    </li>
+        ) : (
+          <span className="text-gray-400 italic">Closed</span>
+        )}
+      </td>
+
+      <td className="py-2 px-4 text-center">
+        <input
+          type="checkbox"
+          checked={isClosed}
+          onChange={handleToggleClosed}
+          className="cursor-pointer"
+        />
+      </td>
+    </tr>
   );
 }

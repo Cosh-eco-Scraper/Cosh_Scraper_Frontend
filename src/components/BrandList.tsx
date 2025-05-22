@@ -13,7 +13,7 @@ interface BrandListProps {
 export default function BrandList({ isLoading, error, brands, isError }: BrandListProps) {
   const [brandList, setBrandList] = useState<Brand[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [modified, setModified] = useState(false); // Track if local state is modified
+  const [modified, setModified] = useState(false);
 
   const currentBrands = modified ? brandList : (brands ?? []);
 
@@ -21,10 +21,11 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
     const trimmed = inputValue.trim();
     if (trimmed && !currentBrands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())) {
       const newBrand: Brand = {
-        id: 0,
+        id: Date.now(), 
         name: trimmed,
         label: trimmed,
-        storeId: 1, // Replace as needed
+        storeId: brands?.at(0)?.storeId ?? 0, 
+
       };
       setBrandList([...currentBrands, newBrand]);
       setInputValue('');
