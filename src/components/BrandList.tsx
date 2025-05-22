@@ -15,14 +15,11 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
   const [inputValue, setInputValue] = useState('');
   const [modified, setModified] = useState(false); // Track if local state is modified
 
-  const currentBrands = modified ? brandList : brands ?? [];
+  const currentBrands = modified ? brandList : (brands ?? []);
 
   const handleAddBrand = () => {
     const trimmed = inputValue.trim();
-    if (
-      trimmed &&
-      !currentBrands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())
-    ) {
+    if (trimmed && !currentBrands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())) {
       const newBrand: Brand = {
         id: 0,
         name: trimmed,
@@ -67,11 +64,7 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
 
       <div className="flex flex-wrap gap-3">
         {currentBrands.map(item => (
-          <BrandChip
-            key={item.id}
-            name={item.name}
-            onRemove={() => handleRemoveBrand(item.id)}
-          />
+          <BrandChip key={item.id} name={item.name} onRemove={() => handleRemoveBrand(item.id)} />
         ))}
       </div>
     </div>

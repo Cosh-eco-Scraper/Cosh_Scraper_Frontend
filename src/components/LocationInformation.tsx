@@ -15,19 +15,19 @@ export default function LocationInformation({
   isError,
   store,
 }: LocationInformationProps) {
+  const [location, setLocation] = useState({
+    street: store?.street,
+    number: store?.number,
+    postalCode: store?.postalCode,
+    city: store?.city,
+  });
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
   if (!store) return <p>No store found</p>;
 
   // Initialize local state with store location data
-  const [location, setLocation] = useState({
-    street: store.street,
-    number: store.number,
-    postalCode: store.postalCode,
-    city: store.city,
-  });
 
-  // Handler to update any field
   const handleChange = (field: keyof typeof location, value: string) => {
     setLocation(prev => ({ ...prev, [field]: value }));
   };
@@ -35,9 +35,9 @@ export default function LocationInformation({
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Location</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-black">
+      <div className="grid grid-cols-1 gap-4 text-black md:grid-cols-2">
         <div>
-          <label className="block text-sm font-medium mb-1">Street</label>
+          <label className="mb-1 block text-sm font-medium">Street</label>
           <input
             type="text"
             value={location.street}
@@ -46,7 +46,7 @@ export default function LocationInformation({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Number</label>
+          <label className="mb-1 block text-sm font-medium">Number</label>
           <input
             type="text"
             value={location.number}
@@ -55,7 +55,7 @@ export default function LocationInformation({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Postal Code</label>
+          <label className="mb-1 block text-sm font-medium">Postal Code</label>
           <input
             type="text"
             value={location.postalCode}
@@ -64,7 +64,7 @@ export default function LocationInformation({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">City</label>
+          <label className="mb-1 block text-sm font-medium">City</label>
           <input
             type="text"
             value={location.city}

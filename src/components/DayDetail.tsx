@@ -18,14 +18,14 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
           <input
             type="text"
             value={openingAt}
-            onChange={(e) => onChange('openingAt', e.target.value)}
+            onChange={e => onChange('openingAt', e.target.value)}
             className="w-20 rounded border px-2 py-1 text-sm"
           />
           <span>-</span>
           <input
             type="text"
             value={closingAt}
-            onChange={(e) => onChange('closingAt', e.target.value)}
+            onChange={e => onChange('closingAt', e.target.value)}
             className="w-20 rounded border px-2 py-1 text-sm"
           />
         </>

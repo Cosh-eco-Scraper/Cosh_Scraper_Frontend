@@ -10,11 +10,11 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const ConfirmScraper = (e: React.FormEvent) => {
-    e.preventDefault(); 
+    e.preventDefault();
     setIsLoading(true);
 
     setTimeout(async () => {
-      await router.push('/info/1'); 
+      await router.push('/info/1');
     }, 1500);
   };
 

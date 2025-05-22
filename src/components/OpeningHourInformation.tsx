@@ -19,11 +19,7 @@ export default function OpeningHourInformation({
   const [hours, setHours] = useState<OpeningHour[]>(openingHours ?? []);
 
   const updateHour = (day: string, field: 'openingAt' | 'closingAt', value: string) => {
-    setHours(prev =>
-      prev.map(hour =>
-        hour.day === day ? { ...hour, [field]: value } : hour
-      )
-    );
+    setHours(prev => prev.map(hour => (hour.day === day ? { ...hour, [field]: value } : hour)));
   };
 
   if (isLoading) return <p>Loading...</p>;
