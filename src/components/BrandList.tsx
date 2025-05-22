@@ -21,11 +21,10 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
     const trimmed = inputValue.trim();
     if (trimmed && !currentBrands.some(b => b.name.toLowerCase() === trimmed.toLowerCase())) {
       const newBrand: Brand = {
-        id: Date.now(), 
+        id: Date.now(),
         name: trimmed,
         label: trimmed,
-        storeId: brands?.at(0)?.storeId ?? 0, 
-
+        storeId: brands?.at(0)?.storeId ?? 0,
       };
       setBrandList([...currentBrands, newBrand]);
       setInputValue('');

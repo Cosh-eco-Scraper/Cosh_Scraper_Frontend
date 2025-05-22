@@ -86,11 +86,9 @@ export default function Info(): JSX.Element | null {
           </div>
         </div>
 
-
-        <section  className='mt-8 flex justify-center'>
-                    <CoshButton onClick={undefined}>Confirm</CoshButton>
-            
-          </section>
+        <section className="mt-8 flex justify-center">
+          <CoshButton onClick={undefined}>Confirm</CoshButton>
+        </section>
       </main>
     </div>
   );

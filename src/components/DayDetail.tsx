@@ -20,10 +20,10 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
   };
 
   return (
-     <tr className="border-t border-gray-300">
-      <td className="py-2 px-4 font-medium text-black">{day}</td>
+    <tr className="border-t border-gray-300">
+      <td className="px-4 py-2 font-medium text-black">{day}</td>
 
-      <td className="py-2 px-4">
+      <td className="px-4 py-2">
         {!isClosed ? (
           <input
             type="time"
@@ -38,7 +38,7 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
         )}
       </td>
 
-      <td className="py-2 px-4">
+      <td className="px-4 py-2">
         {!isClosed ? (
           <input
             type="time"
@@ -53,7 +53,7 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
         )}
       </td>
 
-      <td className="py-2 px-4 text-center">
+      <td className="px-4 py-2 text-center">
         <input
           type="checkbox"
           checked={isClosed}
