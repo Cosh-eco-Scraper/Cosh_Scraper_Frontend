@@ -26,7 +26,6 @@ export default function LocationInformation({
   if (isError) return <ErrorMessage error={error} />;
   if (!store) return <p>No store found</p>;
 
-  // Initialize local state with store location data
 
   const handleChange = (field: keyof typeof location, value: string) => {
     setLocation(prev => ({ ...prev, [field]: value }));
@@ -40,7 +39,7 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Street</label>
           <input
             type="text"
-            value={location.street}
+            value={store.street}
             onChange={e => handleChange('street', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
@@ -49,7 +48,7 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Number</label>
           <input
             type="text"
-            value={location.number}
+            value={store.number}
             onChange={e => handleChange('number', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
@@ -58,7 +57,7 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Postal Code</label>
           <input
             type="text"
-            value={location.postalCode}
+            value={store.postalCode}
             onChange={e => handleChange('postalCode', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
@@ -67,7 +66,7 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">City</label>
           <input
             type="text"
-            value={location.city}
+            value={store.city}
             onChange={e => handleChange('city', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />

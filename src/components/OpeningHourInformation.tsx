@@ -40,7 +40,7 @@ export default function OpeningHourInformation({
         </thead>
 
         <tbody>
-          {hours.map(hour => (
+          {openingHours.map(hour => (
             <DayDetail
               key={hour.id}
               day={hour.day}

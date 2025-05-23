@@ -63,7 +63,7 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
       </div>
 
       <div className="flex flex-wrap gap-3">
-        {currentBrands.map(item => (
+        {brands.map(item => (
           <BrandChip key={item.id} name={item.name} onRemove={() => handleRemoveBrand(item.id)} />
         ))}
       </div>
