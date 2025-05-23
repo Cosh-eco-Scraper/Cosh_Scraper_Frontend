@@ -5,11 +5,11 @@ import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import OpeningHourInformation from '@/components/OpeningHourInformation';
-import useModifyLocation from "@/hooks/location/useModifyLocation";
-import useModifyOpeningHours from "@/hooks/openinghours/useModifyOpeningHours";
-import useModifyStore from "@/hooks/store/useModifyStore";
-import CoshButton from "@/components/CoshButton";
-import {OpeningHour} from "@/domain/OpeningHour";
+import useModifyLocation from '@/hooks/location/useModifyLocation';
+import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
+import useModifyStore from '@/hooks/store/useModifyStore';
+import CoshButton from '@/components/CoshButton';
+import {OpeningHour} from '@/domain/OpeningHour';
 
 export default function Info() {
     const router = useRouter();
@@ -36,16 +36,19 @@ export default function Info() {
         description: '',
     }));
 
-    const {updateLocation, isErrorUpdateLocation, isSuccessUpdateLocation} = useModifyLocation(store?.locationId ?? 0)
-    const {updateOpeningHours, isErrorUpdateOpeningHours, isSuccessUpdateOpeningHours} = useModifyOpeningHours()
-    const {updateStore, isErrorUpdateStore, isSuccessUpdateStore} = useModifyStore(storeId)
+    const {updateLocation,  isSuccessUpdateLocation} = useModifyLocation(
+        store?.locationId ?? 0
+    );
+    const {updateOpeningHours, isSuccessUpdateOpeningHours} =
+        useModifyOpeningHours();
+    const {updateStore,  isSuccessUpdateStore} = useModifyStore(storeId);
 
     const [locationFormData, setLocationFormData] = useState({
         street: '',
         number: '',
         postalCode: '',
         city: '',
-        country: ''
+        country: '',
     });
 
     const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>([]);
@@ -62,7 +65,7 @@ export default function Info() {
                 number: store.number || '',
                 postalCode: store.postalCode || '',
                 city: store.city || '',
-                country: store.country || ''
+                country: store.country || '',
             });
         }
     }, [store]);
@@ -73,6 +76,12 @@ export default function Info() {
         }
     }, [openingHours]);
 
+    useEffect(() => {
+        if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
+            await router.push(`/stores/${storeId}`)
+        }
+    }, [isSuccessUpdateLocation, isSuccessUpdateOpeningHours, isSuccessUpdateStore])
+
     const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
         setLocationFormData(prev => ({...prev, [field]: value}));
     };
@@ -81,23 +90,23 @@ export default function Info() {
         try {
             if (store) {
                 // Update store information
-                updateStore({
+                await updateStore({
                     name: formData.name,
-                    description: formData.description
+                    description: formData.description,
                 });
 
                 // Update location information
-                updateLocation({
+                await updateLocation({
                     street: locationFormData.street,
                     number: locationFormData.number,
                     postalCode: locationFormData.postalCode,
                     city: locationFormData.city,
-                    country: locationFormData.country
+                    country: locationFormData.country,
                 });
 
                 // Update opening hours if modified
-                if (openingHours && openingHours.length > 0) {
-                    updateOpeningHours(openingHours);
+                if (openingHoursFormData && openingHoursFormData.length > 0) {
+                    await updateOpeningHours(openingHoursFormData);
                 }
             }
         } catch (error) {
@@ -105,7 +114,7 @@ export default function Info() {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         updateStoreData();
     };
 
@@ -113,8 +122,9 @@ export default function Info() {
         const updatedHours = openingHoursFormData.map(hour =>
             hour.id === openingHour.id ? {...openingHour, storeId: storeId} : hour
         );
+
         setOpeningHoursFormData(updatedHours);
-    }
+    };
 
     return (
         <div className="flex flex-col bg-gray-50">
@@ -173,10 +183,8 @@ export default function Info() {
                         </section>
                     </div>
                 </div>
-                <div className="p-2 flex justify-center">
-                    <CoshButton onClick={handleSubmit}>
-                        Submit data
-                    </CoshButton>
+                <div className="flex justify-center p-2">
+                    <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
                 </div>
             </main>
         </div>

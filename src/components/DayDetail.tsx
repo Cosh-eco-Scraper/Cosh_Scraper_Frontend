@@ -1,13 +1,17 @@
-import React from "react";
+import React from 'react';
 
 interface DayDetailProps {
     openingAt: string;
     closingAt: string;
     day: string;
-    onChange: (openingAt: string, closingAt: string) => void;
+    onChange?: (openingAt: string, closingAt: string) => void;
+    readOnly?: boolean;
 }
 
-export default function DayDetail({openingAt, closingAt, day, onChange}: DayDetailProps) {
+export default function DayDetail({
+                                      openingAt, closingAt, day, onChange = () => {
+    }, readOnly
+                                  }: DayDetailProps) {
     const isClosed = openingAt === 'closed' || closingAt === 'closed';
 
     const handleToggleClosed = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,6 +44,7 @@ export default function DayDetail({openingAt, closingAt, day, onChange}: DayDeta
                         className="w-full rounded border px-2 py-1 text-sm text-black"
                         min="00:00"
                         max="23:59"
+                        readOnly={readOnly}
                     />
                 ) : (
                     <span className="text-gray-400 italic">Closed</span>
@@ -55,6 +60,7 @@ export default function DayDetail({openingAt, closingAt, day, onChange}: DayDeta
                         className="w-full rounded border px-2 py-1 text-sm text-black"
                         min="00:00"
                         max="23:59"
+                        readOnly={readOnly}
                     />
                 ) : (
                     <span className="text-gray-400 italic">Closed</span>
@@ -67,6 +73,8 @@ export default function DayDetail({openingAt, closingAt, day, onChange}: DayDeta
                     checked={isClosed}
                     onChange={handleToggleClosed}
                     className="cursor-pointer"
+                    readOnly={readOnly}
+                    disabled={readOnly}
                 />
             </td>
         </tr>

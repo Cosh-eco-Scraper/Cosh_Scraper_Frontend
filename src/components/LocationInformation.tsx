@@ -14,8 +14,9 @@ interface LocationInformationProps {
     error: Error | null;
     isError: boolean;
     store?: Store;
-    formData: LocationFormData;
-    onFieldChange: (field: keyof LocationFormData, value: string) => void;
+    formData?: LocationFormData;
+    onFieldChange?: (field: keyof LocationFormData, value: string) => void;
+    readOnly?: boolean;
 }
 
 export default function LocationInformation({
@@ -25,6 +26,7 @@ export default function LocationInformation({
                                                 store,
                                                 formData,
                                                 onFieldChange,
+                                                readOnly = false,
                                             }: LocationInformationProps) {
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <ErrorMessage error={error}/>;
@@ -38,45 +40,55 @@ export default function LocationInformation({
                     <label className="mb-1 block text-sm font-medium">Street</label>
                     <input
                         type="text"
-                        value={formData.street}
-                        onChange={e => onFieldChange('street', e.target.value)}
+                        value={formData?.street || store.street}
+                        onChange={e => (onFieldChange || (() => {
+                        }))('street', e.target.value)}
                         className="w-full rounded border px-3 py-1.5 text-sm"
+                        readOnly={readOnly}
                     />
                 </div>
                 <div>
                     <label className="mb-1 block text-sm font-medium">Number</label>
                     <input
                         type="text"
-                        value={formData.number}
-                        onChange={e => onFieldChange('number', e.target.value)}
+                        value={formData?.number || store.number}
+                        onChange={e => (onFieldChange || (() => {
+                        }))('number', e.target.value)}
                         className="w-full rounded border px-3 py-1.5 text-sm"
+                        readOnly={readOnly}
                     />
                 </div>
                 <div>
                     <label className="mb-1 block text-sm font-medium">Postal Code</label>
                     <input
                         type="text"
-                        value={formData.postalCode}
-                        onChange={e => onFieldChange('postalCode', e.target.value)}
+                        value={formData?.postalCode || store.postalCode}
+                        onChange={e => (onFieldChange || (() => {
+                        }))('postalCode', e.target.value)}
                         className="w-full rounded border px-3 py-1.5 text-sm"
+                        readOnly={readOnly}
                     />
                 </div>
                 <div>
                     <label className="mb-1 block text-sm font-medium">Country</label>
                     <input
                         type="text"
-                        value={formData.country}
-                        onChange={e => onFieldChange('country', e.target.value)}
+                        value={formData?.country || store.country}
+                        onChange={e => (onFieldChange || (() => {
+                        }))('country', e.target.value)}
                         className="w-full rounded border px-3 py-1.5 text-sm"
+                        readOnly={readOnly}
                     />
                 </div>
                 <div>
                     <label className="mb-1 block text-sm font-medium">City</label>
                     <input
                         type="text"
-                        value={formData.city}
-                        onChange={e => onFieldChange('city', e.target.value)}
+                        value={formData?.city || store.city}
+                        onChange={e => (onFieldChange || (() => {
+                        }))('city', e.target.value)}
                         className="w-full rounded border px-3 py-1.5 text-sm"
+                        readOnly={readOnly}
                     />
                 </div>
             </div>
