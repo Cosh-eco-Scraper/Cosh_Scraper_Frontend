@@ -1,3 +1,3 @@
 export type UpdateResponse = {
-    id: number
-}
+  id: number;
+};
