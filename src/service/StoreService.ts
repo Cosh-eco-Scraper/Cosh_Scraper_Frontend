@@ -1,8 +1,7 @@
 import { Store } from '@/domain/Store';
 import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
-import axiosInstance from "@/axiosInstance";
-
+import axiosInstance from '@/axiosInstance';
 
 const StoreService = {
   getAllStores: async () => {
