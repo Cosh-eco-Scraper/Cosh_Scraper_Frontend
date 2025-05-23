@@ -7,4 +7,5 @@ export type Store = {
   postalCode: string;
   city: string;
   country: string;
+  locationId: number;
 };
