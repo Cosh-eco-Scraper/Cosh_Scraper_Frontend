@@ -1,8 +1,8 @@
-import { CreateStore, Store, UpdateStore } from '@/domain/Store';
+import { Store } from '@/domain/Store';
 import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
-import axiosInstance from '@/axiosInstance';
-import { UpdateResponse } from '@/domain/UpdateResponse';
+import axiosInstance from "@/axiosInstance";
+
 
 const StoreService = {
   getAllStores: async () => {
@@ -39,24 +39,6 @@ const StoreService = {
     try {
       const response = await axiosInstance.get(`stores/${id}/openingshours`);
       return response.data as OpeningHour[];
-    } catch (error) {
-      console.error('Error fetching store by opening hours:', error);
-      throw error;
-    }
-  },
-  updateStore: async (id: number, store: UpdateStore) => {
-    try {
-      const response = await axiosInstance.put<UpdateStore, UpdateResponse>(`stores/${id}`, store);
-      return response;
-    } catch (error) {
-      console.error('Error fetching store by opening hours:', error);
-      throw error;
-    }
-  },
-  createStore: async (store: CreateStore) => {
-    try {
-      const response = await axiosInstance.put<UpdateStore, UpdateResponse>(`stores`, store);
-      return response;
     } catch (error) {
       console.error('Error fetching store by opening hours:', error);
       throw error;

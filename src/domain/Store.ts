@@ -9,14 +9,3 @@ export type Store = {
   country: string;
   locationId: number;
 };
-
-export type UpdateStore = {
-  name: string;
-  description?: string;
-};
-
-export type CreateStore = {
-  name: string;
-  url: string;
-  location: string;
-};
