@@ -1,14 +1,12 @@
-import React, { JSX, useState } from 'react';
+import React, { useState } from 'react';
 import useStore from '@/hooks/store/useStore';
 import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import OpeningHourInformation from '@/components/OpeningHourInformation';
-import CoshButton from '@/components/CoshButton';
-import { useUpdateStoreMutation } from '@/hooks/store/useStoreMutation';
 
-export default function Info(): JSX.Element | null {
+export default function Info() {
   const router = useRouter();
   const { id } = router.query;
   const storeId = parseInt((id as string) ?? '0');
@@ -55,38 +53,6 @@ export default function Info(): JSX.Element | null {
     });
   }
 
-  const updateStoreMutation = useUpdateStoreMutation();
-
-  const handleConfirm = () => {
-    if (!store?.id) {
-      console.error('No store ID available');
-      return;
-    }
-
-    updateStoreMutation.mutate(
-      {
-        id: store.id,
-        ...formData,
-      },
-      {
-        onSuccess: () => {
-          console.log('Store information confirmed and saved');
-          // router.push('/next-step');
-        },
-        onError: error => {
-          console.error('Failed to confirm store information:', error);
-        },
-      }
-    );
-  };
-
-  const updateFormField = (field: keyof typeof formData, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
   };
@@ -115,7 +81,7 @@ export default function Info(): JSX.Element | null {
                   store={store}
                   isError={isErrorStore}
                   formData={{ name: formData.name, description: formData.description }}
-                  onFieldChange={updateFormField}
+                  onFieldChange={() => {}}
                 />
               </div>
               <div>
@@ -150,22 +116,6 @@ export default function Info(): JSX.Element | null {
             </section>
           </div>
         </div>
-        <section className="mt-8 flex justify-center">
-          <CoshButton onClick={handleConfirm}>
-            {updateStoreMutation.isPending ? 'Saving...' : 'Confirm'}
-          </CoshButton>
-        </section>
-
-        {/* Show mutation status */}
-        {updateStoreMutation.isError && (
-          <div className="mt-4 text-center text-red-600">Failed to save store information</div>
-        )}
-
-        {updateStoreMutation.isSuccess && (
-          <div className="mt-4 text-center text-green-600">
-            Store information saved successfully!
-          </div>
-        )}
       </main>
     </div>
   );

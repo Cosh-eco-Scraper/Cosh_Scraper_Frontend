@@ -1,14 +1,13 @@
-import { Store } from '@/domain/Store';
+import { CreateStore, Store, UpdateStore } from '@/domain/Store';
 import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
-import axios from 'axios';
-
-const backend = process.env.NEXT_PUBLIC_API_URL; //api.example.com'; // Replace with your actual API URL
+import axiosInstance from '@/axiosInstance';
+import { UpdateResponse } from '@/domain/UpdateResponse';
 
 const StoreService = {
   getAllStores: async () => {
     try {
-      const response = await axios.get(`${backend}/api/stores/`);
+      const response = await axiosInstance.get(`stores/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching stores:', error);
@@ -18,7 +17,7 @@ const StoreService = {
 
   getStore: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}`);
+      const response = await axiosInstance.get(`stores/${id}`);
       return response.data as Store;
     } catch (error) {
       console.error('Error fetching store:', error);
@@ -28,7 +27,7 @@ const StoreService = {
 
   getStoreBrands: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}/brands`);
+      const response = await axiosInstance.get(`stores/${id}/brands`);
       return response.data as Brand[];
     } catch (error) {
       console.error('Error fetching store by brand:', error);
@@ -38,24 +37,28 @@ const StoreService = {
 
   getStoreOpeningsHours: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}/openingshours`);
+      const response = await axiosInstance.get(`stores/${id}/openingshours`);
       return response.data as OpeningHour[];
     } catch (error) {
       console.error('Error fetching store by opening hours:', error);
       throw error;
     }
   },
-
-  updateStore: async (id: number, name: string, location_id: number, description: string) => {
+  updateStore: async (id: number, store: UpdateStore) => {
     try {
-      const response = await axios.put(`${backend}/api/stores/${id}`, {
-        name,
-        location_id,
-        description,
-      });
-      return response.data;
+      const response = await axiosInstance.put<UpdateStore, UpdateResponse>(`stores/${id}`, store);
+      return response;
     } catch (error) {
-      console.error('Error updating store:', error);
+      console.error('Error fetching store by opening hours:', error);
+      throw error;
+    }
+  },
+  createStore: async (store: CreateStore) => {
+    try {
+      const response = await axiosInstance.put<UpdateStore, UpdateResponse>(`stores`, store);
+      return response;
+    } catch (error) {
+      console.error('Error fetching store by opening hours:', error);
       throw error;
     }
   },

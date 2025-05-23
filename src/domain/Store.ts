@@ -7,4 +7,16 @@ export type Store = {
   postalCode: string;
   city: string;
   country: string;
+  locationId: number;
+};
+
+export type UpdateStore = {
+  name: string;
+  description?: string;
+};
+
+export type CreateStore = {
+  name: string;
+  url: string;
+  location: string;
 };

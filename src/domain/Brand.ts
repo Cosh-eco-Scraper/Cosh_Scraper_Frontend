@@ -4,3 +4,7 @@ export type Brand = {
   label: string;
   storeId: number;
 };
+
+export type UpdateBrand = {
+  name: string;
+};
