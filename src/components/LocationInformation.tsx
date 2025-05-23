@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import ErrorMessage from './ErrorMessage';
 import { Store } from '@/domain/Store';
+import ErrorMessage from './ErrorMessage';
+
+interface LocationFormData {
+  street: string;
+  number: string;
+  postalCode: string;
+  city: string;
+}
 
 interface LocationInformationProps {
   isLoading: boolean;
   error: Error | null;
   isError: boolean;
   store?: Store;
+  formData: LocationFormData;
+  onFieldChange: (field: keyof LocationFormData, value: string) => void;
 }
 
 export default function LocationInformation({
@@ -14,21 +22,12 @@ export default function LocationInformation({
   error,
   isError,
   store,
+  formData,
+  onFieldChange,
 }: LocationInformationProps) {
-  const [location, setLocation] = useState({
-    street: store?.street,
-    number: store?.number,
-    postalCode: store?.postalCode,
-    city: store?.city,
-  });
-
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
   if (!store) return <p>No store found</p>;
-
-  const handleChange = (field: keyof typeof location, value: string) => {
-    setLocation(prev => ({ ...prev, [field]: value }));
-  };
 
   return (
     <div>
@@ -38,8 +37,8 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Street</label>
           <input
             type="text"
-            value={location.street}
-            onChange={e => handleChange('street', e.target.value)}
+            value={formData.street}
+            onChange={e => onFieldChange('street', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
         </div>
@@ -47,8 +46,8 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Number</label>
           <input
             type="text"
-            value={store.number}
-            onChange={e => handleChange('number', e.target.value)}
+            value={formData.number}
+            onChange={e => onFieldChange('number', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
         </div>
@@ -56,8 +55,8 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Postal Code</label>
           <input
             type="text"
-            value={store.postalCode}
-            onChange={e => handleChange('postalCode', e.target.value)}
+            value={formData.postalCode}
+            onChange={e => onFieldChange('postalCode', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
         </div>
@@ -65,8 +64,8 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">City</label>
           <input
             type="text"
-            value={store.city}
-            onChange={e => handleChange('city', e.target.value)}
+            value={formData.city}
+            onChange={e => onFieldChange('city', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
         </div>
