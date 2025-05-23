@@ -1,14 +1,13 @@
 import { Store } from '@/domain/Store';
 import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
-import axios from 'axios';
+import axiosInstance from "@/axiosInstance";
 
-const backend = process.env.NEXT_PUBLIC_API_URL; //api.example.com'; // Replace with your actual API URL
 
 const StoreService = {
   getAllStores: async () => {
     try {
-      const response = await axios.get(`${backend}/api/stores/`);
+      const response = await axiosInstance.get(`stores/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching stores:', error);
@@ -18,7 +17,7 @@ const StoreService = {
 
   getStore: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}`);
+      const response = await axiosInstance.get(`stores/${id}`);
       return response.data as Store;
     } catch (error) {
       console.error('Error fetching store:', error);
@@ -28,7 +27,7 @@ const StoreService = {
 
   getStoreBrands: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}/brands`);
+      const response = await axiosInstance.get(`stores/${id}/brands`);
       return response.data as Brand[];
     } catch (error) {
       console.error('Error fetching store by brand:', error);
@@ -38,7 +37,7 @@ const StoreService = {
 
   getStoreOpeningsHours: async (id: number) => {
     try {
-      const response = await axios.get(`${backend}/api/stores/${id}/openingshours`);
+      const response = await axiosInstance.get(`stores/${id}/openingshours`);
       return response.data as OpeningHour[];
     } catch (error) {
       console.error('Error fetching store by opening hours:', error);
