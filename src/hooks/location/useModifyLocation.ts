@@ -7,7 +7,7 @@ import { CreateLocation } from '@/domain/Location';
 
 export default function useModifyLocation(id: number) {
   const {
-    mutate: updateLocation,
+    mutateAsync: updateLocation,
     isSuccess: isSuccessUpdateLocation,
     isError: isErrorUpdateLocation,
   } = useMutation<UpdateResponse, unknown, CreateLocation>({
