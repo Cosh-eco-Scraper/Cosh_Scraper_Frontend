@@ -1,13 +1,13 @@
 import axiosInstance from '@/axiosInstance';
-import {OpeningHour} from '@/domain/OpeningHour';
-import {UpdateResponse} from '@/domain/UpdateResponse';
-import {UpdateBrand} from '@/domain/Brand';
+import { OpeningHour } from '@/domain/OpeningHour';
+import { UpdateResponse } from '@/domain/UpdateResponse';
+import { UpdateBrand } from '@/domain/Brand';
 
 const BrandService = {
-    updateBrand: async ({id, brand}: { id: number; brand: UpdateBrand }) => {
-        const response = await axiosInstance.put<OpeningHour, UpdateResponse>(`brands/${id}`, brand);
-        return response;
-    },
+  updateBrand: async ({ id, brand }: { id: number; brand: UpdateBrand }) => {
+    const response = await axiosInstance.put<OpeningHour, UpdateResponse>(`brands/${id}`, brand);
+    return response;
+  },
 };
 
 export default BrandService;
