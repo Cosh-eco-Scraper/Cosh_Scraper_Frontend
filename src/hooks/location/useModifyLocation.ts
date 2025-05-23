@@ -1,6 +1,4 @@
 import { useMutation } from '@tanstack/react-query';
-import { UpdateStore } from '@/domain/Store';
-import StoreService from '@/service/StoreService';
 import { UpdateResponse } from '@/domain/UpdateResponse';
 import { queryClient } from '@/config/queryClient';
 import { queryKeys } from '@/hooks/queryKeys';
