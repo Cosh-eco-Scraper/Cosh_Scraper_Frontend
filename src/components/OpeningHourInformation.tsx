@@ -16,7 +16,7 @@ export default function OpeningHourInformation({
   isError,
   openingHours,
 }: OpeningHourInformationProps) {
-  const [hours, setHours] = useState<OpeningHour[]>(openingHours ?? []);
+  const [, setHours] = useState<OpeningHour[]>(openingHours ?? []);
 
   const updateHour = (day: string, field: 'openingAt' | 'closingAt', value: string) => {
     setHours(prev => prev.map(hour => (hour.day === day ? { ...hour, [field]: value } : hour)));

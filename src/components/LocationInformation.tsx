@@ -26,7 +26,6 @@ export default function LocationInformation({
   if (isError) return <ErrorMessage error={error} />;
   if (!store) return <p>No store found</p>;
 
-
   const handleChange = (field: keyof typeof location, value: string) => {
     setLocation(prev => ({ ...prev, [field]: value }));
   };
@@ -39,7 +38,7 @@ export default function LocationInformation({
           <label className="mb-1 block text-sm font-medium">Street</label>
           <input
             type="text"
-            value={store.street}
+            value={location.street}
             onChange={e => handleChange('street', e.target.value)}
             className="w-full rounded border px-3 py-1.5 text-sm"
           />
