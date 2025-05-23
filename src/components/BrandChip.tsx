@@ -1,11 +1,19 @@
+import { X } from 'lucide-react';
+
 interface BrandChipProps {
   name: string;
+  onRemove?: () => void;
 }
 
-export default function BrandChip({ name }: BrandChipProps) {
+export default function BrandChip({ name, onRemove }: BrandChipProps) {
   return (
-    <span className="inline-flex items-center rounded-full bg-gray-200 px-4 py-1.5 text-sm font-medium text-gray-800 shadow transition hover:bg-gray-300">
+    <span className="flex items-center gap-1 rounded-full bg-[#583AFF] px-3 py-1.5 text-sm text-white shadow">
       {name}
+      {onRemove && (
+        <button onClick={onRemove} className="ml-1 text-white hover:text-red-500">
+          <X size={14} />
+        </button>
+      )}
     </span>
   );
 }

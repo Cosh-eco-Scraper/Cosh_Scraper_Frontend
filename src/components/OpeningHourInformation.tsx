@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import DayDetail from './DayDetail';
 import { OpeningHour } from '@/domain/OpeningHour';
 import ErrorMessage from './ErrorMessage';
@@ -16,24 +16,41 @@ export default function OpeningHourInformation({
   isError,
   openingHours,
 }: OpeningHourInformationProps) {
+  const [, setHours] = useState<OpeningHour[]>(openingHours ?? []);
+
+  const updateHour = (day: string, field: 'openingAt' | 'closingAt', value: string) => {
+    setHours(prev => prev.map(hour => (hour.day === day ? { ...hour, [field]: value } : hour)));
+  };
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
   if (!openingHours) return <p>No opening hours found</p>;
 
   return (
-    <div>
+    <>
       <h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2>
-      <ul className="space-y-2 text-black">
-        {Array.isArray(openingHours) &&
-          openingHours.map(openingHour => (
+      <table className="w-full border-collapse border border-gray-300">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="px-4 py-2 text-left text-black">Day</th>
+            <th className="w-32 px-4 py-2 text-left text-black">Opening</th>
+            <th className="w-32 px-4 py-2 text-left text-black">Closing</th>
+            <th className="w-20 px-4 py-2 text-center text-black">Closed?</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {openingHours.map(hour => (
             <DayDetail
-              key={openingHour.id}
-              closingAt={openingHour.closingAt}
-              day={openingHour.day}
-              openingAt={openingHour.openingAt}
+              key={hour.id}
+              day={hour.day}
+              openingAt={hour.openingAt}
+              closingAt={hour.closingAt}
+              onChange={(field, value) => updateHour(hour.day, field, value)}
             />
           ))}
-      </ul>
-    </div>
+        </tbody>
+      </table>
+    </>
   );
 }

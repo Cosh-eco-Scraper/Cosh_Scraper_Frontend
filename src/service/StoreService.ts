@@ -45,6 +45,20 @@ const StoreService = {
       throw error;
     }
   },
+
+  updateStore: async (id: number, name: string, location_id: number, description: string) => {
+    try {
+      const response = await axios.put(`${backend}/api/stores/${id}`, {
+        name,
+        location_id,
+        description,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error updating store:', error);
+      throw error;
+    }
+  },
 };
 
 export default StoreService;
