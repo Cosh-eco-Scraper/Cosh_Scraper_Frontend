@@ -1,26 +1,18 @@
-import { queryClient } from '@/config/queryClient';
-import { useMutation } from '@tanstack/react-query';
-import { UpdateResponse } from '@/domain/UpdateResponse';
-import { CreateStore } from '@/domain/Store';
-import StoreService from '@/service/StoreService';
-import { queryKeys } from '@/hooks/queryKeys';
+import {queryClient} from "@/config/queryClient";
 
 export default function useModifyStores() {
-  const {
-    mutate: createStore,
-    isSuccess: isSuccessCreateStore,
-    isError: isErrorCreateStore,
-  } = useMutation<UpdateResponse, unknown, CreateStore>({
-    mutationFn: (store: CreateStore) => StoreService.createStore(store),
-    onSuccess: async () => {
-      console.log('Store created successfully');
-      await queryClient.invalidateQueries({ queryKey: queryKeys.getAllStoresKey() });
-    },
-  });
+    const {mutate: createStore, isSuccess: isSuccessCreateStore, isError: isErrorCreateStore}
+        = useMutation<UpdateResponse>({
+        mutationFn: ({store}: { id: number, store: UpdateStore }) => StoreService.createStore(store),
+        onSuccess: () => {
+            console.log('Store created successfully')
+            queryClient.invalidateQueries({queryKey: queryKeys.getAllStoresKey()})
+        }
+    })
 
-  return {
-    createStore,
-    isSuccessCreateStore,
-    isErrorCreateStore,
-  };
+    return {
+        createStore,
+        isSuccessCreateStore,
+        isErrorCreateStore,
+    }
 }
