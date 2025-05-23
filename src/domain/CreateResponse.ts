@@ -1,4 +1,4 @@
 export type CreateResponse = {
-    id: number;
-    message: string;
+  id: number;
+  message: string;
 };
