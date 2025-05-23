@@ -5,3 +5,5 @@ export type OpeningHour = {
   closingAt: string;
   storeId?: number;
 };
+
+export type CreateOpeningHour = Omit<OpeningHour, 'id'>;
