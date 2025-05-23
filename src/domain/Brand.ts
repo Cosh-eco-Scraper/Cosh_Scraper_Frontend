@@ -1,9 +1,10 @@
 export type Brand = {
-  id: number;
-  name: string;
-  label: string;
+    id: number;
+    name: string;
+    label: string;
+    storeId: number;
 };
 
 export type UpdateBrand = {
-  name: string;
+    name: string;
 };
