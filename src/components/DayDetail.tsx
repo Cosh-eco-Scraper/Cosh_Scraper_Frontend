@@ -1,22 +1,37 @@
+import React from 'react';
+
 interface DayDetailProps {
   openingAt: string;
   closingAt: string;
   day: string;
-  onChange: (field: 'openingAt' | 'closingAt', value: string) => void;
+  onChange?: (openingAt: string, closingAt: string) => void;
+  readOnly?: boolean;
 }
 
-export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDetailProps) {
+export default function DayDetail({
+  openingAt,
+  closingAt,
+  day,
+  onChange = () => {},
+  readOnly,
+}: DayDetailProps) {
   const isClosed = openingAt === 'closed' || closingAt === 'closed';
 
   const handleToggleClosed = (e: React.ChangeEvent<HTMLInputElement>) => {
     const checked = e.target.checked;
     if (checked) {
-      onChange('openingAt', 'closed');
-      onChange('closingAt', 'closed');
+      onChange('closed', 'closed');
     } else {
-      onChange('openingAt', '09:00'); // or use previous value / placeholder
-      onChange('closingAt', '17:00');
+      onChange('09:00', '17:00');
     }
+  };
+
+  const handleOpeningChange = (value: string) => {
+    onChange(value, closingAt);
+  };
+
+  const handleClosingChange = (value: string) => {
+    onChange(openingAt, value);
   };
 
   return (
@@ -28,10 +43,11 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
           <input
             type="time"
             value={openingAt}
-            onChange={e => onChange('openingAt', e.target.value)}
+            onChange={e => handleOpeningChange(e.target.value)}
             className="w-full rounded border px-2 py-1 text-sm text-black"
             min="00:00"
             max="23:59"
+            readOnly={readOnly}
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
@@ -43,10 +59,11 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
           <input
             type="time"
             value={closingAt}
-            onChange={e => onChange('closingAt', e.target.value)}
+            onChange={e => handleClosingChange(e.target.value)}
             className="w-full rounded border px-2 py-1 text-sm text-black"
             min="00:00"
             max="23:59"
+            readOnly={readOnly}
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
@@ -59,6 +76,8 @@ export default function DayDetail({ openingAt, closingAt, day, onChange }: DayDe
           checked={isClosed}
           onChange={handleToggleClosed}
           className="cursor-pointer"
+          readOnly={readOnly}
+          disabled={readOnly}
         />
       </td>
     </tr>

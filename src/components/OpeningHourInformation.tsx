@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DayDetail from './DayDetail';
 import { OpeningHour } from '@/domain/OpeningHour';
 import ErrorMessage from './ErrorMessage';
@@ -8,6 +8,8 @@ interface OpeningHourInformationProps {
   error: Error | null;
   isError: boolean;
   openingHours?: OpeningHour[];
+  updateHour?: (openingHour: OpeningHour) => void;
+  readOnly?: boolean;
 }
 
 export default function OpeningHourInformation({
@@ -15,13 +17,9 @@ export default function OpeningHourInformation({
   error,
   isError,
   openingHours,
+  updateHour = () => {},
+  readOnly = false,
 }: OpeningHourInformationProps) {
-  const [, setHours] = useState<OpeningHour[]>(openingHours ?? []);
-
-  const updateHour = (day: string, field: 'openingAt' | 'closingAt', value: string) => {
-    setHours(prev => prev.map(hour => (hour.day === day ? { ...hour, [field]: value } : hour)));
-  };
-
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
   if (!openingHours) return <p>No opening hours found</p>;
@@ -42,11 +40,19 @@ export default function OpeningHourInformation({
         <tbody>
           {openingHours.map(hour => (
             <DayDetail
+              readOnly={readOnly}
               key={hour.id}
               day={hour.day}
               openingAt={hour.openingAt}
               closingAt={hour.closingAt}
-              onChange={(field, value) => updateHour(hour.day, field, value)}
+              onChange={(openingAt, closingAt) =>
+                updateHour({
+                  day: hour.day,
+                  openingAt,
+                  closingAt,
+                  id: hour.id,
+                })
+              }
             />
           ))}
         </tbody>

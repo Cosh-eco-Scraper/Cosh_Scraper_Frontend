@@ -6,7 +6,7 @@ import { OpeningHour } from '@/domain/OpeningHour';
 
 export default function useModifyOpeningHours() {
   const {
-    mutate: updateOpeningHours,
+    mutateAsync: updateOpeningHours,
     isSuccess: isSuccessUpdateOpeningHours,
     isError: isErrorUpdateOpeningHours,
   } = useMutation<void, unknown, OpeningHour[]>({

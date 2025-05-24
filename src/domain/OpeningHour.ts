@@ -3,7 +3,7 @@ export type OpeningHour = {
   day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
   openingAt: string;
   closingAt: string;
-  storeId: number;
+  storeId?: number;
 };
 
 export type CreateOpeningHour = Omit<OpeningHour, 'id'>;

@@ -3,6 +3,7 @@ import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
 import axiosInstance from '@/axiosInstance';
 import { UpdateResponse } from '@/domain/UpdateResponse';
+import { CreateResponse } from '@/domain/CreateResponse';
 
 const StoreService = {
   getAllStores: async () => {
@@ -55,8 +56,8 @@ const StoreService = {
   },
   createStore: async (store: CreateStore) => {
     try {
-      const response = await axiosInstance.put<UpdateStore, UpdateResponse>(`stores`, store);
-      return response;
+      const response = await axiosInstance.post(`stores`, store);
+      return response.data as CreateResponse;
     } catch (error) {
       console.error('Error fetching store by opening hours:', error);
       throw error;

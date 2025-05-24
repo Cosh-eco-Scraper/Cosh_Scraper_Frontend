@@ -7,7 +7,7 @@ import { queryKeys } from '@/hooks/queryKeys';
 
 export default function useModifyStore(id: number) {
   const {
-    mutate: updateStore,
+    mutateAsync: updateStore,
     isSuccess: isSuccessUpdateStore,
     isError: isErrorUpdateStore,
   } = useMutation<UpdateResponse, unknown, UpdateStore>({
