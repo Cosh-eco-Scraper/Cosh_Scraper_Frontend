@@ -90,22 +90,22 @@ export default function Info() {
   const updateStoreData = async () => {
     try {
       if (store) {
-        // Validate required fields
-        if (!formData.name || !formData.description) {
-          console.error('Missing required store fields:', formData);
-          setError('Store name and description are required.');
-        }
+        // // Validate required fields
+        // if (!formData.name || !formData.description) {
+        //   console.error('Missing required store fields:', formData);
+        //   setError('Store name and description are required.');
+        // }
 
-        if (
-          !locationFormData.street ||
-          !locationFormData.number ||
-          !locationFormData.postalCode ||
-          !locationFormData.city ||
-          !locationFormData.country
-        ) {
-          console.error('Missing required location fields:', locationFormData);
-          setError('All location fields are required.');
-        }
+        // if (
+        //   !locationFormData.street ||
+        //   !locationFormData.number ||
+        //   !locationFormData.postalCode ||
+        //   !locationFormData.city ||
+        //   !locationFormData.country
+        // ) {
+        //   console.error('Missing required location fields:', locationFormData);
+        //   setError('All location fields are required.');
+        // }
 
         // Update store information
         await updateStore({
