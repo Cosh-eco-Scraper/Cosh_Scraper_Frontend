@@ -31,5 +31,5 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} -t ${{ secrets.DOCKERHUB_USERNAME }}/cosh_scraper:frontend .
+          docker build --build-arg NEXT_PUBLIC_BACKEND_URL=${{ secrets.NEXT_PUBLIC_API_URL }} -t ${{ secrets.DOCKERHUB_USERNAME }}/cosh_scraper:frontend .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/cosh_scraper:frontend
