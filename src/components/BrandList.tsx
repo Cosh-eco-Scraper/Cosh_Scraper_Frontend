@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Brand } from '@/domain/Brand';
 import ErrorMessage from './ErrorMessage';
 import BrandChip from './BrandChip';
