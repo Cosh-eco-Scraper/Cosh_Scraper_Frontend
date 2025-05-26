@@ -40,6 +40,7 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
+  const [error, setError] = useState<string | null>(null);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
@@ -89,6 +90,26 @@ export default function Info() {
   const updateStoreData = async () => {
     try {
       if (store) {
+
+         // Validate required fields
+    if (!formData.name || !formData.description) {
+      console.error('Missing required store fields:', formData);
+      setError('Store name and description are required.');
+    }
+
+    if (
+      !locationFormData.street ||
+      !locationFormData.number ||
+      !locationFormData.postalCode ||
+      !locationFormData.city ||
+      !locationFormData.country
+    ) {
+      console.error('Missing required location fields:', locationFormData);
+     setError('All location fields are required.');
+    }
+
+
+
         // Update store information
         await updateStore({
           name: formData.name,
@@ -187,6 +208,12 @@ export default function Info() {
         <div className="flex justify-center p-2">
           <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
         </div>
+
+        {error && (
+          <div className="mt-4 text-center text-red-500">
+            <p>{error}</p>
+          </div>
+        )}
       </main>
     </div>
   );
