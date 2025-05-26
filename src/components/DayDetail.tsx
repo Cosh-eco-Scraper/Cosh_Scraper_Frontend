@@ -28,6 +28,13 @@ export default function DayDetail({
     }
   };
 
+  const toDateFromString = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+};
+
   const handleOpeningChange = (value: string | null) => {
     console.log('Opening change:', value);
     if (value) onChange(value, closingAt);
@@ -45,11 +52,9 @@ export default function DayDetail({
       <td className="px-4 py-2 text-black">
         {!isClosed ? (
           <TimePicker
-            value={openingAt}
+            value={toDateFromString(openingAt)}
             onChange={handleOpeningChange}
             format="hh:mm a"
-            minTime="00:00"
-            maxTime="23:59"
             clearIcon={null}
             disableClock={true}
             disabled={readOnly}
@@ -62,13 +67,11 @@ export default function DayDetail({
       <td className="px-4 py-2 text-black">
         {!isClosed ? (
           <TimePicker
-            value={closingAt}
+            value={toDateFromString(closingAt)}
             onChange={handleClosingChange}
             disableClock={true}
             clearIcon={null}
             format="hh:mm a"
-            minTime="00:00"
-            maxTime="23:59"
             disabled={readOnly}
           />
         ) : (
