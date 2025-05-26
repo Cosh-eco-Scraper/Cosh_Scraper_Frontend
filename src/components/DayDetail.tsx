@@ -1,4 +1,6 @@
 import React from 'react';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
 
 interface DayDetailProps {
   openingAt: string;
@@ -26,45 +28,51 @@ export default function DayDetail({
     }
   };
 
-  const handleOpeningChange = (value: string) => {
-    onChange(value, closingAt);
+  const handleOpeningChange = (value: string | null) => {
+    if (value) onChange(value, closingAt);
   };
 
-  const handleClosingChange = (value: string) => {
-    onChange(openingAt, value);
+  const handleClosingChange = (value: string | null) => {
+    if (value) onChange(openingAt, value);
   };
 
   return (
     <tr className="border-t border-gray-300">
       <td className="px-4 py-2 font-medium text-black">{day}</td>
 
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 text-black">
         {!isClosed ? (
-          <input
-            type="time"
+          <TimePicker
             value={openingAt}
-            onChange={e => handleOpeningChange(e.target.value)}
-            className="w-full rounded border px-2 py-1 text-sm text-black"
-            min="00:00"
-            max="23:59"
-            readOnly={readOnly}
+            onChange={handleOpeningChange}
+            disableClock
+            format="hh:mm a"
+            clearIcon={null}
+            className="custom-time-input"
+            disabled={readOnly}
+            locale="en-US"
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
         )}
       </td>
 
-      <td className="px-4 py-2">
-        {!isClosed ? (
-          <input
-            type="time"
+      <td className="px-4 py-2 text-black ">
+          {!isClosed ? (
+          <div className="py-2">
+
+          <TimePicker
             value={closingAt}
-            onChange={e => handleClosingChange(e.target.value)}
-            className="w-full rounded border px-2 py-1 text-sm text-black"
-            min="00:00"
-            max="23:59"
-            readOnly={readOnly}
+            onChange={handleClosingChange}
+            disableClock
+            format="hh:mm a"
+            clearIcon={null}
+            className="custom-time-input"
+            disabled={readOnly}
+            locale="en-US"
           />
+        </div>
+        
         ) : (
           <span className="text-gray-400 italic">Closed</span>
         )}
