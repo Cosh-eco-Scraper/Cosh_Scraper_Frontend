@@ -18,25 +18,25 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     useModifyStores();
 
   const onSubmit = async (data: CreateStore) => {
-     const { name, url, location } = data;
+    const { name, url, location } = data;
 
-  if (!name || !url || !location) {
-    console.error('Filled in fields:', {
-      name: !!name,
-      url: !!url,
-      city: !!location,
-    });
-    setError('Please fill in all fields.');
-    return; 
-  }
+    if (!name || !url || !location) {
+      console.error('Filled in fields:', {
+        name: !!name,
+        url: !!url,
+        city: !!location,
+      });
+      setError('Please fill in all fields.');
+      return;
+    }
 
-  try {
-    setError(null); 
-    await createStore(data);
-  } catch (err) {
-    console.error('create store failed', err);
-    setError('Something went wrong while creating the store.');
-  }
+    try {
+      setError(null);
+      await createStore(data);
+    } catch (err) {
+      console.error('create store failed', err);
+      setError('Something went wrong while creating the store.');
+    }
   };
   useEffect(() => {
     if (isPendingCreateStore) {
@@ -116,9 +116,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
           )}
 
-          {error && (
-            <p className="mt-4 text-center text-red-500">{error}</p>
-          )}
+          {error && <p className="mt-4 text-center text-red-500">{error}</p>}
         </form>
       </div>
     </div>
