@@ -29,10 +29,12 @@ export default function DayDetail({
   };
 
   const handleOpeningChange = (value: string | null) => {
+    console.log('Opening change:', value);
     if (value) onChange(value, closingAt);
   };
 
   const handleClosingChange = (value: string | null) => {
+    console.log('Closing change:', value);
     if (value) onChange(openingAt, value);
   };
 
@@ -46,10 +48,11 @@ export default function DayDetail({
             value={openingAt}
             onChange={handleOpeningChange}
             format="hh:mm a"
+            minTime="00:00"
+            maxTime="23:59"
             clearIcon={null}
             disableClock={true}
             disabled={readOnly}
-            locale="en-US"
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
@@ -58,15 +61,16 @@ export default function DayDetail({
 
       <td className="px-4 py-2 text-black">
         {!isClosed ? (
-            <TimePicker
-              value={closingAt}
-              onChange={handleClosingChange}
-              disableClock={true}
-              clearIcon={null}
-              format="hh:mm a"
-              disabled={readOnly}
-              locale="en-US"
-            />
+          <TimePicker
+            value={closingAt}
+            onChange={handleClosingChange}
+            disableClock={true}
+            clearIcon={null}
+            format="hh:mm a"
+            minTime="00:00"
+            maxTime="23:59"
+            disabled={readOnly}
+          />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
         )}
