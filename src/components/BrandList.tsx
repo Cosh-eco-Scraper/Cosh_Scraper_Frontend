@@ -11,18 +11,6 @@ interface BrandListProps {
 }
 
 export default function BrandList({ isLoading, error, brands, isError }: BrandListProps) {
-  const [brandList, setBrandList] = useState<Brand[]>([]);
-  const [modified, setModified] = useState(false);
-
-  const currentBrands = modified ? brandList : (brands ?? []);
-
-
-
-  const handleRemoveBrand = (id: string | number) => {
-    setBrandList(currentBrands.filter(b => b.id !== id));
-    setModified(true);
-  };
-
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
 
@@ -34,10 +22,7 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
 
       <div className="flex flex-wrap gap-3">
         {emptyBrands && <p className="text-sm text-gray-500">No brands added yet.</p>}
-        {!emptyBrands &&
-          brands.map(item => (
-            <BrandChip key={item.id} name={item.name}  />
-          ))}
+        {!emptyBrands && brands.map(item => <BrandChip key={item.id} name={item.name} />)}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 interface BrandChipProps {
   name: string;
-
 }
 
 export default function BrandChip({ name }: BrandChipProps) {
