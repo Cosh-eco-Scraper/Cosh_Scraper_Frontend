@@ -13,15 +13,30 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit } = useForm<CreateStore>();
+  const [error, setError] = useState<string | null>(null);
   const { createStore, isPendingCreateStore, isSuccessCreateStore, storeResponse } =
     useModifyStores();
 
   const onSubmit = async (data: CreateStore) => {
-    try {
-      await createStore(data);
-    } catch {
-      console.error('create store failed');
-    }
+     const { name, url, location } = data;
+
+  if (!name || !url || !location) {
+    console.error('Filled in fields:', {
+      name: !!name,
+      url: !!url,
+      city: !!location,
+    });
+    setError('Please fill in all fields.');
+    return; 
+  }
+
+  try {
+    setError(null); 
+    await createStore(data);
+  } catch (err) {
+    console.error('create store failed', err);
+    setError('Something went wrong while creating the store.');
+  }
   };
   useEffect(() => {
     if (isPendingCreateStore) {
@@ -99,6 +114,10 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
 
           {isLoading && (
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
+          )}
+
+          {error && (
+            <p className="mt-4 text-center text-red-500">{error}</p>
           )}
         </form>
       </div>
