@@ -1,4 +1,6 @@
 import React from 'react';
+import TimePicker from 'react-time-picker';
+import 'react-time-picker/dist/TimePicker.css';
 
 interface DayDetailProps {
   openingAt: string;
@@ -26,44 +28,51 @@ export default function DayDetail({
     }
   };
 
-  const handleOpeningChange = (value: string) => {
-    onChange(value, closingAt);
+  const toDateFromString = (time: string) => {
+    const [hours, minutes] = time.split(':').map(Number);
+    const date = new Date();
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+};
+
+  const handleOpeningChange = (value: string | null) => {
+    console.log('Opening change:', value);
+    if (value) onChange(value, closingAt);
   };
 
-  const handleClosingChange = (value: string) => {
-    onChange(openingAt, value);
+  const handleClosingChange = (value: string | null) => {
+    console.log('Closing change:', value);
+    if (value) onChange(openingAt, value);
   };
 
   return (
     <tr className="border-t border-gray-300">
       <td className="px-4 py-2 font-medium text-black">{day}</td>
 
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 text-black">
         {!isClosed ? (
-          <input
-            type="time"
-            value={openingAt}
-            onChange={e => handleOpeningChange(e.target.value)}
-            className="w-full rounded border px-2 py-1 text-sm text-black"
-            min="00:00"
-            max="23:59"
-            readOnly={readOnly}
+          <TimePicker
+            value={toDateFromString(openingAt)}
+            onChange={handleOpeningChange}
+            format="hh:mm a"
+            clearIcon={null}
+            disableClock={true}
+            disabled={readOnly}
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
         )}
       </td>
 
-      <td className="px-4 py-2">
+      <td className="px-4 py-2 text-black">
         {!isClosed ? (
-          <input
-            type="time"
-            value={closingAt}
-            onChange={e => handleClosingChange(e.target.value)}
-            className="w-full rounded border px-2 py-1 text-sm text-black"
-            min="00:00"
-            max="23:59"
-            readOnly={readOnly}
+          <TimePicker
+            value={toDateFromString(closingAt)}
+            onChange={handleClosingChange}
+            disableClock={true}
+            clearIcon={null}
+            format="hh:mm a"
+            disabled={readOnly}
           />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
