@@ -45,10 +45,9 @@ export default function DayDetail({
           <TimePicker
             value={openingAt}
             onChange={handleOpeningChange}
-            disableClock
             format="hh:mm a"
             clearIcon={null}
-            className="custom-time-input"
+            disableClock={true}
             disabled={readOnly}
             locale="en-US"
           />
@@ -57,22 +56,17 @@ export default function DayDetail({
         )}
       </td>
 
-      <td className="px-4 py-2 text-black ">
-          {!isClosed ? (
-          <div className="py-2">
-
-          <TimePicker
-            value={closingAt}
-            onChange={handleClosingChange}
-            disableClock
-            format="hh:mm a"
-            clearIcon={null}
-            className="custom-time-input"
-            disabled={readOnly}
-            locale="en-US"
-          />
-        </div>
-        
+      <td className="px-4 py-2 text-black">
+        {!isClosed ? (
+            <TimePicker
+              value={closingAt}
+              onChange={handleClosingChange}
+              disableClock={true}
+              clearIcon={null}
+              format="hh:mm a"
+              disabled={readOnly}
+              locale="en-US"
+            />
         ) : (
           <span className="text-gray-400 italic">Closed</span>
         )}
