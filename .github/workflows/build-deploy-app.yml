@@ -3,8 +3,8 @@ run-name: ${{ github.actor }} pushed to main — build Next.js and Docker image
 
 on:
   push:
-#    branches:
-#      - main
+    branches:
+      - main
 
 jobs:
   build_docker_image:
