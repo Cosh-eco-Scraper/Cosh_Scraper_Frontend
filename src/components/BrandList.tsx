@@ -22,7 +22,8 @@ export default function BrandList({ isLoading, error, brands, isError }: BrandLi
 
       <div className="flex flex-wrap gap-3">
         {emptyBrands && <p className="text-sm text-gray-500">No brands added yet.</p>}
-        {!emptyBrands && brands.map(item => <BrandChip key={item.id} name={item.name} label={item.label} />)}
+        {!emptyBrands &&
+          brands.map(item => <BrandChip key={item.id} name={item.name} label={item.label} />)}
       </div>
     </div>
   );
