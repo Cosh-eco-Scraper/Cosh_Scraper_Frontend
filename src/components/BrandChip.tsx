@@ -1,4 +1,4 @@
-import Label from "./Label";
+import Label from './Label';
 
 interface BrandChipProps {
   name: string;
