@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
+import Statement from './Statement';
+import StatementService from '@/service/StatementService';
+import { useInterval } from 'usehooks-ts'
+
 
 interface MyPopupProps {
   open: boolean;
@@ -11,8 +15,15 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
+  const [stateMent, setStateMent] = useState<string>('');
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+
+  const fetchStatement = async () => {
+      const statement = await StatementService.getRandomStatement();
+      setStateMent(statement); 
+
+  }
   const {
     register,
     formState: { errors },
@@ -50,6 +61,8 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       onClose();
     }
   };
+
+  useInterval(fetchStatement, 10000);
 
   return (
     <div
@@ -118,8 +131,11 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
             </button>
           </div>
 
-          {isLoading && (
+          {isLoading && !stateMent && (
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
+          )}
+          {isLoading && stateMent && (
+            <Statement stateMent={stateMent}/>
           )}
         </form>
       </div>
