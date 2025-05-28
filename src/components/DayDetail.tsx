@@ -33,7 +33,7 @@ export default function DayDetail({
     const date = new Date();
     date.setHours(hours, minutes, 0, 0);
     return date;
-};
+  };
 
   const handleOpeningChange = (value: string | null) => {
     console.log('Opening change:', value);
