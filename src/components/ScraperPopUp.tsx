@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
+import { ErrorMessage } from '@hookform/error-message';
 
 interface MyPopupProps {
   open: boolean;
@@ -12,15 +13,19 @@ interface MyPopupProps {
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit } = useForm<CreateStore>();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<CreateStore>();
   const { createStore, isPendingCreateStore, isSuccessCreateStore, storeResponse } =
     useModifyStores();
 
   const onSubmit = async (data: CreateStore) => {
     try {
       await createStore(data);
-    } catch {
-      console.error('create store failed');
+    } catch (err) {
+      console.error('create store failed', err);
     }
   };
   useEffect(() => {
@@ -58,28 +63,44 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
           <div>
             <label className="block text-sm font-medium text-gray-700">Name of store</label>
             <input
-              {...register('name')}
+              {...register('name', { required: 'Store name is required' })}
               type="text"
               className="border-black-300 mt-1 block w-full rounded-md border p-2 text-black placeholder-gray-400 shadow-sm"
               placeholder="Example store"
             />
+            <ErrorMessage
+              errors={errors}
+              name="name"
+              render={({ message }) => <p className="text-red-500">{message}</p>}
+            />
           </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700">City</label>
             <input
-              {...register('location')}
+              {...register('location', { required: 'City is required' })}
               type="text"
               className="mt-1 block w-full rounded-md border border-gray-300 p-2 text-black placeholder-gray-400 shadow-sm"
               placeholder="Eindhoven"
+            />
+            <ErrorMessage
+              errors={errors}
+              name="location"
+              render={({ message }) => <p className="text-red-500">{message}</p>}
             />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">URL</label>
             <input
-              {...register('url')}
+              {...register('url', { required: 'URL is required' })}
               type="text"
               className="mt-1 block w-full rounded-md border border-gray-300 p-2 text-black placeholder-gray-400 shadow-sm"
               placeholder="https://www.example.com"
+            />
+            <ErrorMessage
+              errors={errors}
+              name="url"
+              render={({ message }) => <p className="text-red-500">{message}</p>}
             />
           </div>
 
