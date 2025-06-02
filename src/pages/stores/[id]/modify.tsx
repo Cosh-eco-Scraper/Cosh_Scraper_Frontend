@@ -156,8 +156,12 @@ export default function Info() {
                   error={storeError}
                   store={store}
                   isError={isErrorStore}
-                  formData={{ name: formData.name, description: formData.description, retour: formData.retour }}
-                  onFieldChange={() => { }}
+                  formData={{
+                    name: formData.name,
+                    description: formData.description,
+                    retour: formData.retour,
+                  }}
+                  onFieldChange={() => {}}
                 />
               </div>
               <div>
