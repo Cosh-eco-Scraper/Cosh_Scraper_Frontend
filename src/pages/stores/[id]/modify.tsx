@@ -34,6 +34,7 @@ export default function Info() {
   const [formData, setFormData] = useState(() => ({
     name: '',
     description: '',
+    retour: '',
   }));
 
   const [isModified, setModified] = useState(false);
@@ -56,6 +57,7 @@ export default function Info() {
       setFormData({
         name: store.name ?? '',
         description: store.description ?? '',
+        retour: store.retour ?? '',
       });
 
       setLocationFormData({
@@ -93,6 +95,7 @@ export default function Info() {
         await updateStore({
           name: formData.name,
           description: formData.description,
+          retour: formData.retour,
         });
 
         // Update location information
@@ -153,8 +156,8 @@ export default function Info() {
                   error={storeError}
                   store={store}
                   isError={isErrorStore}
-                  formData={{ name: formData.name, description: formData.description }}
-                  onFieldChange={() => {}}
+                  formData={{ name: formData.name, description: formData.description, retour: formData.retour }}
+                  onFieldChange={() => { }}
                 />
               </div>
               <div>
