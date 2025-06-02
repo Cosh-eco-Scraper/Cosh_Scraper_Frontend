@@ -11,14 +11,13 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
-
   const eventSource = new EventSource('http://localhost:3001/api/stores');
 
-  eventSource.onmessage = (event) => {
+  eventSource.onmessage = event => {
     console.log('New message from server:', event.data);
   };
 
-  eventSource.onerror = (error) => {
+  eventSource.onerror = error => {
     console.error('EventSource failed:', error);
   };
 
@@ -27,7 +26,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       eventSource.close();
     };
   }, []);
-
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
