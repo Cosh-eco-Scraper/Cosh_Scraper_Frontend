@@ -2,6 +2,7 @@ export type Store = {
   id: number;
   name: string;
   description?: string;
+  retour: string;
   street: string;
   number: string;
   postalCode: string;
@@ -13,6 +14,7 @@ export type Store = {
 export type UpdateStore = {
   name: string;
   description?: string;
+  retour: string;
 };
 
 export type CreateStore = {
