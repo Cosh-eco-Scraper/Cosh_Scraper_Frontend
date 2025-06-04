@@ -147,59 +147,49 @@ export default function Info() {
             Disclaimer: Please fill out all information on this page in English.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="flex flex-col gap-6">
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <div>
-                <Description
-                  isLoading={isLoadingStore}
-                  error={storeError}
-                  store={store}
-                  isError={isErrorStore}
-                  formData={{
-                    name: formData.name,
-                    description: formData.description,
-                    retour: formData.retour,
-                  }}
-                  onFieldChange={() => {}}
-                />
-              </div>
-              <div>
-                <BrandList
-                  isLoading={isLoadingBrands}
-                  error={brandsError}
-                  isError={isErrorBrands}
-                  brands={brands}
-                />
-              </div>
-            </section>
-          </div>
-          <div className="flex flex-col gap-6">
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <LocationInformation
-                isLoading={isLoadingStore}
-                error={storeError}
-                isError={isErrorStore}
-                store={store}
-                formData={locationFormData}
-                onFieldChange={handleLocationChange}
-              />
-            </section>
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <OpeningHourInformation
-                isLoading={isLoadingOpeningHours}
-                error={openingHoursError}
-                isError={isOpeningHoursError}
-                updateHour={updateOpeningHour}
-                openingHours={openingHoursFormData}
-              />
-            </section>
-          </div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 pb-8">
+          <section className="rounded-2xl bg-white p-6 shadow-md flex flex-col gap-6">
+            <Description
+              isLoading={isLoadingStore}
+              error={storeError}
+              store={store}
+              isError={isErrorStore}
+              formData={{
+                name: formData.name,
+                description: formData.description,
+                retour: formData.retour,
+              }}
+              onFieldChange={() => { }}
+            />
+            <BrandList
+              isLoading={isLoadingBrands}
+              error={brandsError}
+              isError={isErrorBrands}
+              brands={brands}
+            />
+          </section>
+          <section className="rounded-2xl bg-white p-6 shadow-md flex flex-col gap-6">
+            <LocationInformation
+              isLoading={isLoadingStore}
+              error={storeError}
+              isError={isErrorStore}
+              store={store}
+              formData={locationFormData}
+              onFieldChange={handleLocationChange}
+            />
+            <OpeningHourInformation
+              isLoading={isLoadingOpeningHours}
+              error={openingHoursError}
+              isError={isOpeningHoursError}
+              updateHour={updateOpeningHour}
+              openingHours={openingHoursFormData}
+            />
+          </section>
         </div>
         <div className="flex justify-center p-2">
           <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
         </div>
-      </main>
-    </div>
+      </main >
+    </div >
   );
 }

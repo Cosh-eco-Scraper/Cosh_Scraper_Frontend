@@ -56,7 +56,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       onClick={handleBackgroundClick}
       className="bg-grey bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center"
     >
-      <div className="w-96 rounded bg-white p-6 shadow-lg">
+      <div className="w-[480px] rounded bg-white p-6 shadow-lg">
         <h2 className="mb-4 text-xl font-bold text-black">Join us</h2>
 
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
@@ -105,14 +105,14 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
           </div>
 
           <div className="flex justify-between">
-            <button type="submit" className="mt-4 rounded bg-green-500 px-4 py-2 text-white">
+            <button type="submit" className="bg-[#583AFF] hover:bg-[#2F007B] text-white font-semibold py-3 px-10 rounded-full text-lg transition mb-2">
               Submit
             </button>
 
             <button
               onClick={onClose}
               type="button"
-              className="padding-100 mt-4 rounded bg-blue-500 px-4 py-2 text-white"
+              className="bg-[#F16254] hover:bg-[#ff5858] text-white font-semibold py-3 px-10 rounded-full text-lg transition mb-2"
             >
               Close
             </button>
