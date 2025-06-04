@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
+import { receiveMessages } from '@/middelware/rabbitMQ';
 
 interface MyPopupProps {
   open: boolean;
@@ -11,21 +12,7 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
-  const eventSource = new EventSource('http://localhost:3001/api/stores');
 
-  eventSource.onmessage = event => {
-    console.log('New message from server:', event.data);
-  };
-
-  eventSource.onerror = error => {
-    console.error('EventSource failed:', error);
-  };
-
-  useEffect(() => {
-    return () => {
-      eventSource.close();
-    };
-  }, []);
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +34,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   useEffect(() => {
     if (isPendingCreateStore) {
       setIsLoading(true);
+      receiveMessages();
     } else {
       setIsLoading(false);
     }
