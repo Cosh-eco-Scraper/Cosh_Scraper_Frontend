@@ -12,8 +12,6 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
-
-
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const {
