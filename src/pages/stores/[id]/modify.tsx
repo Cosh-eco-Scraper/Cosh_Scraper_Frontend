@@ -147,8 +147,8 @@ export default function Info() {
             Disclaimer: Please fill out all information on this page in English.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 pb-8">
-          <section className="rounded-2xl bg-white p-6 shadow-md flex flex-col gap-6">
+        <div className="grid grid-cols-1 gap-6 pb-8 md:grid-cols-2">
+          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <Description
               isLoading={isLoadingStore}
               error={storeError}
@@ -159,7 +159,7 @@ export default function Info() {
                 description: formData.description,
                 retour: formData.retour,
               }}
-              onFieldChange={() => { }}
+              onFieldChange={() => {}}
             />
             <BrandList
               isLoading={isLoadingBrands}
@@ -168,7 +168,7 @@ export default function Info() {
               brands={brands}
             />
           </section>
-          <section className="rounded-2xl bg-white p-6 shadow-md flex flex-col gap-6">
+          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <LocationInformation
               isLoading={isLoadingStore}
               error={storeError}
@@ -189,7 +189,7 @@ export default function Info() {
         <div className="flex justify-center p-2">
           <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
         </div>
-      </main >
-    </div >
+      </main>
+    </div>
   );
 }

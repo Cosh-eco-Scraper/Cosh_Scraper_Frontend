@@ -17,7 +17,7 @@ export default function OpeningHourInformation({
   error,
   isError,
   openingHours,
-  updateHour = () => { },
+  updateHour = () => {},
   readOnly = false,
 }: OpeningHourInformationProps) {
   if (isLoading) return <p>Loading...</p>;

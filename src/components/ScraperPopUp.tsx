@@ -105,14 +105,17 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
           </div>
 
           <div className="flex justify-between">
-            <button type="submit" className="bg-[#583AFF] hover:bg-[#2F007B] text-white font-semibold py-3 px-10 rounded-full text-lg transition mb-2">
+            <button
+              type="submit"
+              className="mb-2 rounded-full bg-[#583AFF] px-10 py-3 text-lg font-semibold text-white transition hover:bg-[#2F007B]"
+            >
               Submit
             </button>
 
             <button
               onClick={onClose}
               type="button"
-              className="bg-[#F16254] hover:bg-[#ff5858] text-white font-semibold py-3 px-10 rounded-full text-lg transition mb-2"
+              className="mb-2 rounded-full bg-[#F16254] px-10 py-3 text-lg font-semibold text-white transition hover:bg-[#ff5858]"
             >
               Close
             </button>
