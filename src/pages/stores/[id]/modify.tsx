@@ -159,7 +159,7 @@ export default function Info() {
                 description: formData.description,
                 retour: formData.retour,
               }}
-              onFieldChange={() => { }}
+              onFieldChange={() => {}}
             />
             <BrandList
               isLoading={isLoadingBrands}
