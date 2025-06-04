@@ -41,7 +41,7 @@ export default function Home() {
             easier than ever before.
             <br />
             <br />
-            Our platform provides detailed insights into stores' sustainability practices, ethical
+            Our platform provides detailed insights into stores&apos; sustainability practices, ethical
             certifications, and brand transparency. We help you make informed decisions about your
             fashion choices while supporting businesses that care about our planet.
           </div>
