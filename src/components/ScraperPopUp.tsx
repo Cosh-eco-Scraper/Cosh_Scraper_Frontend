@@ -14,7 +14,7 @@ interface MyPopupProps {
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const router = useRouter();
 
-  const [progress, setProgress] = useState("");
+  const [progress, setProgress] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -32,12 +32,12 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       console.error('create store failed', err);
     }
   };
-useEffect(() => {
-  if (isPendingCreateStore) {
-    setIsLoading(true);
-  } else {
-    setIsLoading(false);
-  }
+  useEffect(() => {
+    if (isPendingCreateStore) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
     console.log('Success:', isSuccessCreateStore, 'Response:', storeResponse);
 
     if (isSuccessCreateStore && storeResponse?.id) {
@@ -55,10 +55,10 @@ useEffect(() => {
   };
 
   const ws = new WebSocket('ws://localhost:3002');
-  ws.onmessage = (event) => {
+  ws.onmessage = event => {
     setProgress(event.data);
-};
-  
+  };
+
   return (
     <div
       onClick={handleBackgroundClick}
@@ -129,9 +129,7 @@ useEffect(() => {
           {isLoading && (
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
           )}
-          {progress && (
-            <p className="mt-4 text-center font-medium text-gray-600">{progress}</p>
-          )}
+          {progress && <p className="mt-4 text-center font-medium text-gray-600">{progress}</p>}
         </form>
       </div>
     </div>
