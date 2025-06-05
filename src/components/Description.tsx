@@ -10,8 +10,9 @@ interface DescriptionProps {
   formData?: {
     name: string;
     description: string;
+    retour: string;
   };
-  onFieldChange?: (field: 'name' | 'description', value: string) => void;
+  onFieldChange?: (field: 'name' | 'description' | 'retour', value: string) => void;
 }
 
 export default function Description({
@@ -43,6 +44,14 @@ export default function Description({
         onChange={e => (onFieldChange || (() => {}))('description', e.target.value)}
         className="mb-1.5 h-36 w-full resize-none rounded border px-3 py-2 text-sm text-black placeholder-gray-400 shadow"
         placeholder="Enter store description"
+      />
+      <h2 className="mt-6 mb-4 text-xl font-semibold text-black">Return Policy</h2>
+      <textarea
+        value={formData?.retour || store.retour}
+        onChange={e => (onFieldChange || (() => {}))('retour', e.target.value)}
+        readOnly={readOnly}
+        className="mb-1.5 h-24 w-full resize-none rounded border px-3 py-2 text-sm text-black placeholder-gray-400 shadow"
+        placeholder="Enter return policy"
       />
     </div>
   );
