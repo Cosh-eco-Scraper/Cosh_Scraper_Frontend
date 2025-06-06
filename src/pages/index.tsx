@@ -51,13 +51,11 @@ export default function Home() {
             reliable and balanced way.
             <br />
             <br />
+          </div>
+          <div className="min-w-[260px] flex-1 rounded-lg bg-white p-6 text-sm text-gray-800 shadow-md">
             Our platform provides detailed insights into stores&apos; sustainability practices,
             ethical certifications, and brand transparency. We help you make informed decisions
             about your fashion choices while supporting businesses that care about our planet.
-          </div>
-          <div className="min-w-[260px] flex-1 rounded-lg bg-white p-6 text-sm text-gray-800 shadow-md">
-            Join our growing community of responsible retailers and conscious consumers who are
-            making a positive impact on the fashion industry, one purchase at a time.
           </div>
         </div>
       </div>
