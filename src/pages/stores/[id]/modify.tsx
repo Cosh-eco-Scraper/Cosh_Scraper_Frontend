@@ -34,6 +34,7 @@ export default function Info() {
   const [formData, setFormData] = useState(() => ({
     name: '',
     description: '',
+    retour: '',
   }));
 
   const [isModified, setModified] = useState(false);
@@ -56,6 +57,7 @@ export default function Info() {
       setFormData({
         name: store.name ?? '',
         description: store.description ?? '',
+        retour: store.retour ?? '',
       });
 
       setLocationFormData({
@@ -93,6 +95,7 @@ export default function Info() {
         await updateStore({
           name: formData.name,
           description: formData.description,
+          retour: formData.retour,
         });
 
         // Update location information
@@ -139,50 +142,49 @@ export default function Info() {
         </div>
       </header>
       <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-10">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="flex flex-col gap-6">
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <div>
-                <Description
-                  isLoading={isLoadingStore}
-                  error={storeError}
-                  store={store}
-                  isError={isErrorStore}
-                  formData={{ name: formData.name, description: formData.description }}
-                  onFieldChange={() => {}}
-                />
-              </div>
-              <div>
-                <BrandList
-                  isLoading={isLoadingBrands}
-                  error={brandsError}
-                  isError={isErrorBrands}
-                  brands={brands}
-                />
-              </div>
-            </section>
-          </div>
-          <div className="flex flex-col gap-6">
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <LocationInformation
-                isLoading={isLoadingStore}
-                error={storeError}
-                isError={isErrorStore}
-                store={store}
-                formData={locationFormData}
-                onFieldChange={handleLocationChange}
-              />
-            </section>
-            <section className="rounded-2xl bg-white p-6 shadow-md">
-              <OpeningHourInformation
-                isLoading={isLoadingOpeningHours}
-                error={openingHoursError}
-                isError={isOpeningHoursError}
-                updateHour={updateOpeningHour}
-                openingHours={openingHoursFormData}
-              />
-            </section>
-          </div>
+        <div>
+          <p className="flex justify-center p-2 text-black">
+            Disclaimer: Please fill out all information on this page in English.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 gap-6 pb-8 md:grid-cols-2">
+          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+            <Description
+              isLoading={isLoadingStore}
+              error={storeError}
+              store={store}
+              isError={isErrorStore}
+              formData={{
+                name: formData.name,
+                description: formData.description,
+                retour: formData.retour,
+              }}
+              onFieldChange={() => {}}
+            />
+            <BrandList
+              isLoading={isLoadingBrands}
+              error={brandsError}
+              isError={isErrorBrands}
+              brands={brands}
+            />
+          </section>
+          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+            <LocationInformation
+              isLoading={isLoadingStore}
+              error={storeError}
+              isError={isErrorStore}
+              store={store}
+              formData={locationFormData}
+              onFieldChange={handleLocationChange}
+            />
+            <OpeningHourInformation
+              isLoading={isLoadingOpeningHours}
+              error={openingHoursError}
+              isError={isOpeningHoursError}
+              updateHour={updateOpeningHour}
+              openingHours={openingHoursFormData}
+            />
+          </section>
         </div>
         <div className="flex justify-center p-2">
           <CoshButton onClick={handleSubmit}>Submit data</CoshButton>

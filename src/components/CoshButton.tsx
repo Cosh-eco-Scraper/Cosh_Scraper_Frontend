@@ -9,7 +9,7 @@ export default function CoshButton({ onClick, children }: CoshButtonProps) {
   return (
     <button
       onClick={onClick}
-      className="font-inter h-[60px] w-fit rounded-[45px] bg-[#583AFF] p-3 font-medium text-[#FBF6F0] transition-shadow hover:shadow-lg"
+      className="mb-2 rounded-full bg-[#6C4CFF] px-10 py-3 text-lg font-semibold text-white transition hover:bg-[#2F007B]"
     >
       {children}
     </button>
