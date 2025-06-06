@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
+// import { receiveMessages } from '@/middelware/rabbitMQ';
 
 interface MyPopupProps {
   open: boolean;
@@ -12,6 +13,9 @@ interface MyPopupProps {
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const router = useRouter();
+
+  const [progress, setProgress] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -34,7 +38,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     } else {
       setIsLoading(false);
     }
-
     console.log('Success:', isSuccessCreateStore, 'Response:', storeResponse);
 
     if (isSuccessCreateStore && storeResponse?.id) {
@@ -49,6 +52,11 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     if (e.target === e.currentTarget) {
       onClose();
     }
+  };
+
+  const ws = new WebSocket('ws://localhost:3002');
+  ws.onmessage = event => {
+    setProgress(event.data);
   };
 
   return (
@@ -124,6 +132,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
           {isLoading && (
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
           )}
+          {progress && <p className="mt-4 text-center font-medium text-gray-600">{progress}</p>}
         </form>
       </div>
     </div>
