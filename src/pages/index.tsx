@@ -26,7 +26,7 @@ export default function Home() {
           </div>
           <div className="flex flex-1 flex-col items-center justify-center">
             <h1 className="mb-6 text-center text-3xl font-bold text-[583AFF] md:text-4xl">
-             Welcome to COSH!
+              Welcome to COSH!
             </h1>
             <p className="mt-4 mb-3 max-w-2xl text-lg text-[#FBF6F0]">
               COSH! is your ultimate destination for sustainable and ethical fashion discovery. We
@@ -34,12 +34,11 @@ export default function Home() {
               easier than ever before.
             </p>
 
+            <p className="mb-6 max-w-2xl text-lg text-[#FBF6F0]">
+              Join our growing community of responsible retailers and conscious consumers who are
+              making a positive impact on the fashion industry, one purchase at a time.
+            </p>
 
-          <p className="mb-6 max-w-2xl text-lg text-[#FBF6F0]">
-            Join our growing community of responsible retailers and conscious consumers who are making
-            a positive impact on the fashion industry, one purchase at a time.
-          </p>
-                    
             <CoshButton onClick={() => setIsPopupOpen(true)}>Register your store now!</CoshButton>
             {isPopupOpen && (
               <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
@@ -48,7 +47,8 @@ export default function Home() {
         </div>
         <div className="absolute -bottom-40 left-[15%] z-30 flex w-full max-w-4xl -translate-x-1/6 flex-row gap-32 px-4">
           <div className="min-w-[260px] flex-1 rounded-lg bg-white p-6 text-sm text-gray-800 shadow-md">
-           As a retailer, it can be challenging to communicate your sustainable actions in a reliable and balanced way. 
+            As a retailer, it can be challenging to communicate your sustainable actions in a
+            reliable and balanced way.
             <br />
             <br />
             Our platform provides detailed insights into stores&apos; sustainability practices,
@@ -61,11 +61,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="z-10 w-full flex-1 bg-white" style={{ minHeight: '40vh' }}>
-
-
-        
-      </div>
+      <div className="z-10 w-full flex-1 bg-white" style={{ minHeight: '40vh' }}></div>
     </div>
   );
 }
