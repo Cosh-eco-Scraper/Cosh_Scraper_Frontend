@@ -159,7 +159,12 @@ export default function Info() {
                 description: formData.description,
                 retour: formData.retour,
               }}
-              onFieldChange={() => {}}
+             onFieldChange={(field, value) =>
+                setFormData(prev => ({
+                  ...prev,
+                  [field]: value,
+                }))
+            }
             />
             <BrandList
               isLoading={isLoadingBrands}
