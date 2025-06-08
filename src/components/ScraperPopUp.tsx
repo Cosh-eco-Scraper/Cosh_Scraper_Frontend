@@ -6,7 +6,6 @@ import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
 import Statement from './Statement';
 import StatementService from '@/service/StatementService';
-import { useInterval } from 'usehooks-ts';
 
 interface MyPopupProps {
   open: boolean;
