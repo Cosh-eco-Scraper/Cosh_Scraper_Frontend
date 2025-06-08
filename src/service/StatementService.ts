@@ -18,10 +18,10 @@ const getAllStatements = async (): Promise<string[]> => {
     console.error('Error fetching all statements:', error);
     throw error;
   }
-}
+};
 
 const StatementService = {
-  getAllStatements
+  getAllStatements,
 };
 
 export default StatementService;
