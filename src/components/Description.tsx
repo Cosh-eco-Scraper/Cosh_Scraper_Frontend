@@ -50,7 +50,7 @@ export default function Description({
 
       <h2 className="mb-4 text-xl font-semibold text-black">Description</h2>
       {readOnly ? (
-        <p className="mb-1.5 w-full rounded px-3 py-2 text-sm text-black placeholder-gray-400 shadow whitespace-pre-wrap">
+        <p className="mb-1.5 w-full rounded px-3 py-2 text-sm whitespace-pre-wrap text-black placeholder-gray-400 shadow">
           {descriptionValue}
         </p>
       ) : (
@@ -64,7 +64,7 @@ export default function Description({
 
       <h2 className="mt-6 mb-4 text-xl font-semibold text-black">Return Policy</h2>
       {readOnly ? (
-        <p className="mb-1.5 w-full rounded px-3 py-2 text-sm text-black placeholder-gray-400 shadow whitespace-pre-wrap">
+        <p className="mb-1.5 w-full rounded px-3 py-2 text-sm whitespace-pre-wrap text-black placeholder-gray-400 shadow">
           {retourValue}
         </p>
       ) : (

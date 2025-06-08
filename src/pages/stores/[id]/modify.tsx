@@ -82,7 +82,7 @@ export default function Info() {
     if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation, isSuccessUpdateOpeningHours, isSuccessUpdateStore, isModified]);
+  }, [isSuccessUpdateLocation, isSuccessUpdateOpeningHours, isSuccessUpdateStore, isModified, router, storeId]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
@@ -91,14 +91,13 @@ export default function Info() {
   const updateStoreData = async () => {
     try {
       if (store) {
-        // Update store information
+        
         await updateStore({
           name: formData.name,
           description: formData.description,
           retour: formData.retour,
         });
 
-        // Update location information
         await updateLocation({
           street: locationFormData.street,
           number: locationFormData.number,
@@ -107,7 +106,6 @@ export default function Info() {
           country: locationFormData.country,
         });
 
-        // Update opening hours if modified
         if (openingHoursFormData && openingHoursFormData.length > 0) {
           await updateOpeningHours(openingHoursFormData);
         }

@@ -9,7 +9,7 @@ export default function Home() {
     <div className="relative flex min-h-screen flex-col">
       {/* Purple section */}
       <div className="relative bg-[#060026] pb-32">
-        <div className="relative z-20 flex w-full max-w-6xl mx-auto flex-col items-center pt-16">
+        <div className="relative z-20 mx-auto flex w-full max-w-6xl flex-col items-center pt-16">
           <div className="flex w-full flex-row items-center justify-center">
             <div className="flex flex-1 justify-center">
               <div className="flex h-[180px] w-[320px] items-center justify-center rounded-md bg-[#E5E5E5]">
@@ -46,18 +46,18 @@ export default function Home() {
       </div>
 
       {/* White section */}
-      <div className="relative bg-white pt-32 pb-16 flex-1">
+      <div className="relative flex-1 bg-white pt-32 pb-16">
         {/* Overlapping cards positioned between purple and white sections */}
-        <div className="absolute -top-16 left-1/2 transform -translate-x-1/2 z-30 flex w-full max-w-4xl flex-row gap-8 px-4">
-          <div className="flex-1 rounded-lg bg-white p-6 text-sm text-gray-800 shadow-lg border border-gray-100">
+        <div className="absolute -top-16 left-1/2 z-30 flex w-full max-w-4xl -translate-x-1/2 transform flex-row gap-8 px-4">
+          <div className="flex-1 rounded-lg border border-gray-100 bg-white p-6 text-sm text-gray-800 shadow-lg">
             As a retailer, it can be challenging to communicate your sustainable actions in a
             reliable and balanced way.
             <br />
             <br />
-            Our platform provides detailed insights into stores' sustainability practices,
-            ethical certifications, and brand transparency.
+            Our platform provides detailed insights into stores sustainability practices, ethical
+            certifications, and brand transparency.
           </div>
-          <div className="flex-1 rounded-lg bg-white p-6 text-sm text-gray-800 shadow-lg border border-gray-100">
+          <div className="flex-1 rounded-lg border border-gray-100 bg-white p-6 text-sm text-gray-800 shadow-lg">
             Join our growing community of responsible retailers and conscious consumers who are
             making a positive impact on the fashion industry, one purchase at a time.
             <br />
@@ -73,7 +73,7 @@ export default function Home() {
 
       {/* Popup Modal */}
       {isPopupOpen && (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black bg-opacity-30">
+        <div className="bg-opacity-30 fixed inset-0 z-[9999] flex items-center justify-center bg-black">
           <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
         </div>
       )}
