@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
 import Statement from './Statement';
 import StatementService from '@/service/StatementService';
+import  {useInterval}  from 'usehooks-ts'
 
 interface MyPopupProps {
   open: boolean;
@@ -14,28 +15,16 @@ interface MyPopupProps {
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const [stateMent, setStateMent] = useState<string>('');
+  const [statementIndex, setStatementIndex] = useState(0);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchStatement = async () => {
-    try {
-      const statements = await StatementService.getAllStatements();
-
-      let index = 0;
-
-      const displayNextStatement = () => {
-        if (index < statements.length) {
-          const statement = statements[index];
-          console.log('statement:', statement);
-          setStateMent(statement || JSON.stringify(statement)); // Render the text or stringify the object
-          index++;
-          setTimeout(displayNextStatement, 10000); // Wait 10 seconds before showing the next statement
-        }
-      };
-
-      displayNextStatement(); // Start displaying the statements
-    } catch (error) {
-      console.error('Error fetching statement:', error);
+    const stateMents = await StatementService.getAllStatements();
+    if (stateMents.length > 0) {
+      const current = stateMents[statementIndex % stateMents.length];
+      setStateMent(current.statement);
+      setStatementIndex(prev => prev + 1);
     }
   };
 
@@ -77,9 +66,12 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-  useEffect(() => {
-    fetchStatement();
-  }, []);
+useInterval(() => {
+  fetchStatement();
+}, 10000);
+useEffect(() => {
+  fetchStatement(); // Show the first statement immediately
+}, []);
 
   return (
     <div

@@ -10,7 +10,7 @@ import axiosInstance from '@/axiosInstance';
 //   }
 // };
 
-const getAllStatements = async (): Promise<string[]> => {
+const getAllStatements = async () => {
   try {
     const response = await axiosInstance.get('statements');
     return response.data;

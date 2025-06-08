@@ -1,5 +1,5 @@
 interface StatementProps {
-  stateMent?: string;
+  stateMent: string;
 }
 
 export default function Statement(props: StatementProps) {
