@@ -6,7 +6,7 @@ import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
 import Statement from './Statement';
 import StatementService from '@/service/StatementService';
-import  {useInterval}  from 'usehooks-ts'
+import { useInterval } from 'usehooks-ts';
 
 interface MyPopupProps {
   open: boolean;
@@ -66,12 +66,12 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-useInterval(() => {
-  fetchStatement();
-}, 10000);
-useEffect(() => {
-  fetchStatement(); // Show the first statement immediately
-}, []);
+  useInterval(() => {
+    fetchStatement();
+  }, 10000);
+  useEffect(() => {
+    fetchStatement(); // Show the first statement immediately
+  }, []);
 
   return (
     <div
