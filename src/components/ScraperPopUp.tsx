@@ -19,9 +19,27 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchStatement = async () => {
-    const statement = await StatementService.getRandomStatement();
-    setStateMent(statement);
+    try {
+      const statements = await StatementService.getAllStatements();
+
+      let index = 0;
+
+      const displayNextStatement = () => {
+        if (index < statements.length) {
+          const statement = statements[index];
+          console.log('statement:', statement);
+          setStateMent(statement || JSON.stringify(statement)); // Render the text or stringify the object
+          index++;
+          setTimeout(displayNextStatement, 10000); // Wait 10 seconds before showing the next statement
+        }
+      };
+
+      displayNextStatement(); // Start displaying the statements
+    } catch (error) {
+      console.error('Error fetching statement:', error);
+    }
   };
+
   const {
     register,
     formState: { errors },
@@ -60,7 +78,9 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-  useInterval(fetchStatement, 10000);
+  useEffect(() => {
+    fetchStatement();
+  }, []);
 
   return (
     <div
