@@ -9,6 +9,7 @@ import useModifyLocation from '@/hooks/location/useModifyLocation';
 import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
+import TypeList from '@/components/TypeList';
 import { OpeningHour } from '@/domain/OpeningHour';
 
 export default function Info() {
@@ -20,6 +21,7 @@ export default function Info() {
     openingHours,
     store,
     brands,
+    types,
     storeError,
     isErrorBrands,
     isLoadingBrands,
@@ -27,6 +29,9 @@ export default function Info() {
     isLoadingOpeningHours,
     isLoadingStore,
     isOpeningHoursError,
+    isErrorTypes,
+    typesError,
+    isLoadingTypes,
     brandsError,
     openingHoursError,
   } = useStore(storeId);
@@ -159,7 +164,7 @@ export default function Info() {
                 description: formData.description,
                 retour: formData.retour,
               }}
-              onFieldChange={() => {}}
+              onFieldChange={() => { }}
             />
             <BrandList
               isLoading={isLoadingBrands}
@@ -169,6 +174,12 @@ export default function Info() {
             />
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+            <TypeList
+              types={types}
+              isLoading={isLoadingTypes}
+              isError={isErrorTypes}
+              error={typesError}
+            />
             <LocationInformation
               isLoading={isLoadingStore}
               error={storeError}

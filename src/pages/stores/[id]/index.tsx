@@ -7,6 +7,7 @@ import LocationInformation from '@/components/LocationInformation';
 import OpeningHourInformation from '@/components/OpeningHourInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
+import TypeList from '@/components/TypeList';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -26,6 +27,10 @@ export default function StoreOverview() {
     isOpeningHoursError,
     brandsError,
     openingHoursError,
+    types,
+    isLoadingTypes,
+    isErrorTypes,
+    typesError,
   } = useStore(storeId);
 
   return (
@@ -56,6 +61,12 @@ export default function StoreOverview() {
           </section>
           {/* Right column: one card containing LocationInformation and OpeningHourInformation */}
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+            <TypeList
+              types={types}
+              isLoading={isLoadingTypes}
+              isError={isErrorTypes}
+              error={typesError}
+            />
             <LocationInformation
               isLoading={isLoadingStore}
               error={storeError}
