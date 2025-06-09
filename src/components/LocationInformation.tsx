@@ -45,7 +45,7 @@ export default function LocationInformation({
       <h2 className="mb-4 text-xl font-semibold text-black">Location</h2>
 
       {readOnly ? (
-        <p className="w-full rounded px-3 py-2 text-sm text-black shadow whitespace-pre-wrap">
+        <p className="w-full rounded px-3 py-2 text-sm whitespace-pre-wrap text-black shadow">
           {locationString}
         </p>
       ) : (

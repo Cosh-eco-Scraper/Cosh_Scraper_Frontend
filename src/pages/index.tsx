@@ -27,7 +27,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-1 flex-col items-center justify-center">
-              <h1 className="mb-6 text-center text-3xl font-bold text-[#583AFF] md:text-4xl">
+              <h1 className="mb-6 text-center text-3xl font-bold md:text-4xl">
                 Welcome to COSH!
               </h1>
               <p className="mt-4 mb-3 max-w-2xl text-lg text-[#FBF6F0]">
@@ -40,6 +40,7 @@ export default function Home() {
                 making a positive impact on the fashion industry, one purchase at a time.
               </p>
               <CoshButton onClick={() => setIsPopupOpen(true)}>Register your store now!</CoshButton>
+              
             </div>
           </div>
         </div>
@@ -47,7 +48,6 @@ export default function Home() {
 
       {/* White section */}
       <div className="relative flex-1 bg-white pt-32 pb-16">
-        {/* Overlapping cards positioned between purple and white sections */}
         <div className="absolute -top-16 left-1/2 z-30 flex w-full max-w-4xl -translate-x-1/2 transform flex-row gap-8 px-4">
           <div className="flex-1 rounded-lg border border-gray-100 bg-white p-6 text-sm text-gray-800 shadow-lg">
             As a retailer, it can be challenging to communicate your sustainable actions in a
@@ -67,16 +67,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Placeholder for additional content */}
-        <div className="pt-20">{/* Add any extra content here */}</div>
-      </div>
 
-      {/* Popup Modal */}
-      {isPopupOpen && (
-        <div className="bg-opacity-30 fixed inset-0 z-[9999] flex items-center justify-center bg-black">
-          <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-        </div>
-      )}
-    </div>
+      </div>
+       {isPopupOpen && (
+                <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
+              )}</div>
+     
   );
 }

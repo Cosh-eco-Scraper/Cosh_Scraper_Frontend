@@ -82,7 +82,7 @@ export default function Info() {
     if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation, isSuccessUpdateOpeningHours, isSuccessUpdateStore, isModified, router, storeId]);
+  }, [isSuccessUpdateLocation,isSuccessUpdateOpeningHours,isSuccessUpdateStore,isModified,router,storeId]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
@@ -91,7 +91,6 @@ export default function Info() {
   const updateStoreData = async () => {
     try {
       if (store) {
-        
         await updateStore({
           name: formData.name,
           description: formData.description,
@@ -157,12 +156,7 @@ export default function Info() {
                 description: formData.description,
                 retour: formData.retour,
               }}
-              onFieldChange={(field, value) =>
-                setFormData(prev => ({
-                  ...prev,
-                  [field]: value,
-                }))
-              }
+              onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
             />
             <BrandList
               isLoading={isLoadingBrands}
