@@ -54,7 +54,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
 
   const progress = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
 
-
   return (
     <div
       onClick={handleBackgroundClick}
