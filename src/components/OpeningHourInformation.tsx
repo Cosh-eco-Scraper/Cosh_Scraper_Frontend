@@ -26,7 +26,7 @@ export default function OpeningHourInformation({
 
   return (
     <>
-      <h2 className="mb-4 text-xl font-semibold text-black">Opening Hours</h2>
+      <h2 className="text-xl font-semibold text-black">Opening Hours</h2>
       <table className="w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
