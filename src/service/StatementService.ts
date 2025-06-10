@@ -1,6 +1,5 @@
 import axiosInstance from '@/axiosInstance';
 
-
 const getAllStatements = async () => {
   try {
     const response = await axiosInstance.get('statements');
