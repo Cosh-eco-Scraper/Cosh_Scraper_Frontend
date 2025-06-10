@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export function useWebSocket(url: string) {
   const [data, setData] = useState<string | null>(null);
