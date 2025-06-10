@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
-// import { receiveMessages } from '@/middelware/rabbitMQ';
+import { useWebSocket } from '@/hooks/websocket/useWebSocket';
 
 interface MyPopupProps {
   open: boolean;
@@ -13,8 +13,6 @@ interface MyPopupProps {
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const router = useRouter();
-
-  const [progress, setProgress] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -54,10 +52,8 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-  const ws = new WebSocket('ws://localhost:3002');
-  ws.onmessage = event => {
-    setProgress(event.data);
-  };
+  const progress = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
+
 
   return (
     <div
