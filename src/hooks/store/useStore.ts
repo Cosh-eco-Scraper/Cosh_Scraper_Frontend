@@ -36,6 +36,17 @@ export default function useStore(id: number) {
     enabled: !!id,
   });
 
+  const {
+    data: types,
+    isLoading: isLoadingTypes,
+    error: typesError,
+    isError: isErrorTypes,
+  } = useQuery({
+    queryKey: queryKeys.getStoreTypesKey(id),
+    queryFn: () => StoreService.getStoreTypes(id),
+    enabled: !!id,
+  });
+
   return {
     store,
     isLoadingStore,
@@ -49,5 +60,9 @@ export default function useStore(id: number) {
     isLoadingOpeningHours,
     isOpeningHoursError,
     openingHoursError,
+    types,
+    isLoadingTypes,
+    isErrorTypes,
+    typesError,
   };
 }
