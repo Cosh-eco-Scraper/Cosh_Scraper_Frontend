@@ -12,6 +12,9 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
+  const { data: progress, recieveMessage, closeConnection } = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
+
+
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +46,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       router.push(`/stores/${storeResponse.id}/modify`);
       console.log('closing');
 
+      closeConnection()
       onClose();
     }
   }, [isPendingCreateStore, isSuccessCreateStore, storeResponse, onClose, router]);
@@ -52,7 +56,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-  const progress = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
+  recieveMessage();
 
   return (
     <div
