@@ -25,7 +25,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     if (statements && statements.length > 0) {
       const current = statements[statementIndex % statements.length];
       setStateMent(current.statement); // Assuming `statement` is the property
-      setStatementIndex((prev) => prev + 1); // Increment the index
+      setStatementIndex(prev => prev + 1); // Increment the index
     }
   };
 
