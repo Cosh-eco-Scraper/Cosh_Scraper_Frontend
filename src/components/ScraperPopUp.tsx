@@ -7,6 +7,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import Statement from './Statement';
 import StatementService from '@/service/StatementService';
 import { useInterval } from 'usehooks-ts';
+import useStatements from '@/hooks/statements/useStatements';
 
 interface MyPopupProps {
   open: boolean;
@@ -18,13 +19,13 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const [statementIndex, setStatementIndex] = useState(0);
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { statements, isLoadingStatements, statementsError } = useStatements();
 
-  const fetchStatement = async () => {
-    const stateMents = await StatementService.getAllStatements();
-    if (stateMents.length > 0) {
-      const current = stateMents[statementIndex % stateMents.length];
-      setStateMent(current.statement);
-      setStatementIndex(prev => prev + 1);
+  const fetchStatement = () => {
+    if (statements && statements.length > 0) {
+      const current = statements[statementIndex % statements.length];
+      setStateMent(current.statement); // Assuming `statement` is the property
+      setStatementIndex((prev) => prev + 1); // Increment the index
     }
   };
 
@@ -66,12 +67,13 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     }
   };
 
-  useInterval(() => {
-    fetchStatement();
-  }, 10000);
   useEffect(() => {
-    fetchStatement(); // Show the first statement immediately
-  }, []);
+    if (!isLoadingStatements && !statementsError && statements?.length > 0) {
+      fetchStatement(); // Fetch the first statement immediately
+      const interval = setInterval(fetchStatement, 10000); // Cycle every 10 seconds
+      return () => clearInterval(interval); // Cleanup interval on unmount
+    }
+  }, [statements, isLoadingStatements, statementsError]); // Dependencies
 
   return (
     <div
