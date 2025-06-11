@@ -5,8 +5,6 @@ import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
 import Statement from './Statement';
-import StatementService from '@/service/StatementService';
-import { useInterval } from 'usehooks-ts';
 import useStatements from '@/hooks/statements/useStatements';
 
 interface MyPopupProps {
