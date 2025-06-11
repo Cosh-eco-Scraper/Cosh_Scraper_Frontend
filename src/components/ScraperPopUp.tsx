@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
+import { useWebSocket } from '@/hooks/websocket/useWebSocket';
 
 interface MyPopupProps {
   open: boolean;
@@ -11,7 +12,14 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
+  const {
+    data: progress,
+    recieveMessage,
+    closeConnection,
+  } = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
+
   const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -34,7 +42,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
     } else {
       setIsLoading(false);
     }
-
     console.log('Success:', isSuccessCreateStore, 'Response:', storeResponse);
 
     if (isSuccessCreateStore && storeResponse?.id) {
@@ -42,6 +49,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       router.push(`/stores/${storeResponse.id}/modify`);
       console.log('closing');
 
+      closeConnection();
       onClose();
     }
   }, [isPendingCreateStore, isSuccessCreateStore, storeResponse, onClose, router]);
@@ -50,6 +58,8 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
       onClose();
     }
   };
+
+  recieveMessage();
 
   return (
     <div
@@ -124,6 +134,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
           {isLoading && (
             <p className="mt-4 text-center font-medium text-gray-600">Loading, please wait...</p>
           )}
+          {progress && <p className="mt-4 text-center font-medium text-gray-600">{progress}</p>}
         </form>
       </div>
     </div>
