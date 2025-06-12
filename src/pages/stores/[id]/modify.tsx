@@ -88,7 +88,14 @@ export default function Info() {
     if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation, isSuccessUpdateOpeningHours, isSuccessUpdateStore, isModified, router, storeId]);
+  }, [
+    isSuccessUpdateLocation,
+    isSuccessUpdateOpeningHours,
+    isSuccessUpdateStore,
+    isModified,
+    router,
+    storeId,
+  ]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
@@ -140,10 +147,21 @@ export default function Info() {
         <title>{store?.name ? `${store.name} | Cosh` : 'Store | Cosh'}</title>
         <meta
           name="description"
-          content={formData.description?.slice(0, 155) || store?.description?.slice(0, 155) || 'Edit your sustainable shop information on Cosh.'}
+          content={
+            formData.description?.slice(0, 155) ||
+            store?.description?.slice(0, 155) ||
+            'Edit your sustainable shop information on Cosh.'
+          }
         />
         <meta property="og:title" content={store?.name || 'Store | Cosh'} />
-        <meta property="og:description" content={formData.description?.slice(0, 200) || store?.description?.slice(0, 200) || 'Edit your sustainable shop information on Cosh.'} />
+        <meta
+          property="og:description"
+          content={
+            formData.description?.slice(0, 200) ||
+            store?.description?.slice(0, 200) ||
+            'Edit your sustainable shop information on Cosh.'
+          }
+        />
       </Head>
       <div className="flex flex-col bg-gray-50">
         <header className="bg-[#060023] py-8 text-white shadow-md">

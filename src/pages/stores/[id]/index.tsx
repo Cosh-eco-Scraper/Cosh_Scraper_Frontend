@@ -43,7 +43,10 @@ export default function StoreOverview() {
           content={store?.description?.slice(0, 155) || 'Add your sustainable shop on Cosh.'}
         />
         <meta property="og:title" content={store?.name || 'Store | Cosh'} />
-        <meta property="og:description" content={store?.description?.slice(0, 200) || 'Add your sustainable shop on Cosh.'} />
+        <meta
+          property="og:description"
+          content={store?.description?.slice(0, 200) || 'Add your sustainable shop on Cosh.'}
+        />
       </Head>
       <div className="flex flex-col bg-gray-50">
         <header className="bg-[#060023] py-8 text-white shadow-md">
