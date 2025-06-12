@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import useStore from '@/hooks/store/useStore';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
@@ -10,7 +10,7 @@ import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import TypeList from '@/components/TypeList';
-import { OpeningHour } from '@/domain/OpeningHour';
+import {OpeningHour} from '@/domain/OpeningHour';
 
 export default function Info() {
   const router = useRouter();
@@ -27,6 +27,7 @@ export default function Info() {
     isLoadingBrands,
     isErrorStore,
     isLoadingOpeningHours,
+    isSuccessOpeningHours,
     isLoadingStore,
     isOpeningHoursError,
     isErrorTypes,
@@ -55,22 +56,15 @@ export default function Info() {
     country: '',
   });
 
-  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
-    openingHours?.map(hour => ({
-      ...hour,
-    })) ?? []
-  );
+  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(openingHours ?? []);
 
-  // IMPORTANT: This useEffect will re-initialize openingHoursFormData whenever `openingHours` changes.
-  // Make sure this doesn't clash with user interaction.
-  // If `openingHours` from `useStore` only updates when data is fetched, this is likely fine.
+
   useEffect(() => {
-    setOpeningHoursFormData(
-      openingHours?.map(hour => ({
-        ...hour,
-      })) ?? []
-    );
-  }, [openingHours]);
+    if (isSuccessOpeningHours && openingHours) {
+      console.log('openingHours:', openingHours);
+      setOpeningHoursFormData(openingHours);
+    }
+  }, [isSuccessOpeningHours, openingHours])
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -109,6 +103,21 @@ export default function Info() {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const updateHour = (id: number, hour: OpeningHour) => {
+
+    setOpeningHoursFormData(prevArray => {
+      const updatedArray = prevArray.map(item =>
+          item.id === id ? hour : item
+      );
+      console.log('Inside setOpeningHoursFormData - previous array:', prevArray); // <-- ADD THIS
+      console.log('Inside setOpeningHoursFormData - updated array:', updatedArray); // <-- ADD THIS
+      return updatedArray;
+    });
+    console.log('openingHoursFormData:', openingHoursFormData);
+
+    console.log('openingHoursFormData after update (might be stale):', openingHoursFormData);
+  }
+
   const updateStoreData = async () => {
     try {
       if (store) {
@@ -127,7 +136,14 @@ export default function Info() {
         });
 
         if (openingHoursFormData && openingHoursFormData.length > 0) {
-          await updateOpeningHours(openingHoursFormData);
+
+
+          await updateOpeningHours(openingHoursFormData
+              .map(openingHour => {
+                openingHour.storeId = storeId;
+                return openingHour
+              })
+          );
         }
 
         setModified(true);
@@ -146,20 +162,6 @@ export default function Info() {
   console.log('Info.tsx - openingHours from useStore:', openingHours);
   console.log('Info.tsx - openingHoursFormData state:', openingHoursFormData);
 
-  // Inside your `updateOpeningHour` useCallback:
-  const updateOpeningHour = useCallback(
-    (openingHour: OpeningHour) => {
-      console.log('updateOpeningHour called with:', openingHour); // Add this
-      setOpeningHoursFormData(prevHours => {
-        const updatedHours = prevHours.map(hour =>
-          hour.id === openingHour.id ? { ...hour, ...openingHour, storeId: storeId } : hour
-        );
-        console.log('setOpeningHoursFormData called, new state:', updatedHours); // Add this
-        return updatedHours;
-      });
-    },
-    [storeId]
-  );
 
   return (
     <div className="flex flex-col bg-gray-50">
@@ -216,15 +218,12 @@ export default function Info() {
               formData={locationFormData}
               onFieldChange={handleLocationChange}
             />
-            <EditOpeningHourInformation
-              isLoading={isLoadingOpeningHours}
-              error={openingHoursError}
-              isError={isOpeningHoursError}
-              // This updateHour prop corresponds to the onChange prop in EditOpeningHour
-              // Make sure EditOpeningHourInformation passes this through correctly.
-              updateHour={updateOpeningHour}
-              openingHours={openingHoursFormData}
-            />
+            <EditOpeningHourInformation openingHours={openingHoursFormData}
+                                        updateHour={updateHour}
+                                        isLoading={false}
+                                        error={null}
+                                        isError={false}/>
+
           </section>
         </div>
         <div className="flex justify-center p-2">

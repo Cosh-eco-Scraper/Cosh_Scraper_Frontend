@@ -1,6 +1,6 @@
 export type OpeningHour = {
   id: number;
-  day: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+  day: 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
   openingAt: string;
   closingAt: string;
   openingAtAfterNoon?: string | null;
