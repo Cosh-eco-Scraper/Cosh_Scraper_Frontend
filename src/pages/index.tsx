@@ -27,9 +27,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex flex-1 flex-col items-center justify-center">
-              <h1 className="mb-6 text-center text-3xl font-bold md:text-4xl">
-                Welcome to COSH!
-              </h1>
+              <h1 className="mb-6 text-center text-3xl font-bold md:text-4xl">Welcome to COSH!</h1>
               <p className="mt-4 mb-3 max-w-2xl text-lg text-[#FBF6F0]">
                 COSH! is your ultimate destination for sustainable and ethical fashion discovery. We
                 connect conscious consumers with eco-friendly retailers, making sustainable shopping
@@ -40,7 +38,6 @@ export default function Home() {
                 making a positive impact on the fashion industry, one purchase at a time.
               </p>
               <CoshButton onClick={() => setIsPopupOpen(true)}>Register your store now!</CoshButton>
-              
             </div>
           </div>
         </div>
@@ -66,12 +63,8 @@ export default function Home() {
             businesses that care about our planet.
           </div>
         </div>
-
-
       </div>
-       {isPopupOpen && (
-                <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />
-              )}</div>
-     
+      {isPopupOpen && <ScraperPopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} />}
+    </div>
   );
 }

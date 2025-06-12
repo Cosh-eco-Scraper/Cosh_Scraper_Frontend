@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
-import OpeningHourInformation from '@/components/OpeningHourInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
 import TypeList from '@/components/TypeList';
+import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -22,11 +22,8 @@ export default function StoreOverview() {
     isErrorBrands,
     isLoadingBrands,
     isErrorStore,
-    isLoadingOpeningHours,
     isLoadingStore,
-    isOpeningHoursError,
     brandsError,
-    openingHoursError,
     types,
     isLoadingTypes,
     isErrorTypes,
@@ -59,7 +56,7 @@ export default function StoreOverview() {
               brands={brands}
             />
           </section>
-          {/* Right column: one card containing LocationInformation and OpeningHourInformation */}
+          {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <TypeList
               types={types}
@@ -74,13 +71,7 @@ export default function StoreOverview() {
               store={store}
               readOnly={true}
             />
-            <OpeningHourInformation
-              isLoading={isLoadingOpeningHours}
-              error={openingHoursError}
-              isError={isOpeningHoursError}
-              openingHours={openingHours}
-              readOnly={true}
-            />
+            <OpeningHourInformation openingHours={openingHours}></OpeningHourInformation>
           </section>
         </div>
         <div className="flex justify-center p-2">
