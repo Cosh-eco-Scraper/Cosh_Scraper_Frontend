@@ -12,9 +12,8 @@ export type UpdateBrand = {
 export type addBrand = {
   id: number;
   name: string;
-}
-
-export type brandResult = {
-  result: string
 };
 
+export type brandResult = {
+  result: string;
+};

@@ -90,10 +90,23 @@ export default function Info() {
   useEffect(() => {
     if (!isModified) return;
 
-    if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore && isSuccessUpdateBrands) {
+    if (
+      isSuccessUpdateLocation &&
+      isSuccessUpdateOpeningHours &&
+      isSuccessUpdateStore &&
+      isSuccessUpdateBrands
+    ) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation,isSuccessUpdateOpeningHours,isSuccessUpdateStore , isSuccessUpdateBrands,isModified,router,storeId]);
+  }, [
+    isSuccessUpdateLocation,
+    isSuccessUpdateOpeningHours,
+    isSuccessUpdateStore,
+    isSuccessUpdateBrands,
+    isModified,
+    router,
+    storeId,
+  ]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
@@ -122,9 +135,7 @@ export default function Info() {
 
         await updateBrands(
           brandsFormData.filter(brand => brand.trim() !== '').map(brand => brand.trim())
-        )
-
-
+        );
 
         setModified(true);
       }
@@ -175,14 +186,14 @@ export default function Info() {
               }}
               onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
             />
-           <BrandList
-             isLoading={isLoadingBrands}
-             error={brandsError}
-             isError={isErrorBrands}
-             brands={brands}
-             customBrands={brandsFormData}
-             onCustomBrandsChange={setBrandsFormData}
-           />
+            <BrandList
+              isLoading={isLoadingBrands}
+              error={brandsError}
+              isError={isErrorBrands}
+              brands={brands}
+              customBrands={brandsFormData}
+              onCustomBrandsChange={setBrandsFormData}
+            />
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <TypeList

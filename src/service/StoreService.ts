@@ -82,7 +82,7 @@ const StoreService = {
       console.error('Error adding brands to store:', error);
       throw error;
     }
-  }
+  },
 };
 
 export default StoreService;

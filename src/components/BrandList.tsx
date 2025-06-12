@@ -6,7 +6,7 @@ import BrandChip from './BrandChip';
 interface BrandListProps {
   isLoading: boolean;
   error: Error | null;
-  brands?: Brand[];            // server-fetched Brand objects
+  brands?: Brand[]; // server-fetched Brand objects
   isError: boolean;
   customBrands?: string[];
   onCustomBrandsChange?: (newList: string[]) => void;
@@ -25,13 +25,10 @@ export default function BrandList({
   const [name, setName] = useState('');
 
   if (isLoading) return <p>Loading...</p>;
-  if (isError)   return <ErrorMessage error={error} />;
+  if (isError) return <ErrorMessage error={error} />;
 
   // merge server brands and custom string names
-  const allBrandNames = [
-    ...brands.map(b => b.name),
-    ...customBrands
-  ];
+  const allBrandNames = [...brands.map(b => b.name), ...customBrands];
 
   const addBrand = () => {
     const trimmed = name.trim();
@@ -49,7 +46,7 @@ export default function BrandList({
 
       {/* only show input when not readOnly */}
       {!readOnly && (
-        <div className="mb-4 flex gap-2 items-center">
+        <div className="mb-4 flex items-center gap-2">
           <input
             type="text"
             placeholder="Brand name"
@@ -57,10 +54,7 @@ export default function BrandList({
             onChange={e => setName(e.target.value)}
             className="rounded border px-2 py-1 text-sm text-black"
           />
-          <button
-            onClick={addBrand}
-            className="bg-[#583AFF] text-white px-3 py-1.5 rounded"
-          >
+          <button onClick={addBrand} className="rounded bg-[#583AFF] px-3 py-1.5 text-white">
             Add
           </button>
         </div>
@@ -70,9 +64,7 @@ export default function BrandList({
         {allBrandNames.length === 0 ? (
           <p className="text-sm text-gray-500">No brands added yet.</p>
         ) : (
-          allBrandNames.map((name, idx) => (
-            <BrandChip key={idx} name={name} label="" />
-          ))
+          allBrandNames.map((name, idx) => <BrandChip key={idx} name={name} label="" />)
         )}
       </div>
     </div>
