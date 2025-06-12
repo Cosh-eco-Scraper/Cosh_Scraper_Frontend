@@ -1,5 +1,5 @@
-import OpeningDetail from '@/components/openinghours/OpeningDetail';
 import { OpeningHour } from '@/domain/OpeningHour';
+import OpeningDetail from '@/components/openinghours/OpeningDetail';
 
 interface OpeningHourInformationProps {
   openingHours?: OpeningHour[];
@@ -16,7 +16,21 @@ export default function OpeningHourInformation({ openingHours }: OpeningHourInfo
         </tr>
       </thead>
       <tbody className="pt-4">
-        {openingHours?.map(hour => <OpeningDetail key={hour.id} openingHour={hour} />)}
+        {openingHours &&
+          [...openingHours]
+            .sort((a, b) => {
+              const days = [
+                'Monday',
+                'Tuesday',
+                'Wednesday',
+                'Thursday',
+                'Friday',
+                'Saturday',
+                'Sunday',
+              ];
+              return days.indexOf(a.day) - days.indexOf(b.day);
+            })
+            .map(hour => <OpeningDetail key={hour.id} openingHour={hour} />)}
       </tbody>
     </table>
   );

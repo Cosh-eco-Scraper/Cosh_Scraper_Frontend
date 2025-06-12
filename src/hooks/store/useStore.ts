@@ -28,7 +28,7 @@ export default function useStore(id: number) {
   const {
     data: openingHours,
     isLoading: isLoadingOpeningHours,
-      isSuccess: isSuccessOpeningHours,
+    isSuccess: isSuccessOpeningHours,
     error: openingHoursError,
     isError: isOpeningHoursError,
   } = useQuery({

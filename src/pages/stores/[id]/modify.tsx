@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
@@ -10,7 +10,7 @@ import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import TypeList from '@/components/TypeList';
-import {OpeningHour} from '@/domain/OpeningHour';
+import { OpeningHour } from '@/domain/OpeningHour';
 
 export default function Info() {
   const router = useRouter();
@@ -56,15 +56,16 @@ export default function Info() {
     country: '',
   });
 
-  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(openingHours ?? []);
-
+  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
+    openingHours ?? []
+  );
 
   useEffect(() => {
     if (isSuccessOpeningHours && openingHours) {
       console.log('openingHours:', openingHours);
       setOpeningHoursFormData(openingHours);
     }
-  }, [isSuccessOpeningHours, openingHours])
+  }, [isSuccessOpeningHours, openingHours]);
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -104,11 +105,8 @@ export default function Info() {
   };
 
   const updateHour = (id: number, hour: OpeningHour) => {
-
     setOpeningHoursFormData(prevArray => {
-      const updatedArray = prevArray.map(item =>
-          item.id === id ? hour : item
-      );
+      const updatedArray = prevArray.map(item => (item.id === id ? hour : item));
       console.log('Inside setOpeningHoursFormData - previous array:', prevArray); // <-- ADD THIS
       console.log('Inside setOpeningHoursFormData - updated array:', updatedArray); // <-- ADD THIS
       return updatedArray;
@@ -116,7 +114,7 @@ export default function Info() {
     console.log('openingHoursFormData:', openingHoursFormData);
 
     console.log('openingHoursFormData after update (might be stale):', openingHoursFormData);
-  }
+  };
 
   const updateStoreData = async () => {
     try {
@@ -136,13 +134,11 @@ export default function Info() {
         });
 
         if (openingHoursFormData && openingHoursFormData.length > 0) {
-
-
-          await updateOpeningHours(openingHoursFormData
-              .map(openingHour => {
-                openingHour.storeId = storeId;
-                return openingHour
-              })
+          await updateOpeningHours(
+            openingHoursFormData.map(openingHour => {
+              openingHour.storeId = storeId;
+              return openingHour;
+            })
           );
         }
 
@@ -161,7 +157,6 @@ export default function Info() {
   console.log('Info.tsx rendered');
   console.log('Info.tsx - openingHours from useStore:', openingHours);
   console.log('Info.tsx - openingHoursFormData state:', openingHoursFormData);
-
 
   return (
     <div className="flex flex-col bg-gray-50">
@@ -218,12 +213,13 @@ export default function Info() {
               formData={locationFormData}
               onFieldChange={handleLocationChange}
             />
-            <EditOpeningHourInformation openingHours={openingHoursFormData}
-                                        updateHour={updateHour}
-                                        isLoading={false}
-                                        error={null}
-                                        isError={false}/>
-
+            <EditOpeningHourInformation
+              openingHours={openingHoursFormData}
+              updateHour={updateHour}
+              isLoading={false}
+              error={null}
+              isError={false}
+            />
           </section>
         </div>
         <div className="flex justify-center p-2">
