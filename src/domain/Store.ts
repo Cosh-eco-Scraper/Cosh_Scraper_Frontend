@@ -18,7 +18,6 @@ export type UpdateStore = {
 };
 
 export type CreateStore = {
-  name: string;
   url: string;
   location: string;
 };
