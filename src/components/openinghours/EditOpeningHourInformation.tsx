@@ -53,6 +53,7 @@ export default function EditOpeningHourInformation({
             })
             .map(hour => (
               <EditOpeningHour
+                key={hour.id}
                 id={hour.id}
                 openingAt={hour.openingAt}
                 closingAt={hour.closingAt}

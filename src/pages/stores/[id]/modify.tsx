@@ -26,15 +26,12 @@ export default function Info() {
     isErrorBrands,
     isLoadingBrands,
     isErrorStore,
-    isLoadingOpeningHours,
     isSuccessOpeningHours,
     isLoadingStore,
-    isOpeningHoursError,
     isErrorTypes,
     typesError,
     isLoadingTypes,
     brandsError,
-    openingHoursError,
   } = useStore(storeId);
 
   const [formData, setFormData] = useState(() => ({
