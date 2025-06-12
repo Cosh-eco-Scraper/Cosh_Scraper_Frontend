@@ -1,5 +1,5 @@
 import { CreateStore, Store, UpdateStore } from '@/domain/Store';
-import { Brand } from '@/domain/Brand';
+import { Brand, brandResult } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
 import axiosInstance from '@/axiosInstance';
 import { UpdateResponse } from '@/domain/UpdateResponse';
@@ -73,6 +73,16 @@ const StoreService = {
       throw error;
     }
   },
+
+  addBrands: async (storeId: number, brands: string[]) => {
+    try {
+      const response = await axiosInstance.post(`stores/${storeId}/brands`, { brands });
+      return response.data as brandResult;
+    } catch (error) {
+      console.error('Error adding brands to store:', error);
+      throw error;
+    }
+  }
 };
 
 export default StoreService;

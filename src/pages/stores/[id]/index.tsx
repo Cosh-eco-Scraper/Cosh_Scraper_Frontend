@@ -57,6 +57,7 @@ export default function StoreOverview() {
               error={brandsError}
               isError={isErrorBrands}
               brands={brands}
+              readOnly={true}
             />
           </section>
           {/* Right column: one card containing LocationInformation and OpeningHourInformation */}

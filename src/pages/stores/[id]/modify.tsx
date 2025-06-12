@@ -11,6 +11,7 @@ import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import TypeList from '@/components/TypeList';
 import { OpeningHour } from '@/domain/OpeningHour';
+import useModifyBrands from '@/hooks/brands/useModifyBrands';
 
 export default function Info() {
   const router = useRouter();
@@ -46,6 +47,7 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
+  const { updateBrands, isSuccessUpdateBrands } = useModifyBrands(storeId);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
@@ -56,6 +58,8 @@ export default function Info() {
   });
 
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>([]);
+
+  const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -72,6 +76,8 @@ export default function Info() {
         city: store.city || '',
         country: store.country || '',
       });
+
+      setBrandsFormData(brands ? brands.map(brand => brand.name) : []);
     }
   }, [store]);
 
@@ -84,10 +90,10 @@ export default function Info() {
   useEffect(() => {
     if (!isModified) return;
 
-    if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
+    if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore && isSuccessUpdateBrands) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation,isSuccessUpdateOpeningHours,isSuccessUpdateStore,isModified,router,storeId]);
+  }, [isSuccessUpdateLocation,isSuccessUpdateOpeningHours,isSuccessUpdateStore , isSuccessUpdateBrands,isModified,router,storeId]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
@@ -113,6 +119,12 @@ export default function Info() {
         if (openingHoursFormData && openingHoursFormData.length > 0) {
           await updateOpeningHours(openingHoursFormData);
         }
+
+        await updateBrands(
+          brandsFormData.filter(brand => brand.trim() !== '').map(brand => brand.trim())
+        )
+
+
 
         setModified(true);
       }
@@ -163,12 +175,14 @@ export default function Info() {
               }}
               onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
             />
-            <BrandList
-              isLoading={isLoadingBrands}
-              error={brandsError}
-              isError={isErrorBrands}
-              brands={brands}
-            />
+           <BrandList
+             isLoading={isLoadingBrands}
+             error={brandsError}
+             isError={isErrorBrands}
+             brands={brands}
+             customBrands={brandsFormData}
+             onCustomBrandsChange={setBrandsFormData}
+           />
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <TypeList
