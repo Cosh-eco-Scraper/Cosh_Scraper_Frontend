@@ -1,13 +1,13 @@
 import React from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
 import TypeList from '@/components/TypeList';
-import OpeningHourInformation from "@/components/openinghours/OpeningHourInformation";
+import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -74,9 +74,7 @@ export default function StoreOverview() {
               store={store}
               readOnly={true}
             />
-            <OpeningHourInformation openingHours={openingHours}>
-
-            </OpeningHourInformation>
+            <OpeningHourInformation openingHours={openingHours}></OpeningHourInformation>
           </section>
         </div>
         <div className="flex justify-center p-2">
