@@ -64,7 +64,9 @@ export default function Info() {
     country: '',
   });
 
-  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(openingHours ?? []);
+  const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
+    openingHours ?? []
+  );
   const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
   const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
 
@@ -87,10 +89,10 @@ export default function Info() {
   }, [store]);
 
   useEffect(() => {
-    if (openingHours) {
+    if ( isSuccessOpeningHours && openingHours) {
       setOpeningHoursFormData(openingHours);
     }
-  }, [openingHours]);
+  }, [isSuccessOpeningHours, openingHours]);
 
   useEffect(() => {
     if (brands) {
@@ -109,7 +111,15 @@ export default function Info() {
     ) {
       router.push(`/stores/${storeId}`);
     }
-  }, [isSuccessUpdateLocation,isSuccessUpdateOpeningHours,isSuccessUpdateStore,isSuccessUpdateBrands,isModified,router,storeId,]);
+  }, [
+    isSuccessUpdateLocation,
+    isSuccessUpdateOpeningHours,
+    isSuccessUpdateStore,
+    isSuccessUpdateBrands,
+    isModified,
+    router,
+    storeId,
+  ]);
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
