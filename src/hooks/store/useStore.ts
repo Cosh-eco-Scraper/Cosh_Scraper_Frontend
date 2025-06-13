@@ -39,6 +39,7 @@ export default function useStore(id: number) {
 
   const {
     data: types,
+    isSuccess: isSuccessTypes,
     isLoading: isLoadingTypes,
     error: typesError,
     isError: isErrorTypes,
@@ -66,5 +67,6 @@ export default function useStore(id: number) {
     isLoadingTypes,
     isErrorTypes,
     typesError,
+    isSuccessTypes,
   };
 }
