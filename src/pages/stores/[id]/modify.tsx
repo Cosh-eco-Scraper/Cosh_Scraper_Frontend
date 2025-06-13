@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import useStore from '@/hooks/store/useStore';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
@@ -9,8 +9,9 @@ import useModifyLocation from '@/hooks/location/useModifyLocation';
 import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
-import TypeList from '@/components/TypeList';
-import { OpeningHour } from '@/domain/OpeningHour';
+import EditTypeList from '@/components/types/EditTypeList';
+import {OpeningHour} from '@/domain/OpeningHour';
+import {Type} from "@/domain/StoreType";
 
 export default function Info() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function Info() {
     isErrorTypes,
     typesError,
     isLoadingTypes,
+    isSuccessTypes,
     brandsError,
   } = useStore(storeId);
 
@@ -53,8 +55,10 @@ export default function Info() {
     country: '',
   });
 
+
+  //region openingshours latest update
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
-    openingHours ?? []
+      openingHours ?? []
   );
 
   useEffect(() => {
@@ -63,6 +67,21 @@ export default function Info() {
       setOpeningHoursFormData(openingHours);
     }
   }, [isSuccessOpeningHours, openingHours]);
+
+  //endregion
+  //region types
+  const [typesFormData, setTypesFormData] = useState<Type[]>(
+      types ?? []
+  )
+
+  useEffect(() => {
+    if (types && isSuccessTypes) {
+      setTypesFormData(types);
+    }
+  }, [types, isSuccessTypes])
+
+  //endregion
+
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -196,10 +215,8 @@ export default function Info() {
             />
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
-            <TypeList
-              types={types}
-              isLoading={isLoadingTypes}
-              isError={isErrorTypes}
+            <EditTypeList
+              types={typesFormData}
               error={typesError}
             />
             <LocationInformation

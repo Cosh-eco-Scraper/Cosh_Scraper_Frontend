@@ -1,20 +1,13 @@
 import React from 'react';
-import { StoreType } from '@/domain/StoreType';
+import {StoreType} from '@/domain/StoreType';
 
 interface TypeListProps {
   types?: StoreType[];
-  isLoading?: boolean;
-  isError?: boolean;
-  error?: Error | null;
+    isLoading: boolean;
 }
 
-const TypeList: React.FC<TypeListProps> = ({ types, isLoading, isError, error }) => {
+export default function EditTypeList({types, isLoading}: TypeListProps) {
   if (isLoading) return <div>Loading types...</div>;
-  if (isError)
-    return (
-      <div className="text-red-500">Error loading types: {error?.message || 'Unknown error'}</div>
-    );
-  if (!types || types.length === 0) return <div className="text-gray-500">No types found.</div>;
 
   return (
     <div>
@@ -32,5 +25,3 @@ const TypeList: React.FC<TypeListProps> = ({ types, isLoading, isError, error })
     </div>
   );
 };
-
-export default TypeList;

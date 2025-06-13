@@ -1,6 +1,6 @@
 import StoreService from '@/service/StoreService';
-import { useQuery } from '@tanstack/react-query';
-import { queryKeys } from '@/hooks/queryKeys';
+import {useQuery} from '@tanstack/react-query';
+import {queryKeys} from '@/hooks/queryKeys';
 
 export default function useStore(id: number) {
   const {
@@ -39,6 +39,7 @@ export default function useStore(id: number) {
 
   const {
     data: types,
+    isSuccess: isSuccessTypes,
     isLoading: isLoadingTypes,
     error: typesError,
     isError: isErrorTypes,
@@ -66,5 +67,6 @@ export default function useStore(id: number) {
     isLoadingTypes,
     isErrorTypes,
     typesError,
+    isSuccessTypes,
   };
 }
