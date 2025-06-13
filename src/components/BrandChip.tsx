@@ -7,9 +7,9 @@ interface BrandChipProps {
   readOnly?: boolean; // Optional prop to indicate if the chip is read-only
 }
 
-export default function BrandChip({ name, label, readOnly ,onRemove }: BrandChipProps) {
+export default function BrandChip({ name, label, readOnly, onRemove }: BrandChipProps) {
   return (
-     <span className="flex items-center gap-1 rounded-full bg-[#583AFF] px-3 py-1.5 text-sm text-white shadow">
+    <span className="flex items-center gap-1 rounded-full bg-[#583AFF] px-3 py-1.5 text-sm text-white shadow">
       {name}
       {label && <span className="text-xs text-gray-200">{label}</span>}
       {!readOnly && onRemove && (

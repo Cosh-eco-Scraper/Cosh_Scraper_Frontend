@@ -12,10 +12,9 @@ export default function useRemoveBrand(storeId: number) {
   } = useMutation<
     { rowAffected: number }, // response shape
     unknown,
-    number               // brandId to remove
+    number // brandId to remove
   >({
-    mutationFn: (brandId: number) =>
-      StoreBrandService.removeBrand(storeId, brandId),
+    mutationFn: (brandId: number) => StoreBrandService.removeBrand(storeId, brandId),
     onSuccess: async () => {
       console.log('Brand removed successfully');
       await queryClient.invalidateQueries({ queryKey: queryKeys.getStoreKey(storeId) });

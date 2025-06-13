@@ -51,8 +51,6 @@ export default function Info() {
     retour: '',
   }));
 
- 
-
   const [isModified, setModified] = useState(false);
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
@@ -125,9 +123,9 @@ export default function Info() {
     try {
       await removeBrand(brandId);
       queryClient.invalidateQueries({
-              queryKey: ['brands', storeId]
-            });    
-      } catch (error) {
+        queryKey: ['brands', storeId],
+      });
+    } catch (error) {
       console.error('Error removing brand:', error);
     }
   };

@@ -1,13 +1,9 @@
-import axiosInstance from "@/axiosInstance";
-import { brandResult } from "@/domain/Brand";
-import useRemoveBrand from "@/hooks/brands/useDeleteBrands";
-
-
+import axiosInstance from '@/axiosInstance';
+import { brandResult } from '@/domain/Brand';
+import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
 
 const StoreBrandService = {
-
-
-    addBrands: async (storeId: number, brands: string[]) => {
+  addBrands: async (storeId: number, brands: string[]) => {
     try {
       const response = await axiosInstance.post(`storebrands/${storeId}/brands`, { brands });
       return response.data as brandResult;
@@ -25,7 +21,7 @@ const StoreBrandService = {
       console.error('Error removing brand from store:', error);
       throw error;
     }
-  }
-}
+  },
+};
 
 export default StoreBrandService;

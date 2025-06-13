@@ -73,8 +73,6 @@ const StoreService = {
       throw error;
     }
   },
-
-  
 };
 
 export default StoreService;
