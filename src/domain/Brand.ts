@@ -19,6 +19,6 @@ export type brandResult = {
 };
 
 export type deleteBrandReult = {
-    message?: string;
-    rowAffected?: number;
+  message?: string;
+  rowAffected?: number;
 };

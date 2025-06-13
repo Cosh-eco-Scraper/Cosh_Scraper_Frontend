@@ -13,8 +13,10 @@ const StoreBrandService = {
   },
 
   removeBrand: async (storeId: number, brandId: number) => {
-    const response = await axiosInstance.delete(`storebrands/${storeId}/brands/${brandId}`);
-    return response.data; // Assuming the response contains the rowAffected count
+    
+      const response = await axiosInstance.delete(`storebrands/${storeId}/brands/${brandId}`);
+      return response.data; // Assuming the response contains the rowAffected count
+    
   },
 };
 

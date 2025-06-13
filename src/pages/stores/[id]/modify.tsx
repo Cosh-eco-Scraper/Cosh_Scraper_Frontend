@@ -16,6 +16,7 @@ import useBrands from '@/hooks/brands/useBrands';
 import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
 import { queryClient } from '@/config/queryClient';
 import { Brand } from '@/domain/Brand';
+import { isAxiosError } from 'axios';
 
 export default function Info() {
   const router = useRouter();
@@ -142,26 +143,29 @@ export default function Info() {
   }
 
   async function handleRemoveBrand(id: number) {
-    try {
-      await removeBrand(id);
-      // real success
-      queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
-      setSelectedServerBrands(s => s.filter(b => b.id !== id));
-    } catch (error: unknown) {
-      if (
-        typeof error === 'object' &&
-        error !== null &&
-        'response' in error &&
-        (error as any).response &&
-        (error as any).response.status === 404
-      ) {
+  try {
+    await removeBrand(id);
+    // real success
+    queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
+    setSelectedServerBrands(s => s.filter(b => b.id !== id));
+  } catch (error: unknown) {
+    if (isAxiosError(error)) {
+      const status = error.response?.status;
+      const message = (error.response?.data as { message: string })?.message;
+
+      // only treat “not associated” 500 as harmless
+      if (status === 500 && message === 'Brand is not associated with this store') {
         setSelectedServerBrands(s => s.filter(b => b.id !== id));
-      } else {
-        // all other errors: log or surface to user
-        console.error('Error removing brand:', error);
+        return;
       }
+
+      // all other errors: log or surface to user
+      console.error('Error removing brand:', error);
+    } else {
+      console.error('Unexpected error:', error);
     }
   }
+}
 
   const updateStoreData = async () => {
     try {
