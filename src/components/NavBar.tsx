@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
             </svg>
             <span>Search</span>
           </div>
-          <button className="rounded-full bg-[#583AFF] px-4 py-2 font-medium text-white transition hover:bg-[#2F007B]">
+          <button className="rounded-full bg-[#583AFF] px-4 py-2 font-medium text-white transition hover:bg-[#8B75FF]">
             Discover stores →
           </button>
         </div>
