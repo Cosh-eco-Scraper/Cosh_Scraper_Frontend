@@ -8,7 +8,7 @@ interface BrandListProps {
   isLoading: boolean;
   error: Error | null;
   brands: Brand[]; // selected server brands passed from parent
-  allBrands: Brand[]; // all available brands from backend
+  allBrands?: Brand[]; // all available brands from backend
   isError: boolean;
   customBrands?: string[]; // custom brand names
   onCustomBrandsChange?: (newList: string[]) => void; // update custom brands
@@ -40,10 +40,8 @@ export default function BrandList({
   };
 
   const handleRemove = (chipIndex: number) => {
-    // Calculate the boundary between server brands and custom brands
     const serverBrandsCount = brands.length;
     if (chipIndex < serverBrandsCount) {
-      // Removing a server brand
       const brandToRemove = brands[chipIndex];
       onRemoveBrand?.(brandToRemove.id);
     } else {
