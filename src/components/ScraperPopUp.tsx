@@ -13,8 +13,7 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
-
-    const getClientId = () => {
+  const getClientId = () => {
     let clientId = localStorage.getItem('clientId');
     if (!clientId) {
       clientId = uuidv4();
@@ -26,7 +25,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   const clientId = getClientId();
 
   console.log('Client ID:', clientId);
-
 
   const {
     data: progress,
