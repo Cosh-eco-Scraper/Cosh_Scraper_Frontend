@@ -13,13 +13,10 @@ const StoreBrandService = {
   },
 
   removeBrand: async (storeId: number, brandId: number) => {
-    try {
+    
       const response = await axiosInstance.delete(`storebrands/${storeId}/brands/${brandId}`);
       return response.data; // Assuming the response contains the rowAffected count
-    } catch (error) {
-      console.error('Error removing brand from store:', error);
-      throw error;
-    }
+  
   },
 };
 

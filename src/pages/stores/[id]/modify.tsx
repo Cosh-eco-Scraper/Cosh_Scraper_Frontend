@@ -89,7 +89,7 @@ export default function Info() {
   }, [store]);
 
   useEffect(() => {
-    if ( isSuccessOpeningHours && openingHours) {
+    if (isSuccessOpeningHours && openingHours) {
       setOpeningHoursFormData(openingHours);
     }
   }, [isSuccessOpeningHours, openingHours]);
@@ -142,18 +142,25 @@ export default function Info() {
   }
 
   async function handleRemoveBrand(id: number) {
-    try {
-      await removeBrand(id);
-      queryClient.invalidateQueries({
-        queryKey: ['brands', storeId],
-      });
-      console.log('Removing brand is successful:', isSuccessRemoveBrand);
+  try {
+    await removeBrand(id);
+    // real success
+    queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
+    setSelectedServerBrands(s => s.filter(b => b.id !== id));
+  } catch (error: any) {
+    const status  = error?.response?.status;
+    const message = error?.response?.data?.message;
+    
+    // only treat “not associated” 500 as harmless
+    if (status === 500 && message === 'Brand is not associated with this store') {
       setSelectedServerBrands(s => s.filter(b => b.id !== id));
-    } catch (error) {
-      console.error('Error removing brand:', isErrorRemoveBrand);
-      console.error('Error removing brand message:', error);
+    } else {
+      // all other errors: log or surface to user
+      console.error('Error removing brand:', error);
     }
   }
+}
+
 
   const updateStoreData = async () => {
     try {

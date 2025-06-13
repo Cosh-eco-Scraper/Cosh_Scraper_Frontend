@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Brand } from '@/domain/Brand';
 import ErrorMessage from './ErrorMessage';
 import BrandChip from './BrandChip';
@@ -7,13 +7,13 @@ import AvailableBrandChip from './AvailableBrandChip';
 interface BrandListProps {
   isLoading: boolean;
   error: Error | null;
-  brands: Brand[]; // selected server brands passed from parent
-  allBrands?: Brand[]; // all available brands from backend
+  brands: Brand[];               // confirmed server brands
+  allBrands?: Brand[];           // all available brands
   isError: boolean;
-  customBrands?: string[]; // custom brand names
-  onCustomBrandsChange?: (newList: string[]) => void; // update custom brands
-  onRemoveBrand?: (brandId: number) => void; // remove any server brand
-  onAddBrand?: (brand: Brand) => void; // add a server brand
+  customBrands?: string[];       // custom brand names
+  onCustomBrandsChange?: (newList: string[]) => void;
+  onRemoveBrand?: (brandId: number) => void;
+  onAddBrand?: (brand: Brand) => void;
   readOnly?: boolean;
 }
 
@@ -30,54 +30,51 @@ export default function BrandList({
   readOnly = false,
 }: BrandListProps) {
   const [name, setName] = useState('');
+  const [pendingAdds, setPendingAdds] = useState<Brand[]>([]);
+
+  // Cleanup pending once server confirms
+  useEffect(() => {
+    const confirmedIds = new Set(brands.map(b => b.id));
+    setPendingAdds(prev => prev.filter(b => !confirmedIds.has(b.id)));
+  }, [brands]);
 
   const addCustomBrand = () => {
     const trimmed = name.trim();
     if (!trimmed) return;
-    const next = [...customBrands, trimmed];
-    onCustomBrandsChange?.(next);
+    onCustomBrandsChange?.([...customBrands, trimmed]);
     setName('');
   };
 
-  const handleRemove = (chipIndex: number) => {
-    const serverBrandsCount = brands.length;
-    if (chipIndex < serverBrandsCount) {
-      const brandToRemove = brands[chipIndex];
-      onRemoveBrand?.(brandToRemove.id);
-    } else {
-      // Removing a custom brand
-      const customBrandIndex = chipIndex - serverBrandsCount;
-      const updatedCustomBrands = customBrands.filter((_, index) => index !== customBrandIndex);
-      onCustomBrandsChange?.(updatedCustomBrands);
-    }
-  };
-
   const handleAddAvailableBrand = (brand: Brand) => {
+    setPendingAdds(prev => [...prev, brand]);
     onAddBrand?.(brand);
   };
+
+  const removeServerBrand = (id: number) => onRemoveBrand?.(id);
+  const removePendingBrand = (id: number) => setPendingAdds(prev => prev.filter(b => b.id !== id));
+  const removeCustomBrand = (label: string) => onCustomBrandsChange?.(customBrands.filter(n => n !== label));
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
 
-  // Get selected brand IDs and names for filtering
-  const selectedBrandIds = new Set(brands.map(b => b.id));
-  const selectedBrandNames = new Set([
+  // Build lists
+  const serverChips = brands.map(b => ({ key: `s-${b.id}`, label: b.name, onRemove: () => removeServerBrand(b.id) }));
+  const pendingChips = pendingAdds.map(b => ({ key: `p-${b.id}`, label: b.name, onRemove: () => removePendingBrand(b.id) }));
+  const customChips = customBrands.map(n => ({ key: `c-${n}`, label: n, onRemove: () => removeCustomBrand(n) }));
+
+  // Determine availability
+  const selectedIds = new Set([...brands, ...pendingAdds].map(b => b.id));
+  const selectedNames = new Set([
     ...brands.map(b => b.name.toLowerCase()),
+    ...pendingAdds.map(b => b.name.toLowerCase()),
     ...customBrands.map(n => n.toLowerCase()),
   ]);
-
-  // Filter available brands to show only unselected ones
-  const availableBrands = allBrands.filter(
-    brand => !selectedBrandIds.has(brand.id) && !selectedBrandNames.has(brand.name.toLowerCase())
-  );
-
-  const allBrandNames = [...brands.map(b => b.name), ...customBrands];
+  const available = allBrands.filter(b => !selectedIds.has(b.id) && !selectedNames.has(b.name.toLowerCase()));
 
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Brands</h2>
 
-      {/* Manual brand input */}
       {!readOnly && (
         <div className="mb-4 flex items-center gap-2">
           <input
@@ -90,37 +87,33 @@ export default function BrandList({
           <button
             onClick={addCustomBrand}
             className="rounded bg-[#583AFF] px-3 py-1.5 text-white hover:bg-[#4a32d9]"
-          >
-            Add
-          </button>
+          >Add</button>
         </div>
       )}
 
-      {/* Available brands to add */}
-      {!readOnly && availableBrands.length > 0 && (
+      {!readOnly && available.length > 0 && (
         <div>
           <h3 className="mb-2 text-sm font-medium text-black">Available Brands</h3>
           <div className="flex flex-wrap gap-3">
-            {availableBrands.map(brand => (
-              <AvailableBrandChip key={brand.id} brand={brand} onClick={handleAddAvailableBrand} />
+            {available.map(b => (
+              <AvailableBrandChip key={b.id} brand={b} onClick={handleAddAvailableBrand} />
             ))}
           </div>
         </div>
       )}
 
-      {/* Selected brands */}
       <div className="mb-6">
         <h3 className="m-1 mb-2 text-sm font-medium text-black">Your brands</h3>
         <div className="flex flex-wrap gap-3">
-          {allBrandNames.length === 0 ? (
+          {serverChips.concat(pendingChips, customChips).length === 0 ? (
             <p className="text-sm text-gray-500">No brands selected yet.</p>
           ) : (
-            allBrandNames.map((n, idx) => (
+            serverChips.concat(pendingChips, customChips).map(chip => (
               <BrandChip
-                key={idx}
-                name={n}
+                key={chip.key}
+                name={chip.label}
                 label=""
-                onRemove={() => handleRemove(idx)}
+                onRemove={chip.onRemove}
                 readOnly={readOnly}
               />
             ))
