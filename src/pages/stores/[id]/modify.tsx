@@ -70,7 +70,6 @@ export default function Info() {
   const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
   const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
 
-
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
       setFormData({
@@ -126,29 +125,24 @@ export default function Info() {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
   };
 
-    function handleAddBrand(b: Brand) {
-      setSelectedServerBrands(s => [...s, b]);
-    }
+  function handleAddBrand(b: Brand) {
+    setSelectedServerBrands(s => [...s, b]);
+  }
 
-    // you can ditch your immediate‐delete hook entirely and just do a local remove:
-    async function handleRemoveBrand(id: number) {
-      try {
+  // you can ditch your immediate‐delete hook entirely and just do a local remove:
+  async function handleRemoveBrand(id: number) {
+    try {
       await removeBrand(id);
       queryClient.invalidateQueries({
         queryKey: ['brands', storeId],
-      });      
+      });
       console.log('Removing brand is successful:', isSuccessRemoveBrand);
       setSelectedServerBrands(s => s.filter(b => b.id !== id));
-
     } catch (error) {
       console.error('Error removing brand:', isErrorRemoveBrand);
       console.error('Error removing brand message:', error);
-
     }
-    }
-  
-
-  
+  }
 
   const updateStoreData = async () => {
     try {
@@ -171,7 +165,7 @@ export default function Info() {
           await updateOpeningHours(openingHoursFormData);
         }
 
-       await updateBrands([
+        await updateBrands([
           ...selectedServerBrands.map(b => b.name),
           ...brandsFormData.filter(x => x.trim() !== ''),
         ]);
@@ -237,7 +231,6 @@ export default function Info() {
               onRemoveBrand={handleRemoveBrand}
               readOnly={false}
             />
-
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <TypeList

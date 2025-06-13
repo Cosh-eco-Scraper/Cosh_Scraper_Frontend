@@ -63,12 +63,14 @@ export default function BrandList({
 
   // Get selected brand IDs and names for filtering
   const selectedBrandIds = new Set(brands.map(b => b.id));
-  const selectedBrandNames = new Set([...brands.map(b => b.name.toLowerCase()), ...customBrands.map(n => n.toLowerCase())]);
-  
+  const selectedBrandNames = new Set([
+    ...brands.map(b => b.name.toLowerCase()),
+    ...customBrands.map(n => n.toLowerCase()),
+  ]);
+
   // Filter available brands to show only unselected ones
-  const availableBrands = allBrands.filter(brand => 
-    !selectedBrandIds.has(brand.id) && 
-    !selectedBrandNames.has(brand.name.toLowerCase())
+  const availableBrands = allBrands.filter(
+    brand => !selectedBrandIds.has(brand.id) && !selectedBrandNames.has(brand.name.toLowerCase())
   );
 
   const allBrandNames = [...brands.map(b => b.name), ...customBrands];
@@ -76,7 +78,7 @@ export default function BrandList({
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Brands</h2>
-      
+
       {/* Manual brand input */}
       {!readOnly && (
         <div className="mb-4 flex items-center gap-2">
@@ -87,8 +89,8 @@ export default function BrandList({
             onChange={e => setName(e.target.value)}
             className="rounded border px-2 py-1 text-sm text-black"
           />
-          <button 
-            onClick={addCustomBrand} 
+          <button
+            onClick={addCustomBrand}
             className="rounded bg-[#583AFF] px-3 py-1.5 text-white hover:bg-[#4a32d9]"
           >
             Add
@@ -96,17 +98,13 @@ export default function BrandList({
         </div>
       )}
 
-       {/* Available brands to add */}
+      {/* Available brands to add */}
       {!readOnly && availableBrands.length > 0 && (
         <div>
           <h3 className="mb-2 text-sm font-medium text-black">Available Brands</h3>
           <div className="flex flex-wrap gap-3">
-            {availableBrands.map((brand) => (
-              <AvailableBrandChip
-                key={brand.id}
-                brand={brand}
-                onClick={handleAddAvailableBrand}
-              />
+            {availableBrands.map(brand => (
+              <AvailableBrandChip key={brand.id} brand={brand} onClick={handleAddAvailableBrand} />
             ))}
           </div>
         </div>
@@ -114,7 +112,7 @@ export default function BrandList({
 
       {/* Selected brands */}
       <div className="mb-6">
-        <h3 className="mb-2 text-sm font-medium text-black m-1">Your brands</h3>
+        <h3 className="m-1 mb-2 text-sm font-medium text-black">Your brands</h3>
         <div className="flex flex-wrap gap-3">
           {allBrandNames.length === 0 ? (
             <p className="text-sm text-gray-500">No brands selected yet.</p>
@@ -131,8 +129,6 @@ export default function BrandList({
           )}
         </div>
       </div>
-
-     
     </div>
   );
 }
