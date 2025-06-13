@@ -4,7 +4,7 @@ import axiosInstance from '@/axiosInstance';
 
 const OpeningHoursService = {
   updateOpeningHour: async (id: number, openingsHour: CreateOpeningHour) => {
-    console.log("put opening hour",openingsHour);
+    console.log('put opening hour', openingsHour);
 
     const response = await axiosInstance.put<OpeningHour, UpdateResponse>(
       `openingHours/${id}`,

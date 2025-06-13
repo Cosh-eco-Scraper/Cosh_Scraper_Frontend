@@ -1,13 +1,13 @@
 import React from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
-import EditTypeList from '@/components/types/EditTypeList';
 import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
+import TypeList from '@/components/types/TypeList';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -56,14 +56,7 @@ export default function StoreOverview() {
           </section>
           {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
-            <EditTypeList
-                isLoading={isLoadingTypes}
-                types={[]}
-                addType={() => {
-                }}
-                removeType={() => {
-                }}
-            />
+            <TypeList isLoading={isLoadingTypes} types={types} />
             <LocationInformation
               isLoading={isLoadingStore}
               error={storeError}

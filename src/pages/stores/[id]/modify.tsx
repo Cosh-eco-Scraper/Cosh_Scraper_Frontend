@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
@@ -10,13 +10,15 @@ import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import EditTypeList from '@/components/types/EditTypeList';
-import {OpeningHour} from '@/domain/OpeningHour';
-import {Type} from "@/domain/StoreType";
+import { OpeningHour } from '@/domain/OpeningHour';
+import { Type } from '@/domain/StoreType';
+import useModifyStoreTypes from '@/hooks/storeType/useModifyStoreTypes';
 
 export default function Info() {
   const router = useRouter();
   const { id } = router.query;
   const storeId = parseInt((id as string) ?? '0');
+  const { addStoreType, removeStoreType } = useModifyStoreTypes();
 
   const {
     openingHours,
@@ -29,8 +31,6 @@ export default function Info() {
     isErrorStore,
     isSuccessOpeningHours,
     isLoadingStore,
-    isErrorTypes,
-    typesError,
     isLoadingTypes,
     isSuccessTypes,
     brandsError,
@@ -55,10 +55,9 @@ export default function Info() {
     country: '',
   });
 
-
   //region openingshours latest update
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
-      openingHours ?? []
+    openingHours ?? []
   );
 
   useEffect(() => {
@@ -70,29 +69,26 @@ export default function Info() {
 
   //endregion
   //region types
-  const [typesFormData, setTypesFormData] = useState<Type[]>(
-      types ?? []
-  )
+  const [typesFormData, setTypesFormData] = useState<Type[]>(types ?? []);
 
-  const [originalTypes, setOriginalTypes] = useState<Type[]>(types ?? [])
+  const [originalTypes, setOriginalTypes] = useState<Type[]>(types ?? []);
 
   useEffect(() => {
     if (types && isSuccessTypes) {
       setTypesFormData(types);
-      setOriginalTypes(types)
+      setOriginalTypes(types);
     }
-  }, [types, isSuccessTypes])
+  }, [types, isSuccessTypes]);
 
   const addType = (type: Type) => {
-    setTypesFormData(prev => [...prev.filter(t => t.id !== type.id), type])
-  }
+    setTypesFormData(prev => [...prev.filter(t => t.id !== type.id), type]);
+  };
 
   const removeType = (id: number) => {
-    setTypesFormData(prev => prev.filter(t => t.id !== id))
-  }
+    setTypesFormData(prev => prev.filter(t => t.id !== id));
+  };
 
   //endregion
-
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -169,6 +165,25 @@ export default function Info() {
           );
         }
 
+        // Compare types to find changes
+        const addedTypes = typesFormData.filter(
+          type => !originalTypes.some(originalType => originalType.id === type.id)
+        );
+        const removedTypes = originalTypes.filter(
+          type => !typesFormData.some(currentType => currentType.id === type.id)
+        );
+
+        // Update store types
+        for (const type of addedTypes) {
+          const storeType = { storeId, typeId: type.id };
+
+          await addStoreType(storeType);
+        }
+        for (const type of removedTypes) {
+          const storeType = { storeId, typeId: type.id };
+          await removeStoreType(storeType);
+        }
+
         setModified(true);
       }
     } catch (error) {
@@ -227,10 +242,10 @@ export default function Info() {
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <EditTypeList
-                isLoading={isLoadingTypes}
-                types={typesFormData}
-                addType={addType}
-                removeType={removeType}
+              isLoading={isLoadingTypes}
+              types={typesFormData}
+              addType={addType}
+              removeType={removeType}
             />
             <LocationInformation
               isLoading={isLoadingStore}
