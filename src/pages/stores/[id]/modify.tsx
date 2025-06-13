@@ -42,7 +42,7 @@ export default function Info() {
   const { allBrands } = useBrands();
   console.log('allBrands', allBrands);
 
-  const { removeBrand, isSuccessRemoveBrand, isErrorRemoveBrand } = useRemoveBrand(storeId);
+  const { removeBrand } = useRemoveBrand(storeId);
 
   const [formData, setFormData] = useState(() => ({
     name: '',
