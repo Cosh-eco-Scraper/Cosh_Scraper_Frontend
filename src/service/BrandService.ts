@@ -1,7 +1,7 @@
 import axiosInstance from '@/axiosInstance';
-import { OpeningHour } from '@/domain/OpeningHour';
-import { UpdateResponse } from '@/domain/UpdateResponse';
-import { UpdateBrand } from '@/domain/Brand';
+import {OpeningHour} from '@/domain/OpeningHour';
+import {UpdateResponse} from '@/domain/UpdateResponse';
+import {Brand, UpdateBrand} from '@/domain/Brand';
 
 const BrandService = {
   updateBrand: async ({ id, brand }: { id: number; brand: UpdateBrand }) => {
@@ -11,7 +11,7 @@ const BrandService = {
 
   getAllBrands: async () => {
     try {
-      const response = await axiosInstance.get(`brands/`);
+      const response = await axiosInstance.get<Brand[]>(`brands/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching brands:', error);

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import useStore from '@/hooks/store/useStore';
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import Description from '@/components/Description';
-import BrandList from '@/components/BrandList';
+import EditBrandList from '@/components/brands/EditBrandList';
 import LocationInformation from '@/components/LocationInformation';
 import EditOpeningHourInformation from '@/components/openinghours/EditOpeningHourInformation';
 import useModifyLocation from '@/hooks/location/useModifyLocation';
@@ -10,16 +10,12 @@ import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import EditTypeList from '@/components/types/EditTypeList';
-import { OpeningHour } from '@/domain/OpeningHour';
+import {OpeningHour} from '@/domain/OpeningHour';
 import Head from 'next/head';
-import { Type } from '@/domain/StoreType';
+import {Type} from '@/domain/StoreType';
 import useModifyStoreTypes from '@/hooks/storeType/useModifyStoreTypes';
 import useModifyBrands from '@/hooks/brands/useModifyBrands';
-import useBrands from '@/hooks/brands/useBrands';
-import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
-import { queryClient } from '@/config/queryClient';
-import { Brand } from '@/domain/Brand';
-import { isAxiosError } from 'axios';
+import {Brand} from '@/domain/Brand';
 
 export default function Info() {
   const router = useRouter();
@@ -31,6 +27,7 @@ export default function Info() {
     openingHours,
     store,
     brands,
+    isSuccessBrands,
     types,
     storeError,
     isErrorBrands,
@@ -43,10 +40,7 @@ export default function Info() {
     brandsError,
   } = useStore(storeId);
 
-  const { allBrands } = useBrands();
-  console.log('allBrands', allBrands);
 
-  const { removeBrand } = useRemoveBrand(storeId);
 
   const [formData, setFormData] = useState(() => ({
     name: '',
@@ -58,7 +52,7 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
-  const { updateBrands, isSuccessUpdateBrands } = useModifyBrands(storeId);
+  const {updateBrands, isSuccessUpdateBrands, removeBrand, isSuccessRemoveBrand} = useModifyBrands(storeId);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
@@ -72,8 +66,6 @@ export default function Info() {
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
     openingHours ?? []
   );
-  const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
-  const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
     if (isSuccessOpeningHours && openingHours) {
@@ -129,11 +121,18 @@ export default function Info() {
     }
   }, [isSuccessOpeningHours, openingHours]);
 
+
+  const [originalBrands, setOriginalBrands] = useState<Brand[]>([]);
+  const [brandsFormData, setBrandsFormData] = useState<Brand[]>([]);
+
+
+
   useEffect(() => {
-    if (brands) {
-      setSelectedServerBrands(brands);
+    if (isSuccessBrands && brands) {
+      setOriginalBrands(brands);
+      setBrandsFormData(brands)
     }
-  }, [brands]);
+  }, [brands, isSuccessBrands]);
 
   useEffect(() => {
     if (!isModified) return;
@@ -173,34 +172,12 @@ export default function Info() {
   };
 
   function handleAddBrand(b: Brand) {
-    setSelectedServerBrands(s => [...s, b]);
+    setBrandsFormData(prev => [...prev.filter(x => x.name !== b.name), b]);
   }
 
   async function handleRemoveBrand(id: number) {
-    try {
-      await removeBrand(id);
-      // real success
-      queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
-      setSelectedServerBrands(s => s.filter(b => b.id !== id));
-    } catch (error: unknown) {
-      if (isAxiosError(error)) {
-        const status = error.response?.status;
-        const message = (error.response?.data as { message: string })?.message;
-
-        // only treat “not associated” 500 as harmless
-        if (status === 500 && message === 'Brand is not associated with this store') {
-          setSelectedServerBrands(s => s.filter(b => b.id !== id));
-          return;
-        }
-
-        // all other errors: log or surface to user
-        console.error('Error removing brand:', error);
-      } else {
-        console.error('Unexpected error:', error);
-      }
-    }
+    setBrandsFormData(prev => prev.filter(x => x.id !== id));
   }
-
   const updateStoreData = async () => {
     try {
       if (store) {
@@ -227,10 +204,23 @@ export default function Info() {
           );
         }
 
-        await updateBrands([
-          ...selectedServerBrands.map(b => b.name),
-          ...brandsFormData.filter(x => x.trim() !== ''),
-        ]);
+        // Compare brands to find changes
+        const addedBrands = brandsFormData.filter(
+            brand => !originalBrands.some(originalBrand => originalBrand.id === brand.id)
+        );
+        const removedBrands = originalBrands.filter(
+            brand => !brandsFormData.some(currentBrand => currentBrand.id === brand.id)
+        );
+
+        // Update store brands
+        if (addedBrands.length > 0) {
+          await updateBrands(addedBrands.map(brand => brand.name));
+        }
+
+        for (const brand of removedBrands) {
+          await removeBrand(brand.id);
+        }
+
 
         // Compare types to find changes
         const addedTypes = typesFormData.filter(
@@ -321,18 +311,10 @@ export default function Info() {
                 }}
                 onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
               />
-              <BrandList
-                isLoading={isLoadingBrands}
-                error={brandsError}
-                isError={isErrorBrands}
-                brands={selectedServerBrands}
-                allBrands={allBrands}
-                customBrands={brandsFormData}
-                onCustomBrandsChange={setBrandsFormData}
-                onAddBrand={handleAddBrand}
-                onRemoveBrand={handleRemoveBrand}
-                readOnly={false}
-              />
+              <EditBrandList
+                  brands={brandsFormData}
+                  onAddBrand={handleAddBrand}
+                  onRemoveBrand={handleRemoveBrand}/>
             </section>
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
               <EditTypeList
