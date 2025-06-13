@@ -17,3 +17,8 @@ export type addBrand = {
 export type brandResult = {
   result: string;
 };
+
+export type deleteBrandReult = {
+    message?: string;
+    rowAffected?: number;
+};

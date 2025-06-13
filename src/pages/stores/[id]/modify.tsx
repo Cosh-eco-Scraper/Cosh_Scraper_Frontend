@@ -147,12 +147,14 @@ export default function Info() {
       // real success
       queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
       setSelectedServerBrands(s => s.filter(b => b.id !== id));
-    } catch (error: any) {
-      const status = error?.response?.status;
-      const message = error?.response?.data?.message;
-
-      // only treat “not associated” 500 as harmless
-      if (status === 500 && message === 'Brand is not associated with this store') {
+    } catch (error: unknown) {
+      if (
+        typeof error === 'object' &&
+        error !== null &&
+        'response' in error &&
+        (error as any).response &&
+        (error as any).response.status === 404
+      ) {
         setSelectedServerBrands(s => s.filter(b => b.id !== id));
       } else {
         // all other errors: log or surface to user
