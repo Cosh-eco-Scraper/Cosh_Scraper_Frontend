@@ -143,29 +143,29 @@ export default function Info() {
   }
 
   async function handleRemoveBrand(id: number) {
-  try {
-    await removeBrand(id);
-    // real success
-    queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
-    setSelectedServerBrands(s => s.filter(b => b.id !== id));
-  } catch (error: unknown) {
-    if (isAxiosError(error)) {
-      const status = error.response?.status;
-      const message = (error.response?.data as { message: string })?.message;
+    try {
+      await removeBrand(id);
+      // real success
+      queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
+      setSelectedServerBrands(s => s.filter(b => b.id !== id));
+    } catch (error: unknown) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+        const message = (error.response?.data as { message: string })?.message;
 
-      // only treat “not associated” 500 as harmless
-      if (status === 500 && message === 'Brand is not associated with this store') {
-        setSelectedServerBrands(s => s.filter(b => b.id !== id));
-        return;
+        // only treat “not associated” 500 as harmless
+        if (status === 500 && message === 'Brand is not associated with this store') {
+          setSelectedServerBrands(s => s.filter(b => b.id !== id));
+          return;
+        }
+
+        // all other errors: log or surface to user
+        console.error('Error removing brand:', error);
+      } else {
+        console.error('Unexpected error:', error);
       }
-
-      // all other errors: log or surface to user
-      console.error('Error removing brand:', error);
-    } else {
-      console.error('Unexpected error:', error);
     }
   }
-}
 
   const updateStoreData = async () => {
     try {

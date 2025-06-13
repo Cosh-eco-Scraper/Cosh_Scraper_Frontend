@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Brand } from '@/domain/Brand';
 import ErrorMessage from './ErrorMessage';
 import BrandChip from './BrandChip';
@@ -31,6 +31,7 @@ export default function BrandList({
 }: BrandListProps) {
   const [name, setName] = useState('');
   const [pendingAdds, setPendingAdds] = useState<Brand[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Cleanup pending once server confirms
   useEffect(() => {
@@ -86,36 +87,81 @@ export default function BrandList({
     b => !selectedIds.has(b.id) && !selectedNames.has(b.name.toLowerCase())
   );
 
+  // Filter suggestions based on input
+  const filteredAvailable = !readOnly && name.trim()
+    ? available.filter(b =>
+        b.name.toLowerCase().includes(name.trim().toLowerCase())
+      )
+    : [];
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+
+  const handleSelectSuggestion = (brand: Brand) => {
+    handleAddAvailableBrand(brand);
+    setName('');
+    inputRef.current?.focus();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const trimmed = name.trim();
+      const match = available.find(
+        b => b.name.toLowerCase() === trimmed.toLowerCase()
+      );
+      if (match) {
+        handleSelectSuggestion(match);
+      } else {
+        addCustomBrand();
+      }
+    }
+  };
+
   return (
     <div>
       <h2 className="mb-4 text-xl font-semibold text-black">Brands</h2>
 
       {!readOnly && (
-        <div className="mb-4 flex items-center gap-2">
-          <input
-            type="text"
-            placeholder="Brand name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            className="rounded border px-2 py-1 text-sm text-black"
-          />
-          <button
-            onClick={addCustomBrand}
-            className="rounded bg-[#583AFF] px-3 py-1.5 text-white hover:bg-[#4a32d9]"
-          >
-            Add
-          </button>
-        </div>
-      )}
-
-      {!readOnly && available.length > 0 && (
-        <div>
-          <h3 className="mb-2 text-sm font-medium text-black">Available Brands</h3>
-          <div className="flex flex-wrap gap-3">
-            {available.map(b => (
-              <AvailableBrandChip key={b.id} brand={b} onClick={handleAddAvailableBrand} />
-            ))}
+        <div className="mb-4 relative">
+          <div className="flex items-center gap-2">
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Brand name"
+              value={name}
+              onChange={handleInputChange}
+              onKeyDown={handleKeyDown}
+              className="w-full rounded border px-2 py-1 text-sm text-black"
+            />
+            <button
+              onClick={() => {
+                const trimmed = name.trim();
+                const match = available.find(
+                  b => b.name.toLowerCase() === trimmed.toLowerCase()
+                );
+                if (match) handleSelectSuggestion(match);
+                else addCustomBrand();
+              }}
+              className="rounded bg-[#583AFF] px-3 py-1.5 text-white hover:bg-[#4a32d9]"
+            >
+              Add
+            </button>
           </div>
+          {filteredAvailable.length > 0 && (
+            <ul className="absolute z-10 mt-1 max-h-40 w-full overflow-auto rounded border bg-white">
+              {filteredAvailable.map(b => (
+                <li
+                  key={b.id}
+                  onClick={() => handleSelectSuggestion(b)}
+                  className="cursor-pointer px-2 py-1 hover:bg-gray-200"
+                >
+                  {b.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 
