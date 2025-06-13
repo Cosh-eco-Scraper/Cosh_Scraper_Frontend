@@ -65,13 +65,13 @@ export default function StoreOverview() {
                 isError={isErrorStore}
                 readOnly={true}
               />
-                <BrandList
-                    isLoading={isLoadingBrands}
-                    error={brandsError}
-                    isError={isErrorBrands}
-                    brands={brands ?? []}
-                    readOnly={true}
-                />
+              <BrandList
+                isLoading={isLoadingBrands}
+                error={brandsError}
+                isError={isErrorBrands}
+                brands={brands ?? []}
+                readOnly={true}
+              />
             </section>
             {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">

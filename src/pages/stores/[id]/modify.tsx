@@ -72,8 +72,8 @@ export default function Info() {
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
     openingHours ?? []
   );
-    const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
-    const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
+  const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
+  const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
 
   useEffect(() => {
     if (isSuccessOpeningHours && openingHours) {
@@ -321,18 +321,18 @@ export default function Info() {
                 }}
                 onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
               />
-                <BrandList
-                    isLoading={isLoadingBrands}
-                    error={brandsError}
-                    isError={isErrorBrands}
-                    brands={selectedServerBrands}
-                    allBrands={allBrands}
-                    customBrands={brandsFormData}
-                    onCustomBrandsChange={setBrandsFormData}
-                    onAddBrand={handleAddBrand}
-                    onRemoveBrand={handleRemoveBrand}
-                    readOnly={false}
-                />
+              <BrandList
+                isLoading={isLoadingBrands}
+                error={brandsError}
+                isError={isErrorBrands}
+                brands={selectedServerBrands}
+                allBrands={allBrands}
+                customBrands={brandsFormData}
+                onCustomBrandsChange={setBrandsFormData}
+                onAddBrand={handleAddBrand}
+                onRemoveBrand={handleRemoveBrand}
+                readOnly={false}
+              />
             </section>
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
               <EditTypeList
