@@ -74,11 +74,22 @@ export default function Info() {
       types ?? []
   )
 
+  const [originalTypes, setOriginalTypes] = useState<Type[]>(types ?? [])
+
   useEffect(() => {
     if (types && isSuccessTypes) {
       setTypesFormData(types);
+      setOriginalTypes(types)
     }
   }, [types, isSuccessTypes])
+
+  const addType = (type: Type) => {
+    setTypesFormData(prev => [...prev.filter(t => t.id !== type.id), type])
+  }
+
+  const removeType = (id: number) => {
+    setTypesFormData(prev => prev.filter(t => t.id !== id))
+  }
 
   //endregion
 
@@ -216,8 +227,10 @@ export default function Info() {
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <EditTypeList
-              types={typesFormData}
-              error={typesError}
+                isLoading={isLoadingTypes}
+                types={typesFormData}
+                addType={addType}
+                removeType={removeType}
             />
             <LocationInformation
               isLoading={isLoadingStore}
