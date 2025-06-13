@@ -124,9 +124,13 @@ export default function Info() {
       await removeBrand(brandId);
       queryClient.invalidateQueries({
         queryKey: ['brands', storeId],
-      });
+      });      
+      console.log('Removing brand is successful:', isSuccessRemoveBrand);
+
     } catch (error) {
-      console.error('Error removing brand:', error);
+      console.error('Error removing brand:', isErrorRemoveBrand);
+      console.error('Error removing brand message:', error);
+
     }
   };
 

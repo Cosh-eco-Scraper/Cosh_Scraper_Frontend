@@ -1,6 +1,5 @@
 import axiosInstance from '@/axiosInstance';
 import { brandResult } from '@/domain/Brand';
-import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
 
 const StoreBrandService = {
   addBrands: async (storeId: number, brands: string[]) => {

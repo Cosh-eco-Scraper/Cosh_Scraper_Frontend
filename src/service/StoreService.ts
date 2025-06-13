@@ -1,5 +1,5 @@
 import { CreateStore, Store, UpdateStore } from '@/domain/Store';
-import { Brand, brandResult } from '@/domain/Brand';
+import { Brand } from '@/domain/Brand';
 import { OpeningHour } from '@/domain/OpeningHour';
 import axiosInstance from '@/axiosInstance';
 import { UpdateResponse } from '@/domain/UpdateResponse';
