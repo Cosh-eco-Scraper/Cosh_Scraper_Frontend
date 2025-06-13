@@ -6,4 +6,5 @@ export const queryKeys = {
   getStoreBrandsKey: (id: number) => ['brands', id],
   getStoreHoursKey: (id: number) => ['hours', id],
   getStoreTypesKey: (id: number) => ['types', id],
+  getTypesKey: () => ['types'],
 };

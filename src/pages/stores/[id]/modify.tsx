@@ -9,8 +9,11 @@ import useModifyLocation from '@/hooks/location/useModifyLocation';
 import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
-import TypeList from '@/components/TypeList';
+import EditTypeList from '@/components/types/EditTypeList';
 import { OpeningHour } from '@/domain/OpeningHour';
+import Head from 'next/head';
+import { Type } from '@/domain/StoreType';
+import useModifyStoreTypes from '@/hooks/storeType/useModifyStoreTypes';
 import useModifyBrands from '@/hooks/brands/useModifyBrands';
 import useBrands from '@/hooks/brands/useBrands';
 import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
@@ -22,6 +25,7 @@ export default function Info() {
   const router = useRouter();
   const { id } = router.query;
   const storeId = parseInt((id as string) ?? '0');
+  const { addStoreType, removeStoreType } = useModifyStoreTypes();
 
   const {
     openingHours,
@@ -34,9 +38,8 @@ export default function Info() {
     isErrorStore,
     isSuccessOpeningHours,
     isLoadingStore,
-    isErrorTypes,
-    typesError,
     isLoadingTypes,
+    isSuccessTypes,
     brandsError,
   } = useStore(storeId);
 
@@ -65,11 +68,42 @@ export default function Info() {
     country: '',
   });
 
+  //region openingshours latest update
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>(
     openingHours ?? []
   );
-  const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
-  const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
+    const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
+    const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    if (isSuccessOpeningHours && openingHours) {
+      console.log('openingHours:', openingHours);
+      setOpeningHoursFormData(openingHours);
+    }
+  }, [isSuccessOpeningHours, openingHours]);
+
+  //endregion
+  //region types
+  const [typesFormData, setTypesFormData] = useState<Type[]>(types ?? []);
+
+  const [originalTypes, setOriginalTypes] = useState<Type[]>(types ?? []);
+
+  useEffect(() => {
+    if (types && isSuccessTypes) {
+      setTypesFormData(types);
+      setOriginalTypes(types);
+    }
+  }, [types, isSuccessTypes]);
+
+  const addType = (type: Type) => {
+    setTypesFormData(prev => [...prev.filter(t => t.id !== type.id), type]);
+  };
+
+  const removeType = (id: number) => {
+    setTypesFormData(prev => prev.filter(t => t.id !== id));
+  };
+
+  //endregion
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -198,6 +232,25 @@ export default function Info() {
           ...brandsFormData.filter(x => x.trim() !== ''),
         ]);
 
+        // Compare types to find changes
+        const addedTypes = typesFormData.filter(
+          type => !originalTypes.some(originalType => originalType.id === type.id)
+        );
+        const removedTypes = originalTypes.filter(
+          type => !typesFormData.some(currentType => currentType.id === type.id)
+        );
+
+        // Update store types
+        for (const type of addedTypes) {
+          const storeType = { storeId, typeId: type.id };
+
+          await addStoreType(storeType);
+        }
+        for (const type of removedTypes) {
+          const storeType = { storeId, typeId: type.id };
+          await removeStoreType(storeType);
+        }
+
         setModified(true);
       }
     } catch (error) {
@@ -215,79 +268,101 @@ export default function Info() {
   console.log('Info.tsx - openingHoursFormData state:', openingHoursFormData);
 
   return (
-    <div className="flex flex-col bg-gray-50">
-      {/*Header*/}
-      <div className="bg-[#060023] py-8 text-white shadow-md">
-        <div className="mx-auto max-w-5xl px-4 text-center">
-          <h1 className="mb-2 text-4xl font-extrabold">Your Company Info</h1>
-          <h2 className="text-lg font-medium text-gray-200">
-            Please verify if your store information is correct.
-          </h2>
+    <>
+      <Head>
+        <title>{store?.name ? `${store.name} | Cosh` : 'Store | Cosh'}</title>
+        <meta
+          name="description"
+          content={
+            formData.description?.slice(0, 155) ||
+            store?.description?.slice(0, 155) ||
+            'Edit your sustainable shop information on Cosh.'
+          }
+        />
+        <meta property="og:title" content={store?.name || 'Store | Cosh'} />
+        <meta
+          property="og:description"
+          content={
+            formData.description?.slice(0, 200) ||
+            store?.description?.slice(0, 200) ||
+            'Edit your sustainable shop information on Cosh.'
+          }
+        />
+      </Head>
+      <div className="flex flex-col bg-gray-50">
+        {/*Header*/}
+        <div className="bg-[#060023] py-8 text-white shadow-md">
+          <div className="mx-auto max-w-5xl px-4 text-center">
+            <h1 className="mb-2 text-4xl font-extrabold">Your Company Info</h1>
+            <h2 className="text-lg font-medium text-gray-200">
+              Please verify if your store information is correct.
+            </h2>
+          </div>
+        </div>
+        <div className="max-w-12xl mx-auto w-full flex-1 px-6 py-10">
+          {/*Disclaimer*/}
+          <div>
+            <p className="flex justify-center p-2 text-black">
+              Disclaimer: Please fill out all information on this page in English.
+            </p>
+          </div>
+          {/*Disclaimer*/}
+          <div className="grid grid-cols-1 gap-6 pb-8 md:grid-cols-2">
+            <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+              <Description
+                isLoading={isLoadingStore}
+                error={storeError}
+                store={store}
+                isError={isErrorStore}
+                formData={{
+                  name: formData.name,
+                  description: formData.description,
+                  retour: formData.retour,
+                }}
+                onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+              />
+                <BrandList
+                    isLoading={isLoadingBrands}
+                    error={brandsError}
+                    isError={isErrorBrands}
+                    brands={selectedServerBrands}
+                    allBrands={allBrands}
+                    customBrands={brandsFormData}
+                    onCustomBrandsChange={setBrandsFormData}
+                    onAddBrand={handleAddBrand}
+                    onRemoveBrand={handleRemoveBrand}
+                    readOnly={false}
+                />
+            </section>
+            <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
+              <EditTypeList
+                isLoading={isLoadingTypes}
+                types={typesFormData}
+                addType={addType}
+                removeType={removeType}
+              />
+              <LocationInformation
+                isLoading={isLoadingStore}
+                error={storeError}
+                isError={isErrorStore}
+                store={store}
+                formData={locationFormData}
+                onFieldChange={handleLocationChange}
+              />
+              <EditOpeningHourInformation
+                openingHours={openingHoursFormData}
+                updateHour={updateHour}
+                isLoading={false}
+                error={null}
+                isError={false}
+              />
+            </section>
+          </div>
+          <div className="flex justify-center p-2">
+            <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
+          </div>
         </div>
       </div>
-      <div className="max-w-12xl mx-auto w-full flex-1 px-6 py-10">
-        {/*Disclaimer*/}
-        <div>
-          <p className="flex justify-center p-2 text-black">
-            Disclaimer: Please fill out all information on this page in English.
-          </p>
-        </div>
-        {/*Disclaimer*/}
-        <div className="grid grid-cols-1 gap-6 pb-8 md:grid-cols-2">
-          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
-            <Description
-              isLoading={isLoadingStore}
-              error={storeError}
-              store={store}
-              isError={isErrorStore}
-              formData={{
-                name: formData.name,
-                description: formData.description,
-                retour: formData.retour,
-              }}
-              onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
-            />
-            <BrandList
-              isLoading={isLoadingBrands}
-              error={brandsError}
-              isError={isErrorBrands}
-              brands={selectedServerBrands}
-              allBrands={allBrands}
-              customBrands={brandsFormData}
-              onCustomBrandsChange={setBrandsFormData}
-              onAddBrand={handleAddBrand}
-              onRemoveBrand={handleRemoveBrand}
-              readOnly={false}
-            />
-          </section>
-          <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
-            <TypeList
-              types={types}
-              isLoading={isLoadingTypes}
-              isError={isErrorTypes}
-              error={typesError}
-            />
-            <LocationInformation
-              isLoading={isLoadingStore}
-              error={storeError}
-              isError={isErrorStore}
-              store={store}
-              formData={locationFormData}
-              onFieldChange={handleLocationChange}
-            />
-            <EditOpeningHourInformation
-              openingHours={openingHoursFormData}
-              updateHour={updateHour}
-              isLoading={false}
-              error={null}
-              isError={false}
-            />
-          </section>
-        </div>
-        <div className="flex justify-center p-2">
-          <CoshButton onClick={handleSubmit}>Submit data</CoshButton>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

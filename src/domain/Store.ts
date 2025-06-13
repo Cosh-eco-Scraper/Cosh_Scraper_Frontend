@@ -20,4 +20,5 @@ export type UpdateStore = {
 export type CreateStore = {
   url: string;
   location: string;
+  clientId: string;
 };
