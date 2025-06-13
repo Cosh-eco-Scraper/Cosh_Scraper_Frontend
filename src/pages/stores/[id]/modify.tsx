@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useStore from '@/hooks/store/useStore';
 import { useRouter } from 'next/router';
 import Description from '@/components/Description';
-import BrandList from '@/components/BrandList';
+import EditBrandList from '@/components/brands/EditBrandList';
 import LocationInformation from '@/components/LocationInformation';
 import EditOpeningHourInformation from '@/components/openinghours/EditOpeningHourInformation';
 import useModifyLocation from '@/hooks/location/useModifyLocation';
@@ -14,6 +14,8 @@ import { OpeningHour } from '@/domain/OpeningHour';
 import Head from 'next/head';
 import { Type } from '@/domain/StoreType';
 import useModifyStoreTypes from '@/hooks/storeType/useModifyStoreTypes';
+import useModifyBrands from '@/hooks/brands/useModifyBrands';
+import { Brand } from '@/domain/Brand';
 
 export default function Info() {
   const router = useRouter();
@@ -25,16 +27,14 @@ export default function Info() {
     openingHours,
     store,
     brands,
+    isSuccessBrands,
     types,
     storeError,
-    isErrorBrands,
-    isLoadingBrands,
     isErrorStore,
     isSuccessOpeningHours,
     isLoadingStore,
     isLoadingTypes,
     isSuccessTypes,
-    brandsError,
   } = useStore(storeId);
 
   const [formData, setFormData] = useState(() => ({
@@ -47,6 +47,8 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
+  const { updateBrands, isSuccessUpdateBrands, removeBrand } =
+    useModifyBrands(storeId);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
@@ -110,15 +112,37 @@ export default function Info() {
   }, [store]);
 
   useEffect(() => {
+    if (isSuccessOpeningHours && openingHours) {
+      setOpeningHoursFormData(openingHours);
+    }
+  }, [isSuccessOpeningHours, openingHours]);
+
+  const [originalBrands, setOriginalBrands] = useState<Brand[]>([]);
+  const [brandsFormData, setBrandsFormData] = useState<Brand[]>([]);
+
+  useEffect(() => {
+    if (isSuccessBrands && brands) {
+      setOriginalBrands(brands);
+      setBrandsFormData(brands);
+    }
+  }, [brands, isSuccessBrands]);
+
+  useEffect(() => {
     if (!isModified) return;
 
-    if (isSuccessUpdateLocation && isSuccessUpdateOpeningHours && isSuccessUpdateStore) {
+    if (
+      isSuccessUpdateLocation &&
+      isSuccessUpdateOpeningHours &&
+      isSuccessUpdateStore &&
+      isSuccessUpdateBrands
+    ) {
       router.push(`/stores/${storeId}`);
     }
   }, [
     isSuccessUpdateLocation,
     isSuccessUpdateOpeningHours,
     isSuccessUpdateStore,
+    isSuccessUpdateBrands,
     isModified,
     router,
     storeId,
@@ -140,6 +164,13 @@ export default function Info() {
     console.log('openingHoursFormData after update (might be stale):', openingHoursFormData);
   };
 
+  function handleAddBrand(b: Brand) {
+    setBrandsFormData(prev => [...prev.filter(x => x.name !== b.name), b]);
+  }
+
+  async function handleRemoveBrand(id: number) {
+    setBrandsFormData(prev => prev.filter(x => x.id !== id));
+  }
   const updateStoreData = async () => {
     try {
       if (store) {
@@ -164,6 +195,23 @@ export default function Info() {
               return openingHour;
             })
           );
+        }
+
+        // Compare brands to find changes
+        const addedBrands = brandsFormData.filter(
+          brand => !originalBrands.some(originalBrand => originalBrand.id === brand.id)
+        );
+        const removedBrands = originalBrands.filter(
+          brand => !brandsFormData.some(currentBrand => currentBrand.id === brand.id)
+        );
+
+        // Update store brands
+        if (addedBrands.length > 0) {
+          await updateBrands(addedBrands.map(brand => brand.name));
+        }
+
+        for (const brand of removedBrands) {
+          await removeBrand(brand.id);
         }
 
         // Compare types to find changes
@@ -255,11 +303,10 @@ export default function Info() {
                 }}
                 onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
               />
-              <BrandList
-                isLoading={isLoadingBrands}
-                error={brandsError}
-                isError={isErrorBrands}
-                brands={brands}
+              <EditBrandList
+                brands={brandsFormData}
+                onAddBrand={handleAddBrand}
+                onRemoveBrand={handleRemoveBrand}
               />
             </section>
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">

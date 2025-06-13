@@ -19,6 +19,7 @@ export default function useStore(id: number) {
     isLoading: isLoadingBrands,
     error: brandsError,
     isError: isErrorBrands,
+    isSuccess: isSuccessBrands,
   } = useQuery({
     queryKey: queryKeys.getStoreBrandsKey(id),
     queryFn: () => StoreService.getStoreBrands(id), // Replace '1' with the actual store ID you want to fetch
@@ -65,6 +66,7 @@ export default function useStore(id: number) {
     openingHoursError,
     types,
     isLoadingTypes,
+    isSuccessBrands,
     isErrorTypes,
     typesError,
     isSuccessTypes,

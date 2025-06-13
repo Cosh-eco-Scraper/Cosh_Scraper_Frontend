@@ -2,13 +2,13 @@ import React from 'react';
 import useStore from '@/hooks/store/useStore';
 import { useRouter } from 'next/router';
 import Description from '@/components/Description';
-import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
 import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
 import TypeList from '@/components/types/TypeList';
 import Head from 'next/head';
+import BrandList from '@/components/brands/BrandList';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -20,11 +20,8 @@ export default function StoreOverview() {
     store,
     brands,
     storeError,
-    isErrorBrands,
-    isLoadingBrands,
     isErrorStore,
     isLoadingStore,
-    brandsError,
     types,
     isLoadingTypes,
   } = useStore(storeId);
@@ -56,7 +53,7 @@ export default function StoreOverview() {
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-8">
           <div className="grid grid-cols-1 gap-6 pb-12 md:grid-cols-2">
-            {/* Left column: one card containing Description and BrandList */}
+            {/* Left column: one card containing Description and EditBrandList */}
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
               <Description
                 isLoading={isLoadingStore}
@@ -65,12 +62,11 @@ export default function StoreOverview() {
                 isError={isErrorStore}
                 readOnly={true}
               />
-              <BrandList
-                isLoading={isLoadingBrands}
-                error={brandsError}
-                isError={isErrorBrands}
-                brands={brands}
-              />
+              {brands && brands.length > 0 ? (
+                <BrandList brands={brands} />
+              ) : (
+                <div>No brands could be found.</div>
+              )}
             </section>
             {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
