@@ -9,7 +9,7 @@
 
 ## Description
 
-This project is the frontend for the COSH! store registration platform, providing a modern web interface for adding a store to the COSH! platform. The frontend is built with Next.js and Tailwind CSS, offering a seamless user experience for both store owners and conscious consumers. It connects to the backend to display, register, and manage store data, brands, opening hours, and sustainability information.
+This project is the frontend for the COSH! store registration platform, providing a modern web interface for adding a store to the COSH! platform. The frontend is built with Next.js and Tailwind CSS, offering a seamless user experience for store owners. It connects to the backend to display, register, and manage store data, brands, opening hours, and sustainability information.
 
 ### Key Features
 
