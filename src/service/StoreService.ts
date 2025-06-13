@@ -74,15 +74,7 @@ const StoreService = {
     }
   },
 
-  addBrands: async (storeId: number, brands: string[]) => {
-    try {
-      const response = await axiosInstance.post(`stores/${storeId}/brands`, { brands });
-      return response.data as brandResult;
-    } catch (error) {
-      console.error('Error adding brands to store:', error);
-      throw error;
-    }
-  },
+  
 };
 
 export default StoreService;

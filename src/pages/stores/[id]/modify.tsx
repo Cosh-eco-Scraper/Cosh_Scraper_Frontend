@@ -12,6 +12,9 @@ import CoshButton from '@/components/CoshButton';
 import TypeList from '@/components/TypeList';
 import { OpeningHour } from '@/domain/OpeningHour';
 import useModifyBrands from '@/hooks/brands/useModifyBrands';
+import useBrands from '@/hooks/brands/useBrands';
+import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
+import { queryClient } from '@/config/queryClient';
 
 export default function Info() {
   const router = useRouter();
@@ -37,11 +40,18 @@ export default function Info() {
     openingHoursError,
   } = useStore(storeId);
 
+  const { allBrands } = useBrands();
+  console.log('allBrands', allBrands);
+
+  const { removeBrand, isSuccessRemoveBrand, isErrorRemoveBrand } = useRemoveBrand(storeId);
+
   const [formData, setFormData] = useState(() => ({
     name: '',
     description: '',
     retour: '',
   }));
+
+ 
 
   const [isModified, setModified] = useState(false);
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
@@ -76,8 +86,6 @@ export default function Info() {
         city: store.city || '',
         country: store.country || '',
       });
-
-      setBrandsFormData(brands ? brands.map(brand => brand.name) : []);
     }
   }, [store]);
 
@@ -110,6 +118,18 @@ export default function Info() {
 
   const handleLocationChange = (field: keyof typeof locationFormData, value: string) => {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  // Handle removing server brands
+  const handleRemoveServerBrand = async (brandId: number) => {
+    try {
+      await removeBrand(brandId);
+      queryClient.invalidateQueries({
+              queryKey: ['brands', storeId]
+            });    
+      } catch (error) {
+      console.error('Error removing brand:', error);
+    }
   };
 
   const updateStoreData = async () => {
@@ -190,9 +210,10 @@ export default function Info() {
               isLoading={isLoadingBrands}
               error={brandsError}
               isError={isErrorBrands}
-              brands={brands}
+              brands={brands ?? []}
               customBrands={brandsFormData}
               onCustomBrandsChange={setBrandsFormData}
+              onRemoveBrand={handleRemoveServerBrand}
             />
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">

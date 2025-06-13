@@ -56,7 +56,7 @@ export default function StoreOverview() {
               isLoading={isLoadingBrands}
               error={brandsError}
               isError={isErrorBrands}
-              brands={brands}
+              brands={brands ?? []}
               readOnly={true}
             />
           </section>

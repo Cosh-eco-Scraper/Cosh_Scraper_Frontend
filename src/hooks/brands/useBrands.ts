@@ -6,19 +6,19 @@ import { Brand } from '@/domain/Brand';
 
 export default function useBrands() {
   const {
-    data: brands,
-    isLoading: isLoadingBrands,
-    error: brandsError,
-    isError: isErrorBrands,
+    data: allBrands,
+    isLoading: isLoadingAllBrands,
+    error: allbrandsError,
+    isError: isErrorAllBrands,
   } = useQuery({
     queryKey: queryKeys.getAllBrandsKey(),
     queryFn: () => BrandService.getAllBrands(),
   });
 
   return {
-    brands: brands as Brand[],
-    isLoadingBrands,
-    isErrorBrands,
-    brandsError,
+    allBrands: allBrands as Brand[],
+    isLoadingAllBrands,
+    allbrandsError,
+    isErrorAllBrands,
   };
 }
