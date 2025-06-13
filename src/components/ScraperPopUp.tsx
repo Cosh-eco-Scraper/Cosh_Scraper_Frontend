@@ -5,6 +5,7 @@ import useModifyStores from '@/hooks/store/useMofifyStores';
 import { CreateStore } from '@/domain/Store';
 import { ErrorMessage } from '@hookform/error-message';
 import { useWebSocket } from '@/hooks/websocket/useWebSocket';
+import { v4 as uuidv4 } from 'uuid';
 
 interface MyPopupProps {
   open: boolean;
@@ -12,11 +13,26 @@ interface MyPopupProps {
 }
 
 const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
+
+    const getClientId = () => {
+    let clientId = localStorage.getItem('clientId');
+    if (!clientId) {
+      clientId = uuidv4();
+      localStorage.setItem('clientId', clientId);
+    }
+    return clientId;
+  };
+
+  const clientId = getClientId();
+
+  console.log('Client ID:', clientId);
+
+
   const {
     data: progress,
     recieveMessage,
     closeConnection,
-  } = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!);
+  } = useWebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL!, clientId);
 
   const router = useRouter();
 
@@ -98,6 +114,7 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
               render={({ message }) => <p className="text-red-500">{message}</p>}
             />
           </div>
+          <input type="hidden" value={clientId} {...register('clientId')} />
 
           <div className="flex justify-between">
             <button
