@@ -7,10 +7,10 @@ import AvailableBrandChip from './AvailableBrandChip';
 interface BrandListProps {
   isLoading: boolean;
   error: Error | null;
-  brands: Brand[];               // confirmed server brands
-  allBrands?: Brand[];           // all available brands
+  brands: Brand[]; // confirmed server brands
+  allBrands?: Brand[]; // all available brands
   isError: boolean;
-  customBrands?: string[];       // custom brand names
+  customBrands?: string[]; // custom brand names
   onCustomBrandsChange?: (newList: string[]) => void;
   onRemoveBrand?: (brandId: number) => void;
   onAddBrand?: (brand: Brand) => void;
@@ -52,15 +52,28 @@ export default function BrandList({
 
   const removeServerBrand = (id: number) => onRemoveBrand?.(id);
   const removePendingBrand = (id: number) => setPendingAdds(prev => prev.filter(b => b.id !== id));
-  const removeCustomBrand = (label: string) => onCustomBrandsChange?.(customBrands.filter(n => n !== label));
+  const removeCustomBrand = (label: string) =>
+    onCustomBrandsChange?.(customBrands.filter(n => n !== label));
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <ErrorMessage error={error} />;
 
   // Build lists
-  const serverChips = brands.map(b => ({ key: `s-${b.id}`, label: b.name, onRemove: () => removeServerBrand(b.id) }));
-  const pendingChips = pendingAdds.map(b => ({ key: `p-${b.id}`, label: b.name, onRemove: () => removePendingBrand(b.id) }));
-  const customChips = customBrands.map(n => ({ key: `c-${n}`, label: n, onRemove: () => removeCustomBrand(n) }));
+  const serverChips = brands.map(b => ({
+    key: `s-${b.id}`,
+    label: b.name,
+    onRemove: () => removeServerBrand(b.id),
+  }));
+  const pendingChips = pendingAdds.map(b => ({
+    key: `p-${b.id}`,
+    label: b.name,
+    onRemove: () => removePendingBrand(b.id),
+  }));
+  const customChips = customBrands.map(n => ({
+    key: `c-${n}`,
+    label: n,
+    onRemove: () => removeCustomBrand(n),
+  }));
 
   // Determine availability
   const selectedIds = new Set([...brands, ...pendingAdds].map(b => b.id));
@@ -69,7 +82,9 @@ export default function BrandList({
     ...pendingAdds.map(b => b.name.toLowerCase()),
     ...customBrands.map(n => n.toLowerCase()),
   ]);
-  const available = allBrands.filter(b => !selectedIds.has(b.id) && !selectedNames.has(b.name.toLowerCase()));
+  const available = allBrands.filter(
+    b => !selectedIds.has(b.id) && !selectedNames.has(b.name.toLowerCase())
+  );
 
   return (
     <div>
@@ -87,7 +102,9 @@ export default function BrandList({
           <button
             onClick={addCustomBrand}
             className="rounded bg-[#583AFF] px-3 py-1.5 text-white hover:bg-[#4a32d9]"
-          >Add</button>
+          >
+            Add
+          </button>
         </div>
       )}
 
@@ -108,15 +125,17 @@ export default function BrandList({
           {serverChips.concat(pendingChips, customChips).length === 0 ? (
             <p className="text-sm text-gray-500">No brands selected yet.</p>
           ) : (
-            serverChips.concat(pendingChips, customChips).map(chip => (
-              <BrandChip
-                key={chip.key}
-                name={chip.label}
-                label=""
-                onRemove={chip.onRemove}
-                readOnly={readOnly}
-              />
-            ))
+            serverChips
+              .concat(pendingChips, customChips)
+              .map(chip => (
+                <BrandChip
+                  key={chip.key}
+                  name={chip.label}
+                  label=""
+                  onRemove={chip.onRemove}
+                  readOnly={readOnly}
+                />
+              ))
           )}
         </div>
       </div>

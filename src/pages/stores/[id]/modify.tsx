@@ -142,25 +142,24 @@ export default function Info() {
   }
 
   async function handleRemoveBrand(id: number) {
-  try {
-    await removeBrand(id);
-    // real success
-    queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
-    setSelectedServerBrands(s => s.filter(b => b.id !== id));
-  } catch (error: any) {
-    const status  = error?.response?.status;
-    const message = error?.response?.data?.message;
-    
-    // only treat “not associated” 500 as harmless
-    if (status === 500 && message === 'Brand is not associated with this store') {
+    try {
+      await removeBrand(id);
+      // real success
+      queryClient.invalidateQueries({ queryKey: ['brands', storeId] });
       setSelectedServerBrands(s => s.filter(b => b.id !== id));
-    } else {
-      // all other errors: log or surface to user
-      console.error('Error removing brand:', error);
+    } catch (error: any) {
+      const status = error?.response?.status;
+      const message = error?.response?.data?.message;
+
+      // only treat “not associated” 500 as harmless
+      if (status === 500 && message === 'Brand is not associated with this store') {
+        setSelectedServerBrands(s => s.filter(b => b.id !== id));
+      } else {
+        // all other errors: log or surface to user
+        console.error('Error removing brand:', error);
+      }
     }
   }
-}
-
 
   const updateStoreData = async () => {
     try {
