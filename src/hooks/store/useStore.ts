@@ -28,6 +28,7 @@ export default function useStore(id: number) {
   const {
     data: openingHours,
     isLoading: isLoadingOpeningHours,
+    isSuccess: isSuccessOpeningHours,
     error: openingHoursError,
     isError: isOpeningHoursError,
   } = useQuery({
@@ -38,6 +39,7 @@ export default function useStore(id: number) {
 
   const {
     data: types,
+    isSuccess: isSuccessTypes,
     isLoading: isLoadingTypes,
     error: typesError,
     isError: isErrorTypes,
@@ -54,6 +56,7 @@ export default function useStore(id: number) {
     isErrorStore,
     brands,
     isLoadingBrands,
+    isSuccessOpeningHours,
     isErrorBrands,
     brandsError,
     openingHours,
@@ -64,5 +67,6 @@ export default function useStore(id: number) {
     isLoadingTypes,
     isErrorTypes,
     typesError,
+    isSuccessTypes,
   };
 }

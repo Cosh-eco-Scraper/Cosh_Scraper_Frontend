@@ -3,3 +3,10 @@ export type StoreType = {
   name: string;
   description?: string;
 };
+
+export type Type = Omit<StoreType, 'description'>;
+
+export type LinkType = {
+  storeId: number;
+  typeId: number;
+};

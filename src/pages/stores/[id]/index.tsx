@@ -4,10 +4,10 @@ import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import BrandList from '@/components/BrandList';
 import LocationInformation from '@/components/LocationInformation';
-import OpeningHourInformation from '@/components/OpeningHourInformation';
 import CoshButton from '@/components/CoshButton';
 import Link from 'next/link';
-import TypeList from '@/components/TypeList';
+import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
+import TypeList from '@/components/types/TypeList';
 import Head from 'next/head';
 
 export default function StoreOverview() {
@@ -23,15 +23,10 @@ export default function StoreOverview() {
     isErrorBrands,
     isLoadingBrands,
     isErrorStore,
-    isLoadingOpeningHours,
     isLoadingStore,
-    isOpeningHoursError,
     brandsError,
-    openingHoursError,
     types,
     isLoadingTypes,
-    isErrorTypes,
-    typesError,
   } = useStore(storeId);
 
   return (
@@ -40,12 +35,18 @@ export default function StoreOverview() {
         <title>{store?.name ? `${store.name} | Cosh` : 'Store | Cosh'}</title>
         <meta
           name="description"
-          content={store?.description?.slice(0, 155) || 'Add your sustainable shop on Cosh.'}
+          content={
+            store?.description?.slice(0, 155) ||
+            'View your sustainable shop information on Cosh.'
+          }
         />
         <meta property="og:title" content={store?.name || 'Store | Cosh'} />
         <meta
           property="og:description"
-          content={store?.description?.slice(0, 200) || 'Add your sustainable shop on Cosh.'}
+          content={
+            store?.description?.slice(0, 200) ||
+            'View your sustainable shop information on Cosh.'
+          }
         />
       </Head>
       <div className="flex flex-col bg-gray-50">
@@ -73,14 +74,9 @@ export default function StoreOverview() {
                 brands={brands}
               />
             </section>
-            {/* Right column: one card containing LocationInformation and OpeningHourInformation */}
+            {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
-              <TypeList
-                types={types}
-                isLoading={isLoadingTypes}
-                isError={isErrorTypes}
-                error={typesError}
-              />
+              <TypeList isLoading={isLoadingTypes} types={types} />
               <LocationInformation
                 isLoading={isLoadingStore}
                 error={storeError}
@@ -88,13 +84,7 @@ export default function StoreOverview() {
                 store={store}
                 readOnly={true}
               />
-              <OpeningHourInformation
-                isLoading={isLoadingOpeningHours}
-                error={openingHoursError}
-                isError={isOpeningHoursError}
-                openingHours={openingHours}
-                readOnly={true}
-              />
+              <OpeningHourInformation openingHours={openingHours}></OpeningHourInformation>
             </section>
           </div>
           <div className="flex justify-center p-2">
