@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import EditBrandList from '@/components/brands/EditBrandList';
 import LocationInformation from '@/components/LocationInformation';
@@ -10,12 +10,12 @@ import useModifyOpeningHours from '@/hooks/openinghours/useModifyOpeningHours';
 import useModifyStore from '@/hooks/store/useModifyStore';
 import CoshButton from '@/components/CoshButton';
 import EditTypeList from '@/components/types/EditTypeList';
-import {OpeningHour} from '@/domain/OpeningHour';
+import { OpeningHour } from '@/domain/OpeningHour';
 import Head from 'next/head';
-import {Type} from '@/domain/StoreType';
+import { Type } from '@/domain/StoreType';
 import useModifyStoreTypes from '@/hooks/storeType/useModifyStoreTypes';
 import useModifyBrands from '@/hooks/brands/useModifyBrands';
-import {Brand} from '@/domain/Brand';
+import { Brand } from '@/domain/Brand';
 
 export default function Info() {
   const router = useRouter();
@@ -30,17 +30,12 @@ export default function Info() {
     isSuccessBrands,
     types,
     storeError,
-    isErrorBrands,
-    isLoadingBrands,
     isErrorStore,
     isSuccessOpeningHours,
     isLoadingStore,
     isLoadingTypes,
     isSuccessTypes,
-    brandsError,
   } = useStore(storeId);
-
-
 
   const [formData, setFormData] = useState(() => ({
     name: '',
@@ -52,7 +47,8 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
-  const {updateBrands, isSuccessUpdateBrands, removeBrand, isSuccessRemoveBrand} = useModifyBrands(storeId);
+  const { updateBrands, isSuccessUpdateBrands, removeBrand } =
+    useModifyBrands(storeId);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
@@ -121,16 +117,13 @@ export default function Info() {
     }
   }, [isSuccessOpeningHours, openingHours]);
 
-
   const [originalBrands, setOriginalBrands] = useState<Brand[]>([]);
   const [brandsFormData, setBrandsFormData] = useState<Brand[]>([]);
-
-
 
   useEffect(() => {
     if (isSuccessBrands && brands) {
       setOriginalBrands(brands);
-      setBrandsFormData(brands)
+      setBrandsFormData(brands);
     }
   }, [brands, isSuccessBrands]);
 
@@ -206,10 +199,10 @@ export default function Info() {
 
         // Compare brands to find changes
         const addedBrands = brandsFormData.filter(
-            brand => !originalBrands.some(originalBrand => originalBrand.id === brand.id)
+          brand => !originalBrands.some(originalBrand => originalBrand.id === brand.id)
         );
         const removedBrands = originalBrands.filter(
-            brand => !brandsFormData.some(currentBrand => currentBrand.id === brand.id)
+          brand => !brandsFormData.some(currentBrand => currentBrand.id === brand.id)
         );
 
         // Update store brands
@@ -220,7 +213,6 @@ export default function Info() {
         for (const brand of removedBrands) {
           await removeBrand(brand.id);
         }
-
 
         // Compare types to find changes
         const addedTypes = typesFormData.filter(
@@ -312,9 +304,10 @@ export default function Info() {
                 onFieldChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
               />
               <EditBrandList
-                  brands={brandsFormData}
-                  onAddBrand={handleAddBrand}
-                  onRemoveBrand={handleRemoveBrand}/>
+                brands={brandsFormData}
+                onAddBrand={handleAddBrand}
+                onRemoveBrand={handleRemoveBrand}
+              />
             </section>
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
               <EditTypeList

@@ -1,6 +1,6 @@
 import React from 'react';
 import useStore from '@/hooks/store/useStore';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/router';
 import Description from '@/components/Description';
 import LocationInformation from '@/components/LocationInformation';
 import CoshButton from '@/components/CoshButton';
@@ -8,7 +8,7 @@ import Link from 'next/link';
 import OpeningHourInformation from '@/components/openinghours/OpeningHourInformation';
 import TypeList from '@/components/types/TypeList';
 import Head from 'next/head';
-import BrandList from "@/components/brands/BrandList";
+import BrandList from '@/components/brands/BrandList';
 
 export default function StoreOverview() {
   const router = useRouter();
@@ -63,11 +63,10 @@ export default function StoreOverview() {
                 readOnly={true}
               />
               {brands && brands.length > 0 ? (
-                  <BrandList brands={brands}/>
+                <BrandList brands={brands} />
               ) : (
-                  <div>No brands could be found.</div>
+                <div>No brands could be found.</div>
               )}
-
             </section>
             {/* Right column: one card containing LocationInformation and EditOpeningHourInformation */}
             <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
