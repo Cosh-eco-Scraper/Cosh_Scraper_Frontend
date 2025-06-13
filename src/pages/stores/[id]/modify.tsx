@@ -15,6 +15,7 @@ import useModifyBrands from '@/hooks/brands/useModifyBrands';
 import useBrands from '@/hooks/brands/useBrands';
 import useRemoveBrand from '@/hooks/brands/useDeleteBrands';
 import { queryClient } from '@/config/queryClient';
+import { Brand } from '@/domain/Brand';
 
 export default function Info() {
   const router = useRouter();
@@ -66,8 +67,9 @@ export default function Info() {
   });
 
   const [openingHoursFormData, setOpeningHoursFormData] = useState<OpeningHour[]>([]);
-
   const [brandsFormData, setBrandsFormData] = useState<string[]>([]);
+  const [selectedServerBrands, setSelectedServerBrands] = useState<Brand[]>([]);
+
 
   useEffect(() => {
     if (store && store.name !== '' && store.street !== '') {
@@ -94,6 +96,12 @@ export default function Info() {
   }, [openingHours]);
 
   useEffect(() => {
+    if (brands) {
+      setSelectedServerBrands(brands);
+    }
+  }, [brands]);
+
+  useEffect(() => {
     if (!isModified) return;
 
     if (
@@ -118,21 +126,29 @@ export default function Info() {
     setLocationFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  // Handle removing server brands
-  const handleRemoveServerBrand = async (brandId: number) => {
-    try {
-      await removeBrand(brandId);
+    function handleAddBrand(b: Brand) {
+      setSelectedServerBrands(s => [...s, b]);
+    }
+
+    // you can ditch your immediate‐delete hook entirely and just do a local remove:
+    async function handleRemoveBrand(id: number) {
+      try {
+      await removeBrand(id);
       queryClient.invalidateQueries({
         queryKey: ['brands', storeId],
       });      
       console.log('Removing brand is successful:', isSuccessRemoveBrand);
+      setSelectedServerBrands(s => s.filter(b => b.id !== id));
 
     } catch (error) {
       console.error('Error removing brand:', isErrorRemoveBrand);
       console.error('Error removing brand message:', error);
 
     }
-  };
+    }
+  
+
+  
 
   const updateStoreData = async () => {
     try {
@@ -155,9 +171,10 @@ export default function Info() {
           await updateOpeningHours(openingHoursFormData);
         }
 
-        await updateBrands(
-          brandsFormData.filter(brand => brand.trim() !== '').map(brand => brand.trim())
-        );
+       await updateBrands([
+          ...selectedServerBrands.map(b => b.name),
+          ...brandsFormData.filter(x => x.trim() !== ''),
+        ]);
 
         setModified(true);
       }
@@ -212,11 +229,15 @@ export default function Info() {
               isLoading={isLoadingBrands}
               error={brandsError}
               isError={isErrorBrands}
-              brands={brands ?? []}
+              brands={selectedServerBrands}
+              allBrands={allBrands}
               customBrands={brandsFormData}
               onCustomBrandsChange={setBrandsFormData}
-              onRemoveBrand={handleRemoveServerBrand}
+              onAddBrand={handleAddBrand}
+              onRemoveBrand={handleRemoveBrand}
+              readOnly={false}
             />
+
           </section>
           <section className="flex flex-col gap-6 rounded-2xl bg-white p-6 shadow-md">
             <TypeList
