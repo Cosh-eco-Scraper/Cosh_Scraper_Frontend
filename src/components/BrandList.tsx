@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Brand } from '@/domain/Brand';
 import ErrorMessage from './ErrorMessage';
 import BrandChip from './BrandChip';
-import AvailableBrandChip from './AvailableBrandChip';
 
 interface BrandListProps {
   isLoading: boolean;
@@ -88,11 +87,10 @@ export default function BrandList({
   );
 
   // Filter suggestions based on input
-  const filteredAvailable = !readOnly && name.trim()
-    ? available.filter(b =>
-        b.name.toLowerCase().includes(name.trim().toLowerCase())
-      )
-    : [];
+  const filteredAvailable =
+    !readOnly && name.trim()
+      ? available.filter(b => b.name.toLowerCase().includes(name.trim().toLowerCase()))
+      : [];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -108,9 +106,7 @@ export default function BrandList({
     if (e.key === 'Enter') {
       e.preventDefault();
       const trimmed = name.trim();
-      const match = available.find(
-        b => b.name.toLowerCase() === trimmed.toLowerCase()
-      );
+      const match = available.find(b => b.name.toLowerCase() === trimmed.toLowerCase());
       if (match) {
         handleSelectSuggestion(match);
       } else {
@@ -124,7 +120,7 @@ export default function BrandList({
       <h2 className="mb-4 text-xl font-semibold text-black">Brands</h2>
 
       {!readOnly && (
-        <div className="mb-4 relative">
+        <div className="relative mb-4">
           <div className="flex items-center gap-2">
             <input
               ref={inputRef}
@@ -138,9 +134,7 @@ export default function BrandList({
             <button
               onClick={() => {
                 const trimmed = name.trim();
-                const match = available.find(
-                  b => b.name.toLowerCase() === trimmed.toLowerCase()
-                );
+                const match = available.find(b => b.name.toLowerCase() === trimmed.toLowerCase());
                 if (match) handleSelectSuggestion(match);
                 else addCustomBrand();
               }}
