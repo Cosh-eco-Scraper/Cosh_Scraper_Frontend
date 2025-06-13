@@ -36,16 +36,14 @@ export default function StoreOverview() {
         <meta
           name="description"
           content={
-            store?.description?.slice(0, 155) ||
-            'View your sustainable shop information on Cosh.'
+            store?.description?.slice(0, 155) || 'View your sustainable shop information on Cosh.'
           }
         />
         <meta property="og:title" content={store?.name || 'Store | Cosh'} />
         <meta
           property="og:description"
           content={
-            store?.description?.slice(0, 200) ||
-            'View your sustainable shop information on Cosh.'
+            store?.description?.slice(0, 200) || 'View your sustainable shop information on Cosh.'
           }
         />
       </Head>
