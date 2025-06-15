@@ -1,9 +1,7 @@
-import {useState} from 'react';
+import { useState } from 'react';
 
 export function useWebSocket(url: string, clientId?: string) {
   const [data, setData] = useState<string | null>(null);
-
-  console.log(url);
 
   const ws = new WebSocket(url);
 
