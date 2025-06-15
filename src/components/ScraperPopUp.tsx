@@ -1,11 +1,11 @@
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import {useRouter} from 'next/router';
+import React, {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
 import useModifyStores from '@/hooks/store/useMofifyStores';
-import { CreateStore } from '@/domain/Store';
-import { ErrorMessage } from '@hookform/error-message';
-import { useWebSocket } from '@/hooks/websocket/useWebSocket';
-import { v4 as uuidv4 } from 'uuid';
+import {CreateStore} from '@/domain/Store';
+import {ErrorMessage} from '@hookform/error-message';
+import {useWebSocket} from '@/hooks/websocket/useWebSocket';
+import {v4 as uuidv4} from 'uuid';
 
 interface MyPopupProps {
   open: boolean;
@@ -23,8 +23,6 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   };
 
   const clientId = getClientId();
-
-  console.log('Client ID:', clientId);
 
   const {
     data: progress,
@@ -74,6 +72,8 @@ const ScraperPopup: React.FC<MyPopupProps> = ({ onClose }) => {
   };
 
   recieveMessage();
+
+  console.log('progress', progress);
 
   return (
     <div
