@@ -47,8 +47,7 @@ export default function Info() {
   const { updateLocation, isSuccessUpdateLocation } = useModifyLocation(store?.locationId ?? 0);
   const { updateOpeningHours, isSuccessUpdateOpeningHours } = useModifyOpeningHours();
   const { updateStore, isSuccessUpdateStore } = useModifyStore(storeId);
-  const { updateBrands, isSuccessUpdateBrands, removeBrand } =
-    useModifyBrands(storeId);
+  const { updateBrands, isSuccessUpdateBrands, removeBrand } = useModifyBrands(storeId);
 
   const [locationFormData, setLocationFormData] = useState({
     street: '',
